@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/enphase-energy/main/json-schema/enphase-battery-schema.json",
+  "title": "EnphaseBatterySettings",
+  "description": "Configurable battery profile and Storm Guard settings for an Enphase IQ Battery (Encharge) system.",
+  "type": "object",
+  "properties": {
+    "battery_backup_percentage": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Reserve percentage of battery capacity kept for grid-outage backup."
+    },
+    "profile": {
+      "type": "string",
+      "enum": ["self-consumption", "savings", "backup-only", "full-backup"],
+      "description": "Battery operating profile."
+    },
+    "very_low_soc": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 30,
+      "description": "Very low state-of-charge threshold percentage."
+    },
+    "storm_guard": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "self_test_status": { "type": "string" }
+      }
+    },
+    "tariff": {
+      "type": "object",
+      "description": "Optional time-of-use tariff configuration applied to battery dispatch.",
+      "properties": {
+        "currency": { "type": "string" },
+        "logger": { "type": "string" },
+        "single_rate": { "type": "object" },
+        "seasons": { "type": "array", "items": { "type": "object" } }
+      }
+    }
+  }
+}

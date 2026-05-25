@@ -1,0 +1,19 @@
+{
+  "system_id": 1234567,
+  "battery_backup_percentage": 30,
+  "profile": "self-consumption",
+  "very_low_soc": 10,
+  "storm_guard": {
+    "enabled": true,
+    "self_test_status": "passed"
+  },
+  "tariff": {
+    "currency": "USD",
+    "logger": "consumption",
+    "single_rate": {
+      "rate": 0.18,
+      "sell": 0.08
+    },
+    "seasons": []
+  }
+}

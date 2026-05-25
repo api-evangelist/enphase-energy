@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/enphase-energy/main/json-schema/enphase-telemetry-schema.json",
+  "title": "EnphaseTelemetryInterval",
+  "description": "One telemetry interval as returned by the v4 microinverter, meter, or battery telemetry endpoints.",
+  "type": "object",
+  "required": ["end_at"],
+  "properties": {
+    "end_at": {
+      "type": "integer",
+      "description": "Unix epoch (seconds) marking the end of this interval (typically 5 or 15 minutes)."
+    },
+    "devices_reporting": {
+      "type": "integer",
+      "description": "Count of devices that contributed to this interval."
+    },
+    "powr": {
+      "type": "number",
+      "description": "Average power during the interval, in watts."
+    },
+    "enwh": {
+      "type": "number",
+      "description": "Energy produced or consumed during the interval, in watt-hours."
+    },
+    "soc": {
+      "type": "number",
+      "description": "Battery state of charge as a percentage (0-100). Only for battery telemetry."
+    },
+    "charge": {
+      "type": "object",
+      "description": "Battery charge metrics for the interval.",
+      "properties": {
+        "powr": { "type": "number" },
+        "enwh": { "type": "number" }
+      }
+    },
+    "discharge": {
+      "type": "object",
+      "description": "Battery discharge metrics for the interval.",
+      "properties": {
+        "powr": { "type": "number" },
+        "enwh": { "type": "number" }
+      }
+    }
+  }
+}

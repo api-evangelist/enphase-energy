@@ -1,0 +1,34 @@
+name: Commissioning
+description: Capability for installer-facing activation, company, user, and tariff management on
+  the Enphase Enlighten Commissioning API. Requires the qualified Partner plan.
+provider: enphase-energy
+api: enphase-enlighten-commissioning-api
+version: '1.0'
+operations:
+  - name: Create Activation
+    method: POST
+    path: /api/v4/activations
+    description: Submit a new activation record for a site coming online.
+  - name: Update Activation
+    method: PUT
+    path: /api/v4/activations/{activation_id}
+    description: Update an in-flight activation (corrections, additional metadata).
+  - name: Manage Companies
+    method: GET, POST, PUT
+    path: /api/v4/companies
+    description: List, create, and update installer companies on the partner account.
+  - name: Manage Users
+    method: GET, POST, PUT
+    path: /api/v4/users
+    description: List, create, and update users (technicians, system owners).
+  - name: Update Tariff
+    method: PUT
+    path: /api/v4/systems/{system_id}/tariff
+    description: Push tariff/utility rate plan configuration to a system.
+auth:
+  type: oauth2
+  authorizationUrl: https://api.enphaseenergy.com/oauth/authorize
+  tokenUrl: https://api.enphaseenergy.com/oauth/token
+  scopes: [read, write]
+notes: Commissioning operations are gated behind installer eligibility (typically 10+ Enphase
+  installations) and require explicit Partner-plan provisioning by Enphase.

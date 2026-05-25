@@ -1,0 +1,229 @@
+aid: enphase-energy
+url: https://raw.githubusercontent.com/api-evangelist/enphase-energy/refs/heads/main/apis.yml
+apis:
+- aid: enphase-energy:enphase-enlighten-systems-api-v4
+  name: Enphase Enlighten Systems API v4 (Monitoring)
+  tags:
+  - Solar
+  - Energy
+  - Microinverters
+  - Battery Storage
+  - IoT
+  - Monitoring
+  - Telemetry
+  - Time Series
+  humanURL: https://developer-v4.enphase.com/
+  baseURL: https://api.enphaseenergy.com/api/v4
+  properties:
+  - url: https://developer-v4.enphase.com/
+    type: Portal
+  - url: https://developer-v4.enphase.com/docs
+    type: Documentation
+  - url: https://developer-v4.enphase.com/docs/quickstart.html
+    type: GettingStarted
+  - url: https://developer-v4.enphase.com/aboutproduct.html
+    type: Documentation
+  - url: openapi/enphase-enlighten-v4-monitoring-openapi.yml
+    type: OpenAPI
+  - url: https://api.enphaseenergy.com/oauth/authorize
+    type: OAuth2
+  - url: https://api.enphaseenergy.com/oauth/token
+    type: OAuth2
+  description: The Enlighten Systems API v4 (Monitoring API) is a JSON-based, OAuth 2.0 protected API
+    that provides access to system-level, device-level, and battery-level performance data for
+    Enphase photovoltaic and storage systems. It exposes systems search and inventory, energy and
+    consumption lifetime time series, revenue-grade meter readings (RGM), microinverter and meter
+    telemetry, IQ Battery telemetry and settings, Storm Guard, grid status, load control, live data
+    streaming, and IQ EV charger session data. Access tokens are valid for 24 hours and refresh
+    tokens for 30 days; all requests require an application API key in addition to the bearer token.
+- aid: enphase-energy:enphase-enlighten-commissioning-api
+  name: Enphase Enlighten Commissioning API
+  tags:
+  - Solar
+  - Energy
+  - Commissioning
+  - Installer
+  - Activation
+  - Partner
+  humanURL: https://developer-v4.enphase.com/
+  baseURL: https://api.enphaseenergy.com/api/v4
+  properties:
+  - url: https://developer-v4.enphase.com/
+    type: Portal
+  - url: https://developer-v4.enphase.com/docs
+    type: Documentation
+  - url: https://api.enphaseenergy.com/oauth/authorize
+    type: OAuth2
+  - url: https://api.enphaseenergy.com/oauth/token
+    type: OAuth2
+  description: The Commissioning API is the installer-facing companion to the Monitoring API.
+    Available to Partner-plan customers (qualifying installers with 10+ installations), it allows
+    activation creation and updates, company and user management, tariff and rate plan updates, and
+    other administrative controls used to streamline Enlighten activation workflows from field
+    tools. OAuth 2.0 authorization with the same authorize/token endpoints as the Monitoring API.
+- aid: enphase-energy:enphase-enlighten-systems-api-v2
+  name: Enphase Enlighten Systems API v2 (Legacy)
+  tags:
+  - Solar
+  - Energy
+  - Microinverters
+  - Monitoring
+  - Legacy
+  humanURL: https://developer.enphase.com/docs
+  baseURL: https://api.enphaseenergy.com/api/v2
+  properties:
+  - url: https://developer.enphase.com/
+    type: Portal
+  - url: https://developer.enphase.com/docs
+    type: Documentation
+  - url: openapi/enphase-enlighten-v2-openapi.yml
+    type: OpenAPI
+  description: The original v2 Enlighten Systems API. End-of-life was extended to June 30, 2024 and
+    new applications should target the v4 Monitoring API. Retained in this catalog as a historical
+    reference for v2-to-v4 migration. Uses key + user_id query parameters rather than OAuth 2.0.
+name: Enphase Energy
+tags:
+- Solar
+- Energy
+- Microinverters
+- Battery Storage
+- IQ Battery
+- IQ Microinverter
+- IQ EV Charger
+- Enlighten
+- Home Energy Management
+- Renewable Energy
+- Grid Services
+- Cleantech
+- IoT
+- Telemetry
+- NASDAQ ENPH
+kind: contract
+image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+access: 3rd-Party
+common:
+- type: Portal
+  url: https://enphase.com/
+- type: Portal
+  url: https://developer-v4.enphase.com/
+- type: Documentation
+  url: https://developer-v4.enphase.com/docs
+- type: Documentation
+  url: https://developer.enphase.com/docs
+- type: GettingStarted
+  url: https://developer-v4.enphase.com/docs/quickstart.html
+- type: SignUp
+  url: https://developer-v4.enphase.com/admin/applications/new
+- type: OAuth2
+  url: https://api.enphaseenergy.com/oauth/authorize
+- type: OAuth2
+  url: https://api.enphaseenergy.com/oauth/token
+- type: GitHubOrganization
+  url: https://github.com/enphase
+- type: Support
+  url: https://support.enphase.com/
+- type: Support
+  url: https://support.enphase.com/s/article/The-Enlighten-API
+- type: Email
+  url: api@enphaseenergy.com
+- type: TermsOfService
+  url: https://www.enphase.com/en-us/legal/api-license-agreement
+- type: PrivacyPolicy
+  url: https://enphase.com/legal/privacy-policy
+- type: Blog
+  url: https://enphase.com/blog
+- type: Press
+  url: https://investor.enphase.com/news-releases
+- type: InvestorRelations
+  url: https://investor.enphase.com/
+- type: LinkedIn
+  url: https://www.linkedin.com/company/enphase-energy
+- type: Twitter
+  url: https://twitter.com/Enphase
+- type: YouTube
+  url: https://www.youtube.com/user/enphaseenergy
+- type: Facebook
+  url: https://www.facebook.com/EnphaseEnergy
+- type: Careers
+  url: https://enphase.com/careers
+- type: ProductDetails
+  url: https://enphase.com/homeowners/microinverters
+  name: IQ Microinverters
+- type: ProductDetails
+  url: https://enphase.com/homeowners/storage
+  name: IQ Battery
+- type: ProductDetails
+  url: https://enphase.com/homeowners/ev-charger
+  name: IQ EV Charger
+- type: ProductDetails
+  url: https://enphase.com/homeowners/enphase-app
+  name: Enphase App (Enlighten)
+- type: ProductDetails
+  url: https://enphase.com/installers
+  name: Installer Tools (Solargraf, Enlighten Manager)
+- type: Plans
+  url: https://developer-v4.enphase.com/plans.html
+  name: API Plans
+- type: Plans
+  url: plans/enphase-energy-plans-pricing.yml
+  name: API Commons Plans
+- type: RateLimits
+  url: rate-limits/enphase-energy-rate-limits.yml
+  name: API Commons Rate Limits
+- type: FinOps
+  url: finops/enphase-energy-finops.yml
+  name: FinOps Profile
+- type: Tool
+  url: https://github.com/NathanBaulch/EnphaseOpenAPI
+  name: Unofficial EnphaseOpenAPI (Nathan Baulch) — multi-language clients
+- type: Tool
+  url: https://github.com/andrewdmontgomery/Enphase-OpenAPI
+  name: Unofficial Enphase v4 OpenAPI (Andrew Montgomery)
+- type: Features
+  data:
+  - OAuth 2.0 authorization code flow with 24-hour access tokens and 30-day refresh tokens
+  - Per-application API key required in addition to bearer tokens
+  - Fleet, site, and device-level monitoring for IQ Microinverters and IQ Batteries
+  - System summary, status, devices inventory, alarms, and event history
+  - Energy lifetime, consumption lifetime, battery lifetime, import/export lifetime time series
+  - Microinverter telemetry, meter telemetry, RGM stats, battery telemetry
+  - Live data streaming endpoint for near real-time inverter and meter readings
+  - IQ Battery controls — battery settings, Storm Guard, load control, grid status
+  - IQ EV Charger telemetry — chargers summary, sessions, schedules, daily energy data
+  - Commissioning API for installer activations, company and user management, tariff updates
+  - Four self-serve plans (Watt free, Kilowatt $25/mo, Megawatt $250/mo, Gigawatt $1,500/mo) plus
+    Partner plan with Commissioning access for qualifying installers
+  - Per-minute throttling (10/50/100/300 req/min) and monthly call quotas (10k/25k/300k/1.5M)
+  - Overage billing — $0.002/call (Kilowatt, Megawatt) and $0.001/call (Gigawatt)
+  - Attribution requirement on free Watt plan — "Powered by Enphase Energy" branding
+  - Enphase attribution waived for paid commercial plans (Kilowatt and above)
+  - Webhook/streaming alternative — live_data endpoint for real-time push of inverter readings
+  sources:
+  - https://developer-v4.enphase.com/
+  - https://developer-v4.enphase.com/docs
+  - https://developer-v4.enphase.com/aboutproduct.html
+  - https://developer-v4.enphase.com/plans.html
+  - https://developer.enphase.com/docs
+  - https://support.enphase.com/s/article/The-Enlighten-API
+  updated: '2026-05-25'
+created: '2026-05-25T00:00:00.000Z'
+modified: '2026-05-25'
+position: Producing
+description: Enphase Energy (NASDAQ ENPH) is a global home-energy technology company best known for
+  pioneering microinverter-based solar — small grid-tied inverters that sit at each module rather
+  than as a central string inverter — and for the Enlighten monitoring cloud that ties their fleet
+  together. The product portfolio spans IQ Microinverters (IQ8/IQ9 family), IQ Battery storage,
+  IQ EV Chargers, and the Enphase App (formerly Enlighten) for homeowners and installers. The
+  Enlighten Systems API exposes that monitoring fabric to third parties via an OAuth 2.0 protected
+  JSON API at api.enphaseenergy.com/api/v4 — covering systems search and inventory, energy and
+  consumption time series, microinverter and meter telemetry, battery telemetry and settings,
+  Storm Guard, grid status, load control, live data streaming, and IQ EV charger sessions. A
+  companion Commissioning API serves qualifying installers (Partner plan) for activation, company,
+  and user management. The v2 Enlighten Systems API reached end-of-life on June 30, 2024 and is
+  retained here for migration reference.
+maintainers:
+- FN: Kin Lane
+  email: info@apievangelist.com
+  X: apievangelist
+  url: https://apievangelist.com
+specificationVersion: '0.16'

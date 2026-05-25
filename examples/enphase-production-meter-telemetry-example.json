@@ -1,0 +1,32 @@
+{
+  "system_id": 1234567,
+  "granularity": "day",
+  "total_devices": 1,
+  "items": "intervals",
+  "intervals": [
+    {
+      "end_at": 1748131500,
+      "devices_reporting": 1,
+      "powr": 3120,
+      "enwh": 780
+    },
+    {
+      "end_at": 1748132400,
+      "devices_reporting": 1,
+      "powr": 3340,
+      "enwh": 835
+    },
+    {
+      "end_at": 1748133300,
+      "devices_reporting": 1,
+      "powr": 3450,
+      "enwh": 862
+    }
+  ],
+  "meta": {
+    "status": "normal",
+    "last_report_at": 1748185800,
+    "last_energy_at": 1748185500,
+    "operational_at": 1543708800
+  }
+}

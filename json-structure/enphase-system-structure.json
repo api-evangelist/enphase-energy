@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-structure.org/v1/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/enphase-energy/main/json-structure/enphase-system-structure.json",
+  "title": "Enphase System Structure",
+  "description": "Structural mapping of the Enphase Enlighten system resource, telemetry intervals, and battery configuration as exposed by the v4 Monitoring API.",
+  "structures": [
+    {
+      "name": "System",
+      "fields": [
+        { "name": "system_id", "type": "integer", "key": true, "required": true },
+        { "name": "name", "type": "string", "required": true },
+        { "name": "public_name", "type": "string" },
+        { "name": "timezone", "type": "string" },
+        { "name": "country", "type": "string" },
+        { "name": "state", "type": "string" },
+        { "name": "city", "type": "string" },
+        { "name": "postal_code", "type": "string" },
+        { "name": "status", "type": "string", "enum": ["normal", "comm", "power", "micro", "meter", "battery", "unknown"] },
+        { "name": "operational_at", "type": "epoch_seconds" },
+        { "name": "last_report_at", "type": "epoch_seconds" },
+        { "name": "last_energy_at", "type": "epoch_seconds" },
+        { "name": "system_size", "type": "decimal", "unit": "kW" },
+        { "name": "connection_type", "type": "string", "enum": ["ethernet", "wifi", "cellular"] }
+      ]
+    },
+    {
+      "name": "TelemetryInterval",
+      "fields": [
+        { "name": "end_at", "type": "epoch_seconds", "required": true },
+        { "name": "devices_reporting", "type": "integer" },
+        { "name": "powr", "type": "decimal", "unit": "W" },
+        { "name": "enwh", "type": "decimal", "unit": "Wh" },
+        { "name": "soc", "type": "decimal", "unit": "%" }
+      ]
+    },
+    {
+      "name": "BatterySettings",
+      "fields": [
+        { "name": "battery_backup_percentage", "type": "integer", "min": 0, "max": 100 },
+        { "name": "profile", "type": "string", "enum": ["self-consumption", "savings", "backup-only", "full-backup"] },
+        { "name": "very_low_soc", "type": "integer", "min": 0, "max": 30 },
+        { "name": "storm_guard", "type": "ref", "structure": "StormGuard" },
+        { "name": "tariff", "type": "ref", "structure": "Tariff" }
+      ]
+    },
+    {
+      "name": "StormGuard",
+      "fields": [
+        { "name": "enabled", "type": "boolean" },
+        { "name": "self_test_status", "type": "string" }
+      ]
+    },
+    {
+      "name": "Tariff",
+      "fields": [
+        { "name": "currency", "type": "string" },
+        { "name": "logger", "type": "string" },
+        { "name": "single_rate", "type": "object" },
+        { "name": "seasons", "type": "array" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Enphase Energy
+providerId: enphase-energy
+created: '2026-05-25'
+modified: '2026-05-25'
+reconciled: true
+tags:
+  - FinOps
+  - Cost Management
+  - FOCUS
+  - Solar
+  - Energy
+description: FOCUS-aligned FinOps definition for the Enphase Enlighten Systems API. Subscription
+  + metered per-call billing across four self-serve tiers (Watt/Kilowatt/Megawatt/Gigawatt) plus a
+  qualified Partner plan. Costs allocate to the API application/key and roll up to the developer
+  account on Enphase's developer-v4 portal.
+sources:
+  - https://developer-v4.enphase.com/
+  - https://developer-v4.enphase.com/plans.html
+  - https://developer.enphase.com/docs
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Enphase Energy
+serviceCategory: Internet of Things
+billingModel:
+  pricingCategory: Subscription + Usage-Based
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+    - Usage
+    - Purchase
+    - Adjustment
+  primaryUnit: request
+  secondaryUnits:
+    - month
+focusColumns:
+  ServiceName: Enphase Enlighten Systems API
+  ServiceCategory: Internet of Things
+  ProviderName: Enphase Energy
+  PublisherName: Enphase Energy
+  InvoiceIssuerName: Enphase Energy
+  PricingCategory: Subscription + Usage-Based
+  PricingUnit: request
+  BillingCurrency: USD
+meters:
+  - name: monthly_subscription
+    unit: month
+    aggregation: max
+    dimensions:
+      - plan
+      - application
+  - name: api_requests
+    unit: request
+    aggregation: sum
+    dimensions:
+      - plan
+      - application
+      - endpoint
+  - name: overage_requests
+    unit: request
+    aggregation: sum
+    dimensions:
+      - plan
+      - application
+allocationDimensions:
+  - application
+  - api_key
+  - plan
+  - endpoint
+budgetGuardrails:
+  - type: monthly_quota
+    description: Each plan ships with a fixed monthly request quota; calls beyond the quota incur
+      per-request overage billing (Kilowatt and Megawatt $0.002/call, Gigawatt $0.001/call).
+  - type: per_minute_throttle
+    description: Hard per-minute caps (10/50/100/300) reject excess traffic with 409 or 503,
+      preventing runaway compute spend independent of monthly quota.
+  - type: tier_advancement
+    description: Manual plan upgrade required — no auto-tier advancement.

@@ -1,0 +1,63 @@
+name: System Monitoring
+description: Capability for fetching Enphase system inventory, status, lifetime energy and
+  consumption time series, microinverter and meter telemetry, and live data for a residential or
+  commercial PV system on the Enlighten platform.
+provider: enphase-energy
+api: enphase-enlighten-systems-api-v4
+version: '1.0'
+operations:
+  - operationId: listSystems
+    method: GET
+    path: /api/v4/systems
+    description: List systems the authenticated developer can access.
+  - operationId: getSystemSummary
+    method: GET
+    path: /api/v4/systems/{system_id}/summary
+    description: Get a single system's summary including status, current power, and energy today.
+  - operationId: listSystemDevices
+    method: GET
+    path: /api/v4/systems/{system_id}/devices
+    description: List devices on a system (microinverters, meters, Envoys, batteries, chargers).
+  - operationId: getEnergyLifetime
+    method: GET
+    path: /api/v4/systems/{system_id}/energy_lifetime
+    description: Get daily lifetime energy production time series.
+  - operationId: getConsumptionLifetime
+    method: GET
+    path: /api/v4/systems/{system_id}/consumption_lifetime
+    description: Get daily lifetime consumption time series.
+  - operationId: getProductionMicroTelemetry
+    method: GET
+    path: /api/v4/systems/{system_id}/telemetry/production_micro
+    description: Get microinverter 5-minute interval production telemetry.
+  - operationId: getProductionMeterTelemetry
+    method: GET
+    path: /api/v4/systems/{system_id}/telemetry/production_meter
+    description: Get production meter 15-minute interval telemetry.
+  - operationId: getLiveData
+    method: GET
+    path: /api/v4/systems/{system_id}/live_data
+    description: Get near real-time inverter and meter readings (Megawatt+ plans).
+inputs:
+  - name: system_id
+    type: integer
+    required: true
+    description: Numeric system identifier.
+  - name: start_date
+    type: string
+    required: false
+    description: Time-series start date (YYYY-MM-DD).
+  - name: end_date
+    type: string
+    required: false
+    description: Time-series end date (YYYY-MM-DD).
+auth:
+  type: oauth2
+  authorizationUrl: https://api.enphaseenergy.com/oauth/authorize
+  tokenUrl: https://api.enphaseenergy.com/oauth/token
+  scopes: [read]
+  additionalParameters:
+    - name: key
+      in: query
+      description: Per-application API key, required on every request in addition to the bearer
+        token.

@@ -1,0 +1,40 @@
+{
+  "@context": {
+    "@vocab": "https://raw.githubusercontent.com/api-evangelist/enphase-energy/main/json-ld/enphase-energy-context.jsonld#",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "EnphaseSystem": "schema:EnergyConsumptionDetails",
+    "Microinverter": "schema:Product",
+    "Battery": "schema:Product",
+    "EVCharger": "schema:Product",
+    "Envoy": "schema:Product",
+    "Meter": "schema:Product",
+
+    "system_id": { "@id": "schema:identifier", "@type": "xsd:integer" },
+    "name": "schema:name",
+    "public_name": "schema:alternateName",
+    "status": "schema:status",
+    "timezone": "schema:timezone",
+    "country": "schema:addressCountry",
+    "state": "schema:addressRegion",
+    "city": "schema:addressLocality",
+    "postal_code": "schema:postalCode",
+    "operational_at": { "@id": "schema:startDate", "@type": "xsd:integer" },
+    "last_report_at": { "@id": "schema:dateModified", "@type": "xsd:integer" },
+    "last_energy_at": { "@id": "schema:expires", "@type": "xsd:integer" },
+    "system_size": { "@id": "schema:value", "@type": "xsd:decimal" },
+    "connection_type": "schema:connection",
+
+    "end_at": { "@id": "schema:endDate", "@type": "xsd:integer" },
+    "devices_reporting": { "@id": "schema:numberOfItems", "@type": "xsd:integer" },
+    "powr": { "@id": "schema:value", "@type": "xsd:decimal" },
+    "enwh": { "@id": "schema:energy", "@type": "xsd:decimal" },
+    "soc": { "@id": "schema:percentile", "@type": "xsd:decimal" },
+
+    "battery_backup_percentage": { "@id": "schema:percentile", "@type": "xsd:integer" },
+    "profile": "schema:configuration",
+    "storm_guard": "schema:additionalProperty",
+    "tariff": "schema:priceSpecification"
+  }
+}

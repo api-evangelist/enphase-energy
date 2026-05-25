@@ -1,0 +1,57 @@
+extends: [[spectral:oas, all]]
+rules:
+  enphase-paths-must-be-versioned:
+    description: All Enphase Enlighten Systems API paths must include /api/v4/ (or /api/v2/ for
+      legacy specs).
+    severity: error
+    given: $.paths.*~
+    then:
+      function: pattern
+      functionOptions:
+        match: '^/api/v[24]/'
+
+  enphase-operation-summary-title-case:
+    description: Operation summaries should use Title Case for consistency with API Evangelist
+      catalog conventions.
+    severity: warn
+    given: $.paths.*.*.summary
+    then:
+      function: pattern
+      functionOptions:
+        match: '^[A-Z]'
+
+  enphase-oauth2-required:
+    description: v4 operations should require OAuth 2.0 security plus the application API key.
+    severity: warn
+    given: $.paths[?(@property =~ /^\/api\/v4\//)].*.security
+    then:
+      function: truthy
+
+  enphase-system-id-parameter:
+    description: System-scoped paths must declare the system_id path parameter as integer.
+    severity: warn
+    given: $.paths[?(@property.indexOf('{system_id}') > -1)].*.parameters[?(@.name == 'system_id')]
+    then:
+      field: schema.type
+      function: enumeration
+      functionOptions:
+        values: [integer]
+
+  enphase-date-params-iso-format:
+    description: start_date and end_date parameters should be string format=date (YYYY-MM-DD).
+    severity: info
+    given: $.paths.*.*.parameters[?(@.name == 'start_date' || @.name == 'end_date')]
+    then:
+      field: schema.format
+      function: enumeration
+      functionOptions:
+        values: [date]
+
+  enphase-throttle-409-documented:
+    description: Operations should document the 409 Conflict response that Enphase returns when
+      per-minute throttle is exceeded.
+    severity: info
+    given: $.paths.*.get.responses
+    then:
+      field: '409'
+      function: truthy

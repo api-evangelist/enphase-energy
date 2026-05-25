@@ -1,0 +1,55 @@
+name: Enphase Energy Vocabulary
+providerId: enphase-energy
+description: Domain vocabulary for the Enphase Enlighten ecosystem — microinverters, IQ Battery
+  storage, IQ EV Chargers, the Envoy gateway, the Enphase App (formerly Enlighten), and the
+  Enlighten Systems and Commissioning APIs.
+created: '2026-05-25'
+modified: '2026-05-25'
+terms:
+  - term: Microinverter
+    definition: A small grid-tied inverter mounted at each solar module that converts module DC to
+      AC at the panel rather than relying on a central string inverter. The product Enphase
+      pioneered commercially.
+    aliases: [IQ Microinverter, IQ8, IQ9]
+  - term: Envoy
+    definition: The on-site gateway that aggregates microinverter and meter telemetry and pushes it
+      to the Enphase cloud. Also called IQ Gateway in newer product literature.
+    aliases: [IQ Gateway]
+  - term: Enlighten
+    definition: The Enphase monitoring cloud and web/mobile app. The consumer-facing app is now
+      branded "Enphase App"; "Enlighten" persists in the developer portal and API naming.
+    aliases: [Enphase App, Enlighten Manager]
+  - term: IQ Battery
+    definition: Enphase's home energy storage product family. Stores PV-generated or grid energy
+      and dispatches per a configured profile (self-consumption, savings, backup-only,
+      full-backup).
+    aliases: [Encharge, IQ Battery 10C]
+  - term: IQ EV Charger
+    definition: Enphase's level-2 EV charging hardware, integrated with the Enphase App for session
+      tracking and schedule management.
+    aliases: [IQ EV Charger 2]
+  - term: Revenue-Grade Meter
+    definition: A utility-grade ANSI C12-compliant meter optionally installed at the production or
+      consumption point. Reports via the RGM endpoints.
+    aliases: [RGM]
+  - term: Storm Guard
+    definition: An automated mode that charges the IQ Battery to 100% ahead of a forecasted severe
+      weather event so the system has maximum backup capacity if the grid drops.
+  - term: Load Control
+    definition: API surface for enabling and configuring controllable circuits in conjunction with
+      IQ Battery — typically used to manage non-essential loads during grid outages.
+  - term: Activation
+    definition: The Commissioning API resource that records site go-live — equipment, owner,
+      tariff, and utility interconnect details.
+  - term: Telemetry Interval
+    definition: A single time-bucketed sample of power and energy. Microinverter telemetry is
+      reported at 5-minute intervals; meter and battery telemetry at 15 minutes.
+  - term: Energy Lifetime
+    definition: A daily time series of energy produced since the system's operational date,
+      seamlessly merging microinverter data with meter data once a meter comes online.
+  - term: System Status
+    definition: One of normal, comm (communication), power, micro (microinverter), meter, or
+      battery — indicating which subsystem (if any) is reporting a fault.
+  - term: Live Data
+    definition: A near real-time endpoint that streams the most recent inverter and meter readings
+      for a system, available on Megawatt and Gigawatt plans.

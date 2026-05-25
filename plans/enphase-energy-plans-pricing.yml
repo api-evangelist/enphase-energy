@@ -1,0 +1,185 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Enphase Energy
+providerId: enphase-energy
+created: '2026-05-25'
+modified: '2026-05-25'
+reconciled: true
+tags:
+  - Solar
+  - Energy
+  - Microinverters
+  - Monitoring
+description: 'Reconciled plans and pricing for the Enphase Enlighten Systems API. Source: developer-v4.enphase.com/plans.html.'
+sources:
+  - https://developer-v4.enphase.com/
+  - https://developer-v4.enphase.com/plans.html
+  - https://developer.enphase.com/plans
+plans:
+  - id: watt
+    name: Watt
+    type: free
+    description: Free tier for hobbyist and personal-system use. Enphase attribution ("Powered by
+      Enphase Energy") is required. Access to System Details, Site Production, and Consumption
+      Monitoring endpoints.
+    entries:
+      - label: Monthly subscription
+        name: subscription
+        type: fixed
+        metric: month
+        limit: 1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+      - label: Monthly request quota
+        name: monthly_requests
+        type: included
+        metric: request
+        limit: 10000
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+    attribution: required
+    commercialUse: false
+  - id: kilowatt
+    name: Kilowatt
+    type: subscription
+    description: Entry paid tier. Commercial use permitted, attribution waived, broader endpoint
+      access including device-level production.
+    entries:
+      - label: Monthly subscription
+        name: subscription
+        type: fixed
+        metric: month
+        limit: 1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '25.00'
+        userMultiplied: false
+      - label: Monthly request quota
+        name: monthly_requests
+        type: included
+        metric: request
+        limit: 25000
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+      - label: Overage requests
+        name: overage
+        type: metered
+        metric: request
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: '0.002'
+        userMultiplied: false
+    attribution: not_required
+    commercialUse: true
+  - id: megawatt
+    name: Megawatt
+    type: subscription
+    description: Mid-volume commercial tier with higher rate limits and access to streaming/live
+      data endpoints.
+    entries:
+      - label: Monthly subscription
+        name: subscription
+        type: fixed
+        metric: month
+        limit: 1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '250.00'
+        userMultiplied: false
+      - label: Monthly request quota
+        name: monthly_requests
+        type: included
+        metric: request
+        limit: 300000
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+      - label: Overage requests
+        name: overage
+        type: metered
+        metric: request
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: '0.002'
+        userMultiplied: false
+    attribution: not_required
+    commercialUse: true
+  - id: gigawatt
+    name: Gigawatt
+    type: subscription
+    description: High-volume commercial tier with uptime guarantee, highest published throughput,
+      and reduced overage pricing.
+    entries:
+      - label: Monthly subscription
+        name: subscription
+        type: fixed
+        metric: month
+        limit: 1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '1500.00'
+        userMultiplied: false
+      - label: Monthly request quota
+        name: monthly_requests
+        type: included
+        metric: request
+        limit: 1500000
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+      - label: Overage requests
+        name: overage
+        type: metered
+        metric: request
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: '0.001'
+        userMultiplied: false
+    attribution: not_required
+    commercialUse: true
+    sla: uptime_guarantee
+  - id: partner
+    name: Partner
+    type: qualified
+    description: Installer plan unlocking the Commissioning API in addition to Monitoring. Available
+      to qualified installers (typically 10+ Enphase installations). Custom pricing — contact
+      api@enphaseenergy.com.
+    entries:
+      - label: Monthly subscription
+        name: subscription
+        type: contact
+        metric: month
+        limit: 1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: 'contact'
+        userMultiplied: false
+    attribution: not_required
+    commercialUse: true
+    includes:
+      - monitoring_api
+      - commissioning_api

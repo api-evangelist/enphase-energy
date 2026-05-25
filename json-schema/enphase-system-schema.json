@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/enphase-energy/main/json-schema/enphase-system-schema.json",
+  "title": "EnphaseSystem",
+  "description": "An Enphase Enlighten photovoltaic + optional storage system, as returned by /api/v4/systems.",
+  "type": "object",
+  "required": ["system_id", "name", "status"],
+  "properties": {
+    "system_id": {
+      "type": "integer",
+      "description": "Unique numeric identifier for the system."
+    },
+    "name": {
+      "type": "string",
+      "description": "User-facing name of the system."
+    },
+    "public_name": {
+      "type": "string",
+      "description": "Public-facing name shown on shared Enlighten dashboards."
+    },
+    "timezone": {
+      "type": "string",
+      "description": "IANA timezone the system reports in (e.g. America/Los_Angeles)."
+    },
+    "country": {
+      "type": "string",
+      "description": "ISO 3166-1 alpha-2 country code."
+    },
+    "state": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "postal_code": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["normal", "comm", "power", "micro", "meter", "battery", "unknown"],
+      "description": "Operational status reported by Enlighten."
+    },
+    "operational_at": {
+      "type": "integer",
+      "description": "Unix epoch (seconds) when the system started reporting."
+    },
+    "last_report_at": {
+      "type": "integer",
+      "description": "Unix epoch (seconds) of the most recent telemetry the cloud has received."
+    },
+    "last_energy_at": {
+      "type": "integer",
+      "description": "Unix epoch (seconds) of the most recent positive energy production."
+    },
+    "system_size": {
+      "type": "number",
+      "description": "Nameplate DC system size in kW."
+    },
+    "connection_type": {
+      "type": "string",
+      "enum": ["ethernet", "wifi", "cellular"],
+      "description": "Envoy upstream connection type."
+    },
+    "attributes": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Free-form additional attributes."
+    }
+  }
+}

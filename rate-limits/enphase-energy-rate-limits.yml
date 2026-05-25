@@ -1,0 +1,57 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Enphase Energy
+providerId: enphase-energy
+created: '2026-05-25'
+modified: '2026-05-25'
+reconciled: true
+tags:
+  - Solar
+  - Energy
+  - Rate Limiting
+  - Quotas
+description: Reconciled per-minute throttling and monthly call quotas for the Enphase Enlighten
+  Systems API across Watt, Kilowatt, Megawatt, Gigawatt, and Partner plans. Exceeding the per-minute
+  cap returns 409 Conflict or 503; monthly quota overages are billed per the plan's overage rate.
+sources:
+  - https://developer-v4.enphase.com/plans.html
+  - https://developer.enphase.com/docs
+algorithm: fixed-window
+responseCodes:
+  throttled: 409
+  serviceOverload: 503
+  quotaExceeded: 429
+limits:
+  - tier: Watt
+    rpm: 10
+    monthlyQuota: 10000
+    overageUSD: null
+    note: Free tier; attribution required.
+  - tier: Kilowatt
+    rpm: 50
+    monthlyQuota: 25000
+    overageUSD: 0.002
+    note: Per-call overage above monthly quota.
+  - tier: Megawatt
+    rpm: 100
+    monthlyQuota: 300000
+    overageUSD: 0.002
+    note: Per-call overage above monthly quota.
+  - tier: Gigawatt
+    rpm: 300
+    monthlyQuota: 1500000
+    overageUSD: 0.001
+    note: Per-call overage above monthly quota; includes uptime guarantee.
+  - tier: Partner
+    rpm: contact
+    monthlyQuota: contact
+    overageUSD: contact
+    note: Installer Partner plan; throughput negotiated with Enphase.
+tokens:
+  accessTokenTTL: 86400
+  accessTokenTTLUnit: seconds
+  refreshTokenTTL: 2592000
+  refreshTokenTTLUnit: seconds
+  note: OAuth 2.0 authorization code flow. Access tokens valid 24 hours; refresh tokens valid 30
+    days. All requests also require the per-application API key parameter.
