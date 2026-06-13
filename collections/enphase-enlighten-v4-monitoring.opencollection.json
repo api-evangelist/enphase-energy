@@ -1,0 +1,1289 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Monitoring API",
+    "version": "v4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "System Details",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Fetch systems",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page to be returned. Default=1, Min=1. For example, if page is set to 2, 2nd page is returned"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of records shown per page. Default=10, Min=1, Max=100.  For example, if max is set to 5, 5 records are shown per page"
+              },
+              {
+                "name": "sort_by",
+                "value": "",
+                "type": "query",
+                "description": "Returns list of systems sorted by <sort_by> field. To get the ASC order sorted list, user sort_by = id. To get the DESC order sorted list, use sort_by = -id. By default, the list is sorted by ascending order of system ID."
+              }
+            ]
+          },
+          "docs": "Returns a list of systems for which the user can make API requests. By default, systems are returned in batches of 10. The maximum size is 100."
+        },
+        {
+          "info": {
+            "name": "Search and filter systems",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/search",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page to be returned. Default=1, Min=1, e.g=2"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of records shown per page. Default=10, Min=1, Max=1000, e.g=5"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Search and filter systems. Provide only valid values in request parameters. Empty values will be ignored. Invalid keys will be rejected."
+        },
+        {
+          "info": {
+            "name": "Retrieves a System by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/:system_id",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system. If an empty value is passed in the ID, this endpoint behaves as Fetch systems endpoint."
+              }
+            ]
+          },
+          "docs": "Retrieves a System by ID"
+        },
+        {
+          "info": {
+            "name": "Retrieves a system summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/:system_id/summary",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              }
+            ]
+          },
+          "docs": "Returns system summary based on the specified system ID."
+        },
+        {
+          "info": {
+            "name": "Retrieves devices for a given system",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/:system_id/devices",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              }
+            ]
+          },
+          "docs": "Retrieves devices for a given system. Only devices that are active will be returned in the response."
+        },
+        {
+          "info": {
+            "name": "Retrieve system for a given envoy serial number",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/retrieve_system_id",
+            "params": [
+              {
+                "name": "serial_num",
+                "value": "",
+                "type": "query",
+                "description": "Envoy Serial Number"
+              }
+            ]
+          },
+          "docs": "Get system ID by passing envoy serial number. If the serial number of a retired envoy is passed in the request param, a 404 Not Found response will be returned."
+        },
+        {
+          "info": {
+            "name": "To retrieve the list of events for a site",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/:system_id/events",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system."
+              },
+              {
+                "name": "start_time",
+                "value": "",
+                "type": "query",
+                "description": "Requested start time of the events data in Epoch time format."
+              },
+              {
+                "name": "end_time",
+                "value": "",
+                "type": "query",
+                "description": "Requested end time of the events data in Epoch time format. Defaults to minimum (start time + 1 day, current time)"
+              }
+            ]
+          },
+          "docs": "This endpoint is used to retrieve the events for a site. start_time is mandatory and cannot be older than 9 months from the current time.  Maximum 1 week of data can be retrieved in a single call.\n\nAn Event is triggered when a site/device meets a pre-defined set of conditions. Each of these pre-defined set of conditions is called an “Event type”. These conditions are defined at both site and device level, therefore events can be triggered at both site and device level. Each event is associated w"
+        },
+        {
+          "info": {
+            "name": "To retrieve the list of alarms for a site",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/:system_id/alarms",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system."
+              },
+              {
+                "name": "start_time",
+                "value": "",
+                "type": "query",
+                "description": "Requested start time of the alarms data in Epoch time format."
+              },
+              {
+                "name": "end_time",
+                "value": "",
+                "type": "query",
+                "description": "Requested end time of the alarms data in Epoch time format. Defaults to minimum (start time + 1 day, current time)"
+              },
+              {
+                "name": "cleared",
+                "value": "",
+                "type": "query",
+                "description": "Filters alarms based on their status. Set to true to return cleared alarms; defaults to false to return active alarms."
+              }
+            ]
+          },
+          "docs": "This endpoint is used to retrieve the alarms for a site. start_time is mandatory and cannot be older than 9 months from the current time.  Maximum 1 week of data can be retrieved in a single call.\n\nMany event types (though not all) come with predefined escalation criteria for alarms. When an event meets these configurations, it can trigger an alarm. For example, a common configuration might specify that an event should trigger an alarm if its status remains “Open” beyond a certain time threshold"
+        },
+        {
+          "info": {
+            "name": "To retrieve the list of event_type_id along with event_description and recommended_action",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/event_types",
+            "params": [
+              {
+                "name": "event_type_id",
+                "value": "",
+                "type": "query",
+                "description": "The unique numeric ID of the event type."
+              }
+            ]
+          },
+          "docs": "This endpoint is used to retrieve the list of all available event_types. The endpoint will return list of event_type_id along with the event_description and recommended_action. If an event_type_id is passed, this endpoint will return the detail of specific event_type"
+        },
+        {
+          "info": {
+            "name": "inverters_summary_by_envoy_or_site",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/inverters_summary_by_envoy_or_site",
+            "params": [
+              {
+                "name": "site_id",
+                "value": "",
+                "type": "query",
+                "description": "Site id. The response will contain only those microinverters reporting to one of the active envoys of the given site."
+              },
+              {
+                "name": "envoy_serial_number",
+                "value": "",
+                "type": "query",
+                "description": "Envoy Serial Number. Only microinverters reporting to the given envoy will be present in the response."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page to be returned. Default=1, Min=1. For example, if page is set to 2, 2nd page is returned"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of records shown per page. Default=10, Min=1, Max=100.  For example, if max is set to 5, 5 records are shown per page"
+              }
+            ]
+          },
+          "docs": "Returns the microinverters summary based on the specified active envoy serial number or system."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Site Level Production Monitoring",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "production_meter_readings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/:system_id/production_meter_readings",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "end_at",
+                "value": "",
+                "type": "query",
+                "description": "End of reporting period in Unix epoch time. If no end is specified, defaults to the time of the request. If the end is later than the last reported interval the response data ends with the last reported interval"
+              }
+            ]
+          },
+          "docs": "Returns the last known reading of each production meter on the system as of the requested time, regardless of whether the meter is currently in service or retired. \n Read_at is the time at which the reading was taken, and is always less than or equal to the requested end_at. Commonly, the reading will be within 30 minutes of the requested end_at. However, larger deltas can occur and do not necessarily mean there is a problem with the meter or the system. Systems that are configured to report inf"
+        },
+        {
+          "info": {
+            "name": "rgm_stats",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/:system_id/rgm_stats",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric id of the system"
+              },
+              {
+                "name": "start_at",
+                "value": "",
+                "type": "query",
+                "description": "Start of period to report on in Unix epoch time. If no start is specified, the assumed start is midnight today, in the timezone of the system. If the start is earlier than the system’s operational_date, the response data begins at midnight of the first reported interval date."
+              },
+              {
+                "name": "end_at",
+                "value": "",
+                "type": "query",
+                "description": "End of reporting period in Unix epoch time. If no end is specified, default to the time of the request or (start time + 1 week), whichever is earlier. If the end is later than the last reported interval the response data ends with the last reported interval."
+              }
+            ]
+          },
+          "docs": "Returns performance statistics as measured by the revenue-grade meters installed on the specified system. If the total duration requested is more than one week, returns one week of intervals. Intervals are 15 minutes in length and start at the top of the hour.\n Requests for times that do not fall on the 15-minute marks are rounded down. For example, a request for 08:01, 08:08, 08:11, or 08:14 (in epoch format) is treated as a request for 08:00 (in epoch format). Intervals are listed by their end"
+        },
+        {
+          "info": {
+            "name": "energy_lifetime",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/:system_id/energy_lifetime",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Start date of the time series data. Defaults to the system’s operational date. If the start_date is earlier than the system’s operational_date, then the response data begins with the system operational_date as start_date. Pass as String date format YYYY-MM-DD."
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "End date of the time series data. Defaults to yesterday. Pass as String date format YYYY-MM-DD."
+              },
+              {
+                "name": "production",
+                "value": "",
+                "type": "query",
+                "description": "When “all”, returns the merged time series plus the time series as reported by the microinverters and the meter on the system. Other values are ignored."
+              }
+            ]
+          },
+          "docs": "Returns a daily time series of energy produced by the system over its lifetime. All measurements are in Watt hours.\n The time series includes one entry for each day from the start_date to the end_date with no gaps in the time series. If the response includes trailing zeroes, such as [909, 4970, 0, 0, 0], then no energy has been reported for the last days in the series.\n If the system has a meter, the time series includes data as measured by the microinverters until the first full day after the m"
+        },
+        {
+          "info": {
+            "name": "Retrieves telemetry for all production micros for a system",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/:system_id/telemetry/production_micro",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "start_at",
+                "value": "",
+                "type": "query",
+                "description": "Start time for fetching the telemetry data in Epoch time format. Alternatively one can use start_date in place of start_at for passing the start date as String in YYYY-MM-DD format. By default start_at will appear in response. If start_date parameter is passed in the url, then start_date field will appear in response."
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "query",
+                "description": "The granularity of the telemetry data. Possible values are 'week', 'day', '15mins', '5mins'. Default is 'day'"
+              }
+            ]
+          },
+          "docs": "Retrieves telemetry for all the production micros of a system. \nIf no start_at is specified, defaults to midnight today, in the timezone of the system. If the start_at specified is earlier than the system’s first reported date, then midnight of the system’s first reported date is considered as start_at.\nThe end_at is calculated as the minimum of the time of the request and (start time + granularity). \nThe meaning of granularity is as follow:\n\nIf granularity is 15mins, maximum 3 intervals will ap"
+        },
+        {
+          "info": {
+            "name": "Retrieves telemetry for all production meters for a system",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/:system_id/telemetry/production_meter",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "start_at",
+                "value": "",
+                "type": "query",
+                "description": "Start time for fetching the telemetry data in Epoch time format. Alternatively one can use start_date in place of start_at for passing the start date as String date format YYYY-MM-DD. By default start_at will appear in response. If start_date parameter is passed in the url, then start_date field will appear in response."
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "query",
+                "description": "The granularity of the telemetry data. Possible values are 'week', 'day', '15mins', '5mins'. Default is 'day'"
+              }
+            ]
+          },
+          "docs": "Retrieves telemetry for all the production meters of a system. \nIf no start_at is specified, defaults to midnight today, in the timezone of the system. If the start_at specified is earlier than the system’s first reported date, then midnight of the system’s first reported date is considered as start_at.\nThe end_at is calculated as the minimum of the time of the request and (start time + granularity). \nThe meaning of granularity is as follow:\n\nIf granularity is 15mins, maximum 1 intervals will ap"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Site Level Consumption Monitoring",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "consumption_lifetime",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/:system_id/consumption_lifetime",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Requested start date of the time series data. Defaults to the system’s operational date. If the start_date is earlier than the system’s operational_date, then the response data begins with the system operational_date as start_date. Pass as String date format YYYY-MM-DD."
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "End date of the time series data. Defaults to yesterday. Pass as String date format YYYY-MM-DD."
+              }
+            ]
+          },
+          "docs": "Returns a daily time series of energy consumption as measured by the consumption meter installed on the specified system. All measurements are in Watt hours.\n The time series includes one entry for each day from the start_date to the end_date. There are no gaps in the time series. If the response includes trailing zeroes, such as [909, 4970, 0, 0, 0], then no data has been reported for the last three days."
+        },
+        {
+          "info": {
+            "name": "battery_lifetime",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/:system_id/battery_lifetime",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Requested start date of the time series data. Defaults to the system’s operational date. If the start_date is earlier than the system’s operational_date, then the response data begins with the system operational_date as start_date. Pass as String date format YYYY-MM-DD."
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "End date of the time series data. Defaults to yesterday. Pass as String date format YYYY-MM-DD."
+              }
+            ]
+          },
+          "docs": "Returns a daily time series of energy charged into the batteries and energy discharged from the batteries for a system over its lifetime. All measurements are in Watt hours. The time series includes one entry for each day from the start_date to the end_date with no gaps in the time series. If the response includes trailing zeroes, such as [909, 4970, 0, 0, 0], then no energy has been charged/discharged for the last days in the series."
+        },
+        {
+          "info": {
+            "name": "import_lifetime",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/:system_id/energy_import_lifetime",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Requested start date of the time series data. Defaults to the system’s operational date. If the start_date is earlier than the system’s operational_date, then the response data begins with the system operational_date as start_date. Pass as String date format YYYY-MM-DD."
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "End date of the time series data. Defaults to yesterday. Pass as String date format YYYY-MM-DD."
+              }
+            ]
+          },
+          "docs": "Returns a daily time series of energy imported to the grid by the system over its lifetime. All measurements are in Watt hours. The time series includes one entry for each day from the start_date to the end_date with no gaps in the time series. If the response contains trailing zeroes, such as [909, 4970, 0, 0, 0], then no energy has been imported for the last days in the series."
+        },
+        {
+          "info": {
+            "name": "export_lifetime",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/:system_id/energy_export_lifetime",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Requested start date of the time series data. Defaults to the system’s operational date. If the start_date is earlier than the system’s operational_date, then the response data begins with the system operational_date as start_date. Pass as String date format YYYY-MM-DD."
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "End date of the time series data. Defaults to yesterday. Pass as String date format YYYY-MM-DD."
+              }
+            ]
+          },
+          "docs": "Returns a daily time series of energy exported to the grid by the system over its lifetime. All measurements are in Watt-hours. The time series includes one entry for each day from the start_date to the end_date with no gaps in the time series. If the response contains trailing zeroes, such as [909, 4970, 0, 0, 0], then no energy has been exported for the last days in the series."
+        },
+        {
+          "info": {
+            "name": "Retrieves telemetry for all batteries for a system",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/:system_id/telemetry/battery",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "System id"
+              },
+              {
+                "name": "start_at",
+                "value": "",
+                "type": "query",
+                "description": "Start time for fetching the telemetry data in Epoch time format. Alternatively one can use start_date in place of start_at for passing the start date as String date format YYYY-MM-DD. By default start_at will appear in response. If start_date parameter is passed in the url, then start_date field will appear in response."
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "query",
+                "description": "The granularity of the telemetry data. Possible values are 'week', 'day', '15mins', '5mins'. Default is 'day'"
+              }
+            ]
+          },
+          "docs": "Retrieves telemetry for all the batteries of a system. \nIf no start_at is specified, defaults to midnight today, in the timezone of the system. If the start_at specified is earlier than the system’s first reported date, then midnight of the system’s first reported date is considered as start_at.\nThe end_at is calculated as the minimum of the time of the request and (start time + granularity). \nThe meaning of granularity is as follow:\n\nIf granularity is 15mins, maximum 1 interval will appear in r"
+        },
+        {
+          "info": {
+            "name": "Retrieves telemetry for all consumption meters for a system",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/:system_id/telemetry/consumption_meter",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "start_at",
+                "value": "",
+                "type": "query",
+                "description": "Requested start time for telemetry data in Epoch time format. Alternatively one can use start_date in place of start_at for passing the start date as String in YYYY-MM-DD format. If no start_at is specified, defaults to midnight today, in the timezone of the system. If the start_at specified is earlier than the system’s first reported date, then the system first reported date is considered as start_at. By default start_at will appear in response. If start_date parameter is passed in the url, then start_date field will appear in response."
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "query",
+                "description": "The granularity of the telemetry data. Possible values are 'week', 'day', '15mins', '5mins'. Default is 'day'"
+              }
+            ]
+          },
+          "docs": "Retrieves telemetry for all the consumption meters of a system. \nIf the start_at specified is earlier than the system’s first reported date, then midnight of the system’s first reported date is considered as start_at.\nThe end_at is calculated as the minimum of the time of the request and (start time + granularity). \nThe meaning of granularity is as follow:\n If granularity is 15mins, maximum 1 interval will appear in response. If granularity is day, maximum 96 intervals, and if granularity is wee"
+        },
+        {
+          "info": {
+            "name": "Retrieves energy imported from grid in regular intervals",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/:system_id/energy_import_telemetry",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "start_at",
+                "value": "",
+                "type": "query",
+                "description": "Start time for fetching the telemetry data in Epoch time format. Alternatively one can use start_date in place of start_at for passing the start date as String in YYYY-MM-DD format. By default start_at will appear in response. If start_date parameter is passed in the url, then start_date field will appear in response."
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "query",
+                "description": "The granularity of the telemetry data. Possible values are 'week', 'day', '15mins', '5mins'. Default is 'day'"
+              }
+            ]
+          },
+          "docs": "Retrieves energy imported from grid in regular intervals. If no start_at is specified, defaults to midnight today, in the timezone of the system. If the start_at specified is earlier than the system’s first reported date, then midnight of the system’s first reported date is considered as start_at. The end_at is calculated as the minimum of the time of the request and (start time + granularity). The meaning of granularity is as follow: If granularity is 15mins, maximum 1 intervals will appear in "
+        },
+        {
+          "info": {
+            "name": "Retrieves energy exported to grid in regular intervals",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/:system_id/energy_export_telemetry",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "start_at",
+                "value": "",
+                "type": "query",
+                "description": "Start time for fetching the telemetry data in Epoch time format. Alternatively one can use start_date in place of start_at for passing the start date as String in YYYY-MM-DD format. By default start_at will appear in response. If start_date parameter is passed in the url, then start_date field will appear in response."
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "query",
+                "description": "The granularity of the telemetry data. Possible values are 'week', 'day', '15mins', '5mins'. Default is 'day'"
+              }
+            ]
+          },
+          "docs": "Retrieves energy exported to grid in regular intervals. If no start_at is specified, defaults to midnight today, in the timezone of the system. If the start_at specified is earlier than the system’s first reported date, then midnight of the system’s first reported date is considered as start_at. The end_at is calculated as the minimum of the time of the request and (start time + granularity). The meaning of granularity is as follow: If granularity is 15mins, maximum 1 intervals will appear in re"
+        },
+        {
+          "info": {
+            "name": "Returns a system's last reported PV Power, Consumption Power, and Battery Power in Watts.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/:system_id/latest_telemetry",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              }
+            ]
+          },
+          "docs": "Returns a system's last reported PV Power, Consumption Power, and Battery Power in Watts. If the last_report_at is older than 7 days for a specific device, “last_report_at”, “power” and “operational_mode” parameters will be returned in the response with the value as null."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Device Level Production Monitoring",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieves telemetry for single micro/pcu.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/:system_id/devices/micros/:serial_no/telemetry",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "System id"
+              },
+              {
+                "name": "serial_no",
+                "value": "",
+                "type": "path",
+                "description": "Serial Number of the individual solar Microinverter"
+              },
+              {
+                "name": "start_at",
+                "value": "",
+                "type": "query",
+                "description": "Start time for fetching the telemetry data in Epoch time format. Alternatively one can use start_date in place of start_at for passing the start date as String in YYYY-MM-DD format. By default start_at will appear in response. If start_date parameter is passed in the url, then start_date field will appear in response."
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "query",
+                "description": "The granularity of the telemetry data. Possible values are 'week', 'day', '15mins', '5mins'. Default is 'day'"
+              }
+            ]
+          },
+          "docs": "Retrieves telemetry for single micro/pcu. \nIf no start_at is specified, defaults to midnight today, in the timezone of the system. If the start_at specified is earlier than the system’s first reported date, then midnight of the system’s first reported date is considered as start_at.\nThe end_at is calculated as the minimum of the time of the request and (start time + granularity). \nThe meaning of granularity is as follow:\n\nIf granularity is 15mins, maximum 3 intervals will appear in response. If "
+        },
+        {
+          "info": {
+            "name": "Retrieves telemetry for single ACB",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/:system_id/devices/acbs/:serial_no/telemetry",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "System id"
+              },
+              {
+                "name": "serial_no",
+                "value": "",
+                "type": "path",
+                "description": "Serial Number of the acb"
+              },
+              {
+                "name": "start_at",
+                "value": "",
+                "type": "query",
+                "description": "Start time for fetching the telemetry data in Epoch time format. Alternatively one can use start_date in place of start_at for passing the start date as String in YYYY-MM-DD format. By default start_at will appear in response. If start_date parameter is passed in the url, then start_date field will appear in response."
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "query",
+                "description": "The granularity of the telemetry data. Possible values are 'week', 'day', '15mins', '5mins'. Default is 'day'"
+              }
+            ]
+          },
+          "docs": "Retrieves telemetry for single ACB. \nIf no start_at is specified, defaults to midnight today, in the timezone of the system. If the start_at specified is earlier than the system’s first reported date, then midnight of the system’s first reported date is considered as start_at.\nThe end_at is calculated as the minimum of the time of the request and (start time + granularity). \nThe meaning of granularity is as follow:\n\nIf granularity is 15mins, maximum 1 interval will appear in response. If granula"
+        },
+        {
+          "info": {
+            "name": "Retrieves telemetry for single Encharge",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/:system_id/devices/encharges/:serial_no/telemetry",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "System id"
+              },
+              {
+                "name": "serial_no",
+                "value": "",
+                "type": "path",
+                "description": "Serial Number of the encharge"
+              },
+              {
+                "name": "start_at",
+                "value": "",
+                "type": "query",
+                "description": "Start time for fetching the telemetry data in Epoch time format. Alternatively one can use start_date in place of start_at for passing the start date as String in YYYY-MM-DD format. By default start_at will appear in response. If start_date parameter is passed in the url, then start_date field will appear in response."
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "query",
+                "description": "The granularity of the telemetry data. Possible values are 'week', 'day', '15mins', '5mins'. Default is 'day'"
+              }
+            ]
+          },
+          "docs": "Retrieves telemetry for single Encharge. \nIf no start_at is specified, defaults to midnight today, in the timezone of the system. If the start_at specified is earlier than the system’s first reported date, then midnight of the system’s first reported date is considered as start_at.\nThe end_at is calculated as the minimum of the time of the request and (start time + granularity). \nThe meaning of granularity is as follow:\n\nIf granularity is 15mins, maximum 1 interval will appear in response. If gr"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "System Configurations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Returns the current battery settings of a system",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/config/:system_id/battery_settings",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric id of the system"
+              }
+            ]
+          },
+          "docs": "Returns the current battery settings of a system"
+        },
+        {
+          "info": {
+            "name": "Updates the current battery settings of a system",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/config/:system_id/battery_settings",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric id of the system"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the current battery settings of a system."
+        },
+        {
+          "info": {
+            "name": "Returns the current storm guard settings of a system",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/config/:system_id/storm_guard",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric id of the system"
+              }
+            ]
+          },
+          "docs": "Returns the current storm guard settings of a system"
+        },
+        {
+          "info": {
+            "name": "Updates the current storm guard settings of a system",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/config/:system_id/storm_guard",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric id of the system"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the current storm guard status of a system."
+        },
+        {
+          "info": {
+            "name": "Returns the current grid status of a system",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/config/:system_id/grid_status",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric id of the system"
+              }
+            ]
+          },
+          "docs": "Returns the current grid status of a system"
+        },
+        {
+          "info": {
+            "name": "Returns the current load control settings of a system",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/config/:system_id/load_control",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric id of the system"
+              }
+            ]
+          },
+          "docs": "Returns the current load control settings of a system"
+        },
+        {
+          "info": {
+            "name": "Updates the current load control settings of a system",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/config/:system_id/load_control",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric id of the system"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the current load control settings of a system."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Streaming APIs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Site Level Live Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/:system_id/live_data",
+            "headers": [
+              {
+                "name": "duration",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              }
+            ]
+          },
+          "docs": "API users can get real time live status data on demand for a given system. User can retrieve real time power for PV Production, Grid Import/Export, Consumption, Battery Charge/Discharge, and Generator. Users can also retrieve Grid Status, Battery Mode, and Battery State of Charge. User will receive the stream for a duration of 30 seconds by default and can configure the time in seconds by passing ‘duration’ as a parameter with a minimum value of 30 and maximum value of 300"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "EV Charger Monitoring",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Fetch active chargers for a system",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/:system_id/ev_charger/devices",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "698989834",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              }
+            ]
+          },
+          "docs": "API to fetch all active EV Chargers for a system"
+        },
+        {
+          "info": {
+            "name": "Fetch events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/:system_id/ev_charger/events",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "701052773",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "serial_num",
+                "value": "202312100006",
+                "type": "query",
+                "description": "Serial Number of the EV Charger"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "API to fetch all the events related to EV Charger"
+        },
+        {
+          "info": {
+            "name": "Charger session history",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/:system_id/ev_charger/:serial_no/sessions",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "698989834",
+                "type": "path"
+              },
+              {
+                "name": "serial_no",
+                "value": "202320010308",
+                "type": "path"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get list of sessions for a single EV Charger"
+        },
+        {
+          "info": {
+            "name": "Get Schedule",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/:system_id/ev_charger/:serial_no/schedules",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "698989834",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "serial_no",
+                "value": "202320010308",
+                "type": "path",
+                "description": "Serial Number of the EV Charger"
+              }
+            ]
+          },
+          "docs": "API to fetch all EV Charger Schedules for a Device By System id and Serial Number"
+        },
+        {
+          "info": {
+            "name": "Daily energy api",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/:system_id/ev_charger/:serial_no/lifetime",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "698989834",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "serial_no",
+                "value": "190179855",
+                "type": "path",
+                "description": "Serial Number of the EV Charger"
+              },
+              {
+                "name": "start_date",
+                "value": "20240101",
+                "type": "query",
+                "description": "Requested start date of the time series data. If the start_date is not provided, then the response data begins with the previous date as start_date. Pass as String date format YYYYMMDD."
+              },
+              {
+                "name": "end_date",
+                "value": "20240106",
+                "type": "query",
+                "description": "End date of the time series data. Defaults to yesterday. Pass as String date format YYYYMMDD."
+              }
+            ]
+          },
+          "docs": "Retrieves the daily telemetry for a single EV Charger.\nThe number of data points returned in the response corresponds to\ndays spanned between the start_date and end_date parameter mentioned in the request."
+        },
+        {
+          "info": {
+            "name": "Interval energy api",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/:system_id/ev_charger/:serial_no/telemetry",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "700460094",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "serial_no",
+                "value": "202109116909",
+                "type": "path",
+                "description": "Serial Number of the EV Charger"
+              },
+              {
+                "name": "granularity",
+                "value": "day",
+                "type": "query",
+                "description": "The granularity of the telemetry data. Possible values are 'week', 'day'. Default is 'day'"
+              },
+              {
+                "name": "start_date",
+                "value": "20240116",
+                "type": "query",
+                "description": "Requested start date of the time series data. If the start_date and start_at is not provided, then the response data begins with the previous date as start_date. Pass as String date format YYYYMMDD."
+              },
+              {
+                "name": "start_at",
+                "value": "1705425848",
+                "type": "query",
+                "description": "Start time for fetching the telemetry data in Epoch time format. Alternatively one can use start_date in place of start_at for passing the start date as String in YYYYMMDD format. By default start_at will appear in response. If start_date parameter is passed in the url, then start_date field will appear in response."
+              }
+            ]
+          },
+          "docs": "Retrieves telemetry for single EV Charger.\nIf no start_at is specified, defaults to previous days date, in the timezone of the system.\nThe end_at is calculated as the minimum of the time of the request and (start time + granularity).\nThe meaning of granularity is as follow:\n\nIf granularity is day, maximum 392 intervals will appear in response where each interval is of 15 mins duration. By default start_at will appear in response. If start_date parameter is passed in the url, then start_date fiel"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "EV Charger Control",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Start charging. Illustrative only - access via VPP api for partners",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/:system_id/ev_charger/:serial_no/start_charging",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "701052773",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "serial_no",
+                "value": "202312100006",
+                "type": "path",
+                "description": "Serial Number of the EV Charger"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "API to send start charging command to the EV Charger"
+        },
+        {
+          "info": {
+            "name": "Stop charging. Illustrative only - access via VPP api for partners",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-qa2.enphaseenergy.com/api/v4/systems/:system_id/ev_charger/:serial_no/stop_charging",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "701052773",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "serial_no",
+                "value": "202312100006",
+                "type": "path",
+                "description": "Serial Number of the EV Charger"
+              }
+            ]
+          },
+          "docs": "API to send stop charging command to the EV Charger"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,5826 @@
+{
+  "item": [
+    {
+      "id": "72a0b832-9545-43b1-bf00-447da338c9aa",
+      "name": "Energy Lifetime",
+      "request": {
+        "name": "Energy Lifetime",
+        "description": {
+          "content": "Returns a time series of energy produced on the system over its lifetime. All measurements are in Watt-hours.\n\nThe time series includes one entry for each day from the `start_date` to the `end_date`. There are no gaps in the time series. If the response includes trailing zeroes, such as\n`[909, 4970, 0, 0, 0]`, then no energy has been reported for the last days in the series. You can check the system's status in the `meta` attribute of the response to determine when the\nsystem last reported and whether it has communication or production problems.\n\nIf the system has a meter, the time series includes data as measured by the microinverters until the first full day after the meter has been installed, when it switches to using the data as\nmeasured by the meter. This is called the \"merged time series\". In addition, the response includes the attribute `meter_start_date`, to indicate where in the time series the meter\nmeasurements begin to be used. You can retrieve the complete time series from the meter and from the microinverters by adding the parameter `production=all` to the request.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "systems",
+            ":system_id",
+            "energy_lifetime"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "disabled": false,
+              "key": "user_id",
+              "value": "<string>",
+              "description": "(Required) "
+            },
+            {
+              "disabled": false,
+              "key": "start_date",
+              "value": "<date>",
+              "description": "The date on which to start the time series. Defaults to the system's operational date."
+            },
+            {
+              "disabled": false,
+              "key": "end_date",
+              "value": "<date>",
+              "description": "The last date to include in the time series. Defaults to yesterday or the last day the system reported, whichever is earlier."
+            },
+            {
+              "disabled": false,
+              "key": "production",
+              "value": "<string>",
+              "description": "When `all`, returns the merged time series plus the time series as reported by the microinverters and the meter on the system. Other values are ignored."
+            }
+          ],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<integer>",
+              "key": "system_id",
+              "description": "(Required) "
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "7ea0f6de-8597-43f7-b43e-3d033001fba4",
+          "name": "OK",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "energy_lifetime"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_date",
+                  "value": "2013-01-01"
+                },
+                {
+                  "key": "end_date",
+                  "value": "2013-01-06"
+                },
+                {
+                  "key": "production",
+                  "value": "all"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"start_date\": \"1991-01-28\",\n  \"system_id\": 5981,\n  \"production\": [\n    453,\n    9801\n  ],\n  \"meta\": {\n    \"status\": \"normal\",\n    \"last_report_at\": 1445619615,\n    \"last_energy_at\": 1445619033,\n    \"operational_at\": 1357023600\n  },\n  \"micro_production\": [\n    3221,\n    7166\n  ],\n  \"meter_production\": [\n    5983,\n    9864\n  ],\n  \"meter_start_date\": \"1993-06-28\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "6881c951-2abb-4875-91be-14016e79b3f9",
+          "name": "No Content",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "energy_lifetime"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_date",
+                  "value": "2013-01-01"
+                },
+                {
+                  "key": "end_date",
+                  "value": "2013-01-06"
+                },
+                {
+                  "key": "production",
+                  "value": "all"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "status": "No Content",
+          "code": 204,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "e92de2b3-f10b-4cfd-8000-ac6619cf793c",
+          "name": "Client error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "energy_lifetime"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_date",
+                  "value": "2013-01-01"
+                },
+                {
+                  "key": "end_date",
+                  "value": "2013-01-06"
+                },
+                {
+                  "key": "production",
+                  "value": "all"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "e201bbc0-2f92-49a8-8a5d-76925c3facf9",
+          "name": "Conflict",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "energy_lifetime"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_date",
+                  "value": "2013-01-01"
+                },
+                {
+                  "key": "end_date",
+                  "value": "2013-01-06"
+                },
+                {
+                  "key": "production",
+                  "value": "all"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Conflict",
+          "code": 409,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"409\",\n  \"message\": [\n    \"Usage limit exceeded for plan Watt\"\n  ],\n  \"period\": \"minute\",\n  \"period_start\": 1401742440,\n  \"period_end\": 1401742500,\n  \"limit\": 10\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "85b53c43-a8aa-40a5-8348-0733c42ca1e1",
+          "name": "Unprocessable Entity",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "energy_lifetime"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_date",
+                  "value": "2013-01-01"
+                },
+                {
+                  "key": "end_date",
+                  "value": "2013-01-06"
+                },
+                {
+                  "key": "production",
+                  "value": "all"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+          "code": 422,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": \"string\",\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ],\n  \"start\": \"1967-05-21\",\n  \"end\": \"1989-10-17\",\n  \"start_at\": 8951,\n  \"end_at\": 3176,\n  \"first_interval\": 2323,\n  \"last_interval\": 2831\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "51d82555-8217-4f7a-aa97-35bbc93aaa9a",
+          "name": "Server error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "energy_lifetime"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_date",
+                  "value": "2013-01-01"
+                },
+                {
+                  "key": "end_date",
+                  "value": "2013-01-06"
+                },
+                {
+                  "key": "production",
+                  "value": "all"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errorCode\": 7,\n  \"errorMessages\": [\n    \"Data temporarily unavailable.\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "640800d5-86a7-4cc3-a323-1ba9d740ec59",
+          "name": "Server error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "energy_lifetime"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_date",
+                  "value": "2013-01-01"
+                },
+                {
+                  "key": "end_date",
+                  "value": "2013-01-06"
+                },
+                {
+                  "key": "production",
+                  "value": "all"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Service Unavailable",
+          "code": 503,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errorCode\": 4133,\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "f7ea70de-23fe-487f-a14c-39451aafd5dc",
+      "name": "Envoys",
+      "request": {
+        "name": "Envoys",
+        "description": {
+          "content": "Returns a listing of all active Envoys currently deployed on the system.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "systems",
+            ":system_id",
+            "envoys"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "disabled": false,
+              "key": "user_id",
+              "value": "<string>",
+              "description": "(Required) "
+            }
+          ],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<integer>",
+              "key": "system_id",
+              "description": "(Required) "
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "724ab6bf-658a-4fd5-8aeb-874ab920d403",
+          "name": "OK",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "envoys"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"system_id\": 5305,\n  \"envoys\": [\n    {\n      \"envoy_id\": 4562,\n      \"last_report_at\": 5875,\n      \"name\": \"string\",\n      \"part_number\": \"string\",\n      \"serial_number\": \"string\",\n      \"status\": \"normal\"\n    },\n    {\n      \"envoy_id\": 6706,\n      \"last_report_at\": 2194,\n      \"name\": \"string\",\n      \"part_number\": \"string\",\n      \"serial_number\": \"string\",\n      \"status\": \"normal\"\n    }\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "9c3d7faa-44a3-45d5-a6cf-636a4ddf9f70",
+          "name": "Client error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "envoys"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "ca132d40-a6aa-44c2-ab62-ab33628b25ef",
+          "name": "Conflict",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "envoys"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Conflict",
+          "code": 409,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": [\n    \"string\",\n    \"string\"\n  ],\n  \"period\": \"hour\",\n  \"period_start\": 4870,\n  \"period_end\": 2821,\n  \"limit\": 3355\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "2c27e264-ab4a-4f28-99a9-688066e43f30",
+          "name": "Unprocessable Entity",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "envoys"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+          "code": 422,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": \"string\",\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ],\n  \"start\": \"1990-08-12\",\n  \"end\": \"1961-05-27\",\n  \"start_at\": 6406,\n  \"end_at\": 4889,\n  \"first_interval\": 5583,\n  \"last_interval\": 9779\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "c9de6e8c-0fc5-4e09-88b9-8c7bd865e82d",
+          "name": "Server error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "envoys"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errorCode\": 4133,\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "23b45e5a-7777-494c-a4aa-f1deef54f8d7",
+          "name": "Server error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "envoys"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Service Unavailable",
+          "code": 503,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errorCode\": 4133,\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "69a41f53-2ee5-429c-a831-446a0c0266b8",
+      "name": "Systems",
+      "request": {
+        "name": "Systems",
+        "description": {
+          "content": "Returns a list of systems for which the user can make API requests. There is a limit to the number of systems that can be returned at one time. If the first request does not return a full\nlist, use the `next` attribute in the response body to request the next page of systems. By default, systems are returned in batches of 100. The maximum page size is 1000.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "systems"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "disabled": false,
+              "key": "user_id",
+              "value": "<string>",
+              "description": "(Required) "
+            },
+            {
+              "disabled": false,
+              "key": "next",
+              "value": "<string>"
+            },
+            {
+              "disabled": false,
+              "key": "limit",
+              "value": "100"
+            },
+            {
+              "disabled": false,
+              "key": "system_id",
+              "value": "<integer>"
+            },
+            {
+              "disabled": false,
+              "key": "system_id[]",
+              "value": "<integer>"
+            },
+            {
+              "disabled": false,
+              "key": "system_id[]",
+              "value": "<integer>"
+            },
+            {
+              "disabled": false,
+              "key": "system_name",
+              "value": "<string>"
+            },
+            {
+              "disabled": false,
+              "key": "system_name[]",
+              "value": "<string>"
+            },
+            {
+              "disabled": false,
+              "key": "system_name[]",
+              "value": "<string>"
+            },
+            {
+              "disabled": false,
+              "key": "status",
+              "value": "<string>"
+            },
+            {
+              "disabled": false,
+              "key": "status[]",
+              "value": "<string>"
+            },
+            {
+              "disabled": false,
+              "key": "status[]",
+              "value": "<string>"
+            },
+            {
+              "disabled": false,
+              "key": "reference",
+              "value": "<string>"
+            },
+            {
+              "disabled": false,
+              "key": "reference[]",
+              "value": "<string>"
+            },
+            {
+              "disabled": false,
+              "key": "reference[]",
+              "value": "<string>"
+            },
+            {
+              "disabled": false,
+              "key": "installer",
+              "value": "<string>"
+            },
+            {
+              "disabled": false,
+              "key": "installer[]",
+              "value": "<string>"
+            },
+            {
+              "disabled": false,
+              "key": "installer[]",
+              "value": "<string>"
+            },
+            {
+              "disabled": false,
+              "key": "connection_type",
+              "value": "<string>"
+            },
+            {
+              "disabled": false,
+              "key": "connection_type[]",
+              "value": "<string>"
+            },
+            {
+              "disabled": false,
+              "key": "connection_type[]",
+              "value": "<string>"
+            }
+          ],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "7b960b5e-a636-451a-88c2-591efbc76a1a",
+          "name": "OK",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "next",
+                  "value": "4d5467784d5445770a"
+                },
+                {
+                  "key": "limit",
+                  "value": "100"
+                },
+                {
+                  "key": "system_id",
+                  "value": "67"
+                },
+                {
+                  "key": "system_id[]",
+                  "value": "67"
+                },
+                {
+                  "key": "system_name",
+                  "value": "Green"
+                },
+                {
+                  "key": "system_name[]",
+                  "value": "Green"
+                },
+                {
+                  "key": "status",
+                  "value": "power"
+                },
+                {
+                  "key": "status[]",
+                  "value": "comm"
+                },
+                {
+                  "key": "status[]",
+                  "value": "micro"
+                },
+                {
+                  "key": "reference",
+                  "value": "<string>"
+                },
+                {
+                  "key": "reference[]",
+                  "value": "<string>"
+                },
+                {
+                  "key": "reference[]",
+                  "value": "<string>"
+                },
+                {
+                  "key": "installer",
+                  "value": "<string>"
+                },
+                {
+                  "key": "installer[]",
+                  "value": "<string>"
+                },
+                {
+                  "key": "installer[]",
+                  "value": "<string>"
+                },
+                {
+                  "key": "connection_type",
+                  "value": "ethernet"
+                },
+                {
+                  "key": "connection_type[]",
+                  "value": "ethernet"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"systems\": [\n    {\n      \"system_id\": 67,\n      \"system_name\": \"Sample Residence 1\",\n      \"system_public_name\": \"Sample Residence 1\",\n      \"status\": \"normal\",\n      \"timezone\": \"America/Los_Angeles\",\n      \"country\": \"US\",\n      \"state\": \"CA\",\n      \"city\": \"Sebastopol\",\n      \"postal_code\": \"95472\",\n      \"connection_type\": \"ethernet\",\n      \"meta\": {\n        \"status\": \"normal\",\n        \"last_report_at\": 1445619615,\n        \"last_energy_at\": 1445619033,\n        \"operational_at\": 1357023600\n      }\n    },\n    {\n      \"system_id\": 72,\n      \"system_name\": \"Sample Residence 2\",\n      \"system_public_name\": \"Sample Residence 2\",\n      \"status\": \"normal\",\n      \"timezone\": \"America/Los_Angeles\",\n      \"country\": \"US\",\n      \"state\": \"CA\",\n      \"city\": \"Placerville\",\n      \"postal_code\": \"95667\",\n      \"connection_type\": \"ethernet\",\n      \"meta\": {\n        \"status\": \"comm\",\n        \"last_report_at\": 1449959488,\n        \"last_energy_at\": 1449945104,\n        \"operational_at\": 1418912581\n      }\n    }\n  ],\n  \"next\": \"4e7a453d0a\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "da4eea23-6833-4a30-896c-55b8a64777f2",
+          "name": "Client error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "next",
+                  "value": "4d5467784d5445770a"
+                },
+                {
+                  "key": "limit",
+                  "value": "100"
+                },
+                {
+                  "key": "system_id",
+                  "value": "67"
+                },
+                {
+                  "key": "system_id[]",
+                  "value": "67"
+                },
+                {
+                  "key": "system_name",
+                  "value": "Green"
+                },
+                {
+                  "key": "system_name[]",
+                  "value": "Green"
+                },
+                {
+                  "key": "status",
+                  "value": "power"
+                },
+                {
+                  "key": "status[]",
+                  "value": "comm"
+                },
+                {
+                  "key": "status[]",
+                  "value": "micro"
+                },
+                {
+                  "key": "reference",
+                  "value": "<string>"
+                },
+                {
+                  "key": "reference[]",
+                  "value": "<string>"
+                },
+                {
+                  "key": "reference[]",
+                  "value": "<string>"
+                },
+                {
+                  "key": "installer",
+                  "value": "<string>"
+                },
+                {
+                  "key": "installer[]",
+                  "value": "<string>"
+                },
+                {
+                  "key": "installer[]",
+                  "value": "<string>"
+                },
+                {
+                  "key": "connection_type",
+                  "value": "ethernet"
+                },
+                {
+                  "key": "connection_type[]",
+                  "value": "ethernet"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "90c30002-4999-4518-9cd4-6d3d2ed18ebb",
+          "name": "Conflict",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "next",
+                  "value": "4d5467784d5445770a"
+                },
+                {
+                  "key": "limit",
+                  "value": "100"
+                },
+                {
+                  "key": "system_id",
+                  "value": "67"
+                },
+                {
+                  "key": "system_id[]",
+                  "value": "67"
+                },
+                {
+                  "key": "system_name",
+                  "value": "Green"
+                },
+                {
+                  "key": "system_name[]",
+                  "value": "Green"
+                },
+                {
+                  "key": "status",
+                  "value": "power"
+                },
+                {
+                  "key": "status[]",
+                  "value": "comm"
+                },
+                {
+                  "key": "status[]",
+                  "value": "micro"
+                },
+                {
+                  "key": "reference",
+                  "value": "<string>"
+                },
+                {
+                  "key": "reference[]",
+                  "value": "<string>"
+                },
+                {
+                  "key": "reference[]",
+                  "value": "<string>"
+                },
+                {
+                  "key": "installer",
+                  "value": "<string>"
+                },
+                {
+                  "key": "installer[]",
+                  "value": "<string>"
+                },
+                {
+                  "key": "installer[]",
+                  "value": "<string>"
+                },
+                {
+                  "key": "connection_type",
+                  "value": "ethernet"
+                },
+                {
+                  "key": "connection_type[]",
+                  "value": "ethernet"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Conflict",
+          "code": 409,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": [\n    \"string\",\n    \"string\"\n  ],\n  \"period\": \"hour\",\n  \"period_start\": 4870,\n  \"period_end\": 2821,\n  \"limit\": 3355\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "9966b81f-f0e0-4308-8f25-d1176620dcfe",
+          "name": "Unprocessable Entity",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "next",
+                  "value": "4d5467784d5445770a"
+                },
+                {
+                  "key": "limit",
+                  "value": "100"
+                },
+                {
+                  "key": "system_id",
+                  "value": "67"
+                },
+                {
+                  "key": "system_id[]",
+                  "value": "67"
+                },
+                {
+                  "key": "system_name",
+                  "value": "Green"
+                },
+                {
+                  "key": "system_name[]",
+                  "value": "Green"
+                },
+                {
+                  "key": "status",
+                  "value": "power"
+                },
+                {
+                  "key": "status[]",
+                  "value": "comm"
+                },
+                {
+                  "key": "status[]",
+                  "value": "micro"
+                },
+                {
+                  "key": "reference",
+                  "value": "<string>"
+                },
+                {
+                  "key": "reference[]",
+                  "value": "<string>"
+                },
+                {
+                  "key": "reference[]",
+                  "value": "<string>"
+                },
+                {
+                  "key": "installer",
+                  "value": "<string>"
+                },
+                {
+                  "key": "installer[]",
+                  "value": "<string>"
+                },
+                {
+                  "key": "installer[]",
+                  "value": "<string>"
+                },
+                {
+                  "key": "connection_type",
+                  "value": "ethernet"
+                },
+                {
+                  "key": "connection_type[]",
+                  "value": "ethernet"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+          "code": 422,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": \"string\",\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ],\n  \"start\": \"1990-08-12\",\n  \"end\": \"1961-05-27\",\n  \"start_at\": 6406,\n  \"end_at\": 4889,\n  \"first_interval\": 5583,\n  \"last_interval\": 9779\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "d8352632-5fdc-42db-a685-d2bfbf98722d",
+          "name": "Server error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "next",
+                  "value": "4d5467784d5445770a"
+                },
+                {
+                  "key": "limit",
+                  "value": "100"
+                },
+                {
+                  "key": "system_id",
+                  "value": "67"
+                },
+                {
+                  "key": "system_id[]",
+                  "value": "67"
+                },
+                {
+                  "key": "system_name",
+                  "value": "Green"
+                },
+                {
+                  "key": "system_name[]",
+                  "value": "Green"
+                },
+                {
+                  "key": "status",
+                  "value": "power"
+                },
+                {
+                  "key": "status[]",
+                  "value": "comm"
+                },
+                {
+                  "key": "status[]",
+                  "value": "micro"
+                },
+                {
+                  "key": "reference",
+                  "value": "<string>"
+                },
+                {
+                  "key": "reference[]",
+                  "value": "<string>"
+                },
+                {
+                  "key": "reference[]",
+                  "value": "<string>"
+                },
+                {
+                  "key": "installer",
+                  "value": "<string>"
+                },
+                {
+                  "key": "installer[]",
+                  "value": "<string>"
+                },
+                {
+                  "key": "installer[]",
+                  "value": "<string>"
+                },
+                {
+                  "key": "connection_type",
+                  "value": "ethernet"
+                },
+                {
+                  "key": "connection_type[]",
+                  "value": "ethernet"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errorCode\": 4133,\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "18213ddf-d421-4d60-97ac-2850e2d6f69b",
+          "name": "Server error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "next",
+                  "value": "4d5467784d5445770a"
+                },
+                {
+                  "key": "limit",
+                  "value": "100"
+                },
+                {
+                  "key": "system_id",
+                  "value": "67"
+                },
+                {
+                  "key": "system_id[]",
+                  "value": "67"
+                },
+                {
+                  "key": "system_name",
+                  "value": "Green"
+                },
+                {
+                  "key": "system_name[]",
+                  "value": "Green"
+                },
+                {
+                  "key": "status",
+                  "value": "power"
+                },
+                {
+                  "key": "status[]",
+                  "value": "comm"
+                },
+                {
+                  "key": "status[]",
+                  "value": "micro"
+                },
+                {
+                  "key": "reference",
+                  "value": "<string>"
+                },
+                {
+                  "key": "reference[]",
+                  "value": "<string>"
+                },
+                {
+                  "key": "reference[]",
+                  "value": "<string>"
+                },
+                {
+                  "key": "installer",
+                  "value": "<string>"
+                },
+                {
+                  "key": "installer[]",
+                  "value": "<string>"
+                },
+                {
+                  "key": "installer[]",
+                  "value": "<string>"
+                },
+                {
+                  "key": "connection_type",
+                  "value": "ethernet"
+                },
+                {
+                  "key": "connection_type[]",
+                  "value": "ethernet"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Service Unavailable",
+          "code": 503,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errorCode\": 4133,\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "fef7eef5-af5d-4d5f-8c6b-818349cea868",
+      "name": "Inventory",
+      "request": {
+        "name": "Inventory",
+        "description": {
+          "content": "Returns a listing of active devices on the given system. A device is considered active if it has not been retired in Enlighten. \"Active\" does not imply that the device is currently\nreporting, producing, or measuring energy.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "systems",
+            ":system_id",
+            "inventory"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "disabled": false,
+              "key": "user_id",
+              "value": "<string>",
+              "description": "(Required) "
+            }
+          ],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<integer>",
+              "key": "system_id",
+              "description": "(Required) "
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "1ccd34f6-8af0-4615-9030-8d303e162f07",
+          "name": "OK",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "inventory"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"system_id\": 5763,\n  \"inverters\": [\n    {\n      \"sn\": \"string\",\n      \"model\": \"string\",\n      \"sku\": \"string\"\n    },\n    {\n      \"sn\": \"string\",\n      \"model\": \"string\",\n      \"sku\": \"string\"\n    }\n  ],\n  \"meters\": [\n    {\n      \"sn\": \"string\",\n      \"manufacturer\": \"string\",\n      \"model\": \"string\",\n      \"status\": \"string\",\n      \"state\": \"string\"\n    },\n    {\n      \"sn\": \"string\",\n      \"manufacturer\": \"string\",\n      \"model\": \"string\",\n      \"status\": \"string\",\n      \"state\": \"string\"\n    }\n  ],\n  \"meta\": {\n    \"status\": \"normal\",\n    \"last_report_at\": 1445619615,\n    \"last_energy_at\": 1445619033,\n    \"operational_at\": 1357023600\n  },\n  \"envoys\": [\n    {\n      \"sn\": \"string\",\n      \"model\": \"string\",\n      \"sku\": \"string\"\n    },\n    {\n      \"sn\": \"string\",\n      \"model\": \"string\",\n      \"sku\": \"string\"\n    }\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "5ad06779-adc9-47b5-b989-0a02e1b832b0",
+          "name": "Client error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "inventory"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "b16a05eb-21cb-4be0-802b-166edfef1d22",
+          "name": "Conflict",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "inventory"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Conflict",
+          "code": 409,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": [\n    \"string\",\n    \"string\"\n  ],\n  \"period\": \"hour\",\n  \"period_start\": 4870,\n  \"period_end\": 2821,\n  \"limit\": 3355\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "5eccb58b-ac35-4b3a-88a9-12df0b05ff89",
+          "name": "Unprocessable Entity",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "inventory"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+          "code": 422,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": \"string\",\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ],\n  \"start\": \"1990-08-12\",\n  \"end\": \"1961-05-27\",\n  \"start_at\": 6406,\n  \"end_at\": 4889,\n  \"first_interval\": 5583,\n  \"last_interval\": 9779\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "4e10e5d8-9287-4d66-8e48-cf28532534e7",
+          "name": "Server error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "inventory"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errorCode\": 4133,\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "c8005669-31cc-43a6-9166-dd011d434f01",
+          "name": "Server error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "inventory"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Service Unavailable",
+          "code": 503,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errorCode\": 4133,\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "c1cc38e4-fae7-4d8d-b6b7-e99b864f9b4d",
+      "name": "Inverters Summary By Envoy Or Site",
+      "request": {
+        "name": "Inverters Summary By Envoy Or Site",
+        "description": {
+          "content": "Returns the summary along with the energy produced on the system over its lifetime.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "systems",
+            "inverters_summary_by_envoy_or_site"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "disabled": false,
+              "key": "user_id",
+              "value": "<string>",
+              "description": "(Required) "
+            },
+            {
+              "disabled": false,
+              "key": "site_id",
+              "value": "<integer>",
+              "description": "(Required) The identifier of the system."
+            }
+          ],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "5defff89-b218-4c84-8bf1-830e323ab3a2",
+          "name": "OK",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                "inverters_summary_by_envoy_or_site"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "site_id",
+                  "value": "66"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "[\n  {\n    \"signal_strength\": 1561,\n    \"micro_inverters\": [\n      {\n        \"id\": 6625,\n        \"model\": \"string\",\n        \"part_number\": \"string\",\n        \"serial_number\": \"string\",\n        \"sku\": \"string\",\n        \"status\": \"micro\",\n        \"power_produced\": {\n          \"value\": 9024,\n          \"units\": \"W\",\n          \"precision\": 8466\n        },\n        \"proc_load\": \"string\",\n        \"param_table\": \"string\",\n        \"envoy_serial_number\": \"string\",\n        \"energy\": {\n          \"value\": 1277,\n          \"units\": \"kJ\",\n          \"precision\": 4108\n        },\n        \"grid_profile\": \"string\",\n        \"last_report_date\": \"2009-08-09\"\n      },\n      {\n        \"id\": 8394,\n        \"model\": \"string\",\n        \"part_number\": \"string\",\n        \"serial_number\": \"string\",\n        \"sku\": \"string\",\n        \"status\": \"power\",\n        \"power_produced\": {\n          \"value\": 4488,\n          \"units\": \"W\",\n          \"precision\": 18\n        },\n        \"proc_load\": \"string\",\n        \"param_table\": \"string\",\n        \"envoy_serial_number\": \"string\",\n        \"energy\": {\n          \"value\": 3312,\n          \"units\": \"kJ\",\n          \"precision\": 3516\n        },\n        \"grid_profile\": \"string\",\n        \"last_report_date\": \"1985-06-20\"\n      }\n    ]\n  },\n  {\n    \"signal_strength\": 3358,\n    \"micro_inverters\": [\n      {\n        \"id\": 2246,\n        \"model\": \"string\",\n        \"part_number\": \"string\",\n        \"serial_number\": \"string\",\n        \"sku\": \"string\",\n        \"status\": \"power\",\n        \"power_produced\": {\n          \"value\": 8199,\n          \"units\": \"W\",\n          \"precision\": 3731\n        },\n        \"proc_load\": \"string\",\n        \"param_table\": \"string\",\n        \"envoy_serial_number\": \"string\",\n        \"energy\": {\n          \"value\": 4777,\n          \"units\": \"kJ\",\n          \"precision\": 8943\n        },\n        \"grid_profile\": \"string\",\n        \"last_report_date\": \"2018-03-14\"\n      },\n      {\n        \"id\": 1150,\n        \"model\": \"string\",\n        \"part_number\": \"string\",\n        \"serial_number\": \"string\",\n        \"sku\": \"string\",\n        \"status\": \"retired\",\n        \"power_produced\": {\n          \"value\": 7601,\n          \"units\": \"W\",\n          \"precision\": 3361\n        },\n        \"proc_load\": \"string\",\n        \"param_table\": \"string\",\n        \"envoy_serial_number\": \"string\",\n        \"energy\": {\n          \"value\": 862,\n          \"units\": \"Wh\",\n          \"precision\": 2702\n        },\n        \"grid_profile\": \"string\",\n        \"last_report_date\": \"1973-06-13\"\n      }\n    ]\n  }\n]",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "26345714-3023-4c30-a4fe-315f1e841608",
+          "name": "Client error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                "inverters_summary_by_envoy_or_site"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "site_id",
+                  "value": "66"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "7843752c-e408-4508-8044-cb83cbfd5730",
+          "name": "Conflict",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                "inverters_summary_by_envoy_or_site"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "site_id",
+                  "value": "66"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Conflict",
+          "code": 409,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": [\n    \"string\",\n    \"string\"\n  ],\n  \"period\": \"hour\",\n  \"period_start\": 4870,\n  \"period_end\": 2821,\n  \"limit\": 3355\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "6e0268fe-ebf4-4c85-b4a7-ecb3495c69bb",
+          "name": "Unprocessable Entity",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                "inverters_summary_by_envoy_or_site"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "site_id",
+                  "value": "66"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+          "code": 422,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": \"string\",\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ],\n  \"start\": \"1990-08-12\",\n  \"end\": \"1961-05-27\",\n  \"start_at\": 6406,\n  \"end_at\": 4889,\n  \"first_interval\": 5583,\n  \"last_interval\": 9779\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "285b8acb-4bbd-47c4-bec7-614496d2bd70",
+          "name": "Server error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                "inverters_summary_by_envoy_or_site"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "site_id",
+                  "value": "66"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errorCode\": 4133,\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "e75587a4-0aa3-4364-b1dc-0d8ef61058ff",
+          "name": "Server error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                "inverters_summary_by_envoy_or_site"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "site_id",
+                  "value": "66"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Service Unavailable",
+          "code": 503,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errorCode\": 4133,\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "ad7c0da3-fc8a-40d0-a68b-a520b9686b09",
+      "name": "Monthly Production",
+      "request": {
+        "name": "Monthly Production",
+        "description": {
+          "content": "This endpoint is deprecated and will be removed in a future release. Use `production_meter_readings` or `energy_lifetime` instead.\n\nReturns the energy production of the system for the month starting on the given date. The start date must be at least one month ago. If a meter or meters are installed on the system,\nmeasurements come from the meter; otherwise, measurements come from the microinverters.\n\nThis endpoint can return a response of Data Temporarily Unavailable.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "systems",
+            ":system_id",
+            "monthly_production"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "disabled": false,
+              "key": "user_id",
+              "value": "<string>",
+              "description": "(Required) "
+            },
+            {
+              "disabled": false,
+              "key": "start_date",
+              "value": "<date>",
+              "description": "(Required) Start date for reporting period. The reporting period ends on the previous day of the next month; for example, a `start_date` of 2011-07-20 returns data through 2011-06-19. When the\nstart date is the first of a calendar month, the end date is the last day of that month."
+            }
+          ],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<integer>",
+              "key": "system_id",
+              "description": "(Required) "
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "8652b1f4-5961-45dd-803c-3503f4c785d9",
+          "name": "OK",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "monthly_production"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_date",
+                  "value": "2011-07-01"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"system_id\": 66,\n  \"start_date\": \"2011-07-01\",\n  \"end_date\": \"2011-07-31\",\n  \"production_wh\": 208435,\n  \"meter_readings\": [\n    {\n      \"serial_number\": \"123123123123\",\n      \"start\": 196077,\n      \"end\": 404512\n    }\n  ],\n  \"meta\": {\n    \"status\": \"normal\",\n    \"last_report_at\": 1445619615,\n    \"last_energy_at\": 1445619033,\n    \"operational_at\": 1357023600\n  }\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "6624476e-a9a7-4fef-9805-6ca693d1574a",
+          "name": "Client error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "monthly_production"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_date",
+                  "value": "2011-07-01"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "1d0144f7-11f6-48bb-a74b-4d8e22ed113e",
+          "name": "Conflict",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "monthly_production"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_date",
+                  "value": "2011-07-01"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Conflict",
+          "code": 409,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": [\n    \"string\",\n    \"string\"\n  ],\n  \"period\": \"hour\",\n  \"period_start\": 4870,\n  \"period_end\": 2821,\n  \"limit\": 3355\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "80d02565-87c2-4c20-8a58-8f598fe8f01d",
+          "name": "Unprocessable Entity",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "monthly_production"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_date",
+                  "value": "2011-07-01"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+          "code": 422,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": \"string\",\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ],\n  \"start\": \"1990-08-12\",\n  \"end\": \"1961-05-27\",\n  \"start_at\": 6406,\n  \"end_at\": 4889,\n  \"first_interval\": 5583,\n  \"last_interval\": 9779\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "3aa7c800-5081-43a8-a7d2-d2ac1de7050f",
+          "name": "Server error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "monthly_production"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_date",
+                  "value": "2011-07-01"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errorCode\": 4133,\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "a2cd0839-23ca-4365-a608-acd57b8e327f",
+          "name": "Server error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "monthly_production"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_date",
+                  "value": "2011-07-01"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Service Unavailable",
+          "code": 503,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errorCode\": 4133,\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "0eaa2bba-6884-44a4-95f0-5de1bed5621f",
+      "name": "Production Meter Readings",
+      "request": {
+        "name": "Production Meter Readings",
+        "description": {
+          "content": "Returns the last known \"odometer\" reading of each revenue-grade production meter on the system as of the requested time.\n\nThis endpoint includes entries for every production meter on the requested system, regardless of whether the meter is currently in service or retired. `read_at` is the time at which the\nreading was taken, and is always less than or equal to the requested `end_at`. Commonly, the reading will be within 30 minutes of the requested `end_at`; however, larger deltas can occur and\ndo not necessarily mean there is a problem with the meter or the system it is on. Systems that are configured to report infrequently can show large deltas on all meters, especially when\n`end_at` is close to the current time. Meters that have been retired from a system will show an `end_at` that doesn't change, and that eventually is far away from the current time.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "systems",
+            ":system_id",
+            "production_meter_readings"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "disabled": false,
+              "key": "user_id",
+              "value": "<string>",
+              "description": "(Required) "
+            },
+            {
+              "disabled": false,
+              "key": "end_at",
+              "value": "<long>"
+            }
+          ],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<integer>",
+              "key": "system_id",
+              "description": "(Required) "
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "8e5c7850-364a-4ed6-9d73-2d057a5d7cd6",
+          "name": "OK",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "production_meter_readings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "end_at",
+                  "value": "1473901755"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"system_id\": 66,\n  \"meter_readings\": [\n    {\n      \"serial_number\": \"123123123123EIM1\",\n      \"value\": 6180635,\n      \"read_at\": 1473901200\n    }\n  ],\n  \"meta\": {\n    \"status\": \"normal\",\n    \"last_report_at\": 1473902079,\n    \"last_energy_at\": 1473901200,\n    \"operational_at\": 1357023600\n  }\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "c1901b5f-99b4-437a-9b15-37a2d3902f10",
+          "name": "Client error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "production_meter_readings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "end_at",
+                  "value": "1473901755"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "3d733708-7b10-4e85-b3cd-b6ad394ef243",
+          "name": "Conflict",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "production_meter_readings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "end_at",
+                  "value": "1473901755"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Conflict",
+          "code": 409,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": [\n    \"string\",\n    \"string\"\n  ],\n  \"period\": \"hour\",\n  \"period_start\": 4870,\n  \"period_end\": 2821,\n  \"limit\": 3355\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "dc11b181-9995-48c2-b14e-dc9de5dadb86",
+          "name": "Unprocessable Entity",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "production_meter_readings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "end_at",
+                  "value": "1473901755"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+          "code": 422,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": \"string\",\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ],\n  \"start\": \"1990-08-12\",\n  \"end\": \"1961-05-27\",\n  \"start_at\": 6406,\n  \"end_at\": 4889,\n  \"first_interval\": 5583,\n  \"last_interval\": 9779\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "665e28b4-ea00-472e-9238-f1fb98039963",
+          "name": "Server error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "production_meter_readings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "end_at",
+                  "value": "1473901755"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errorCode\": 4133,\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "c405ad96-409e-458d-930a-296fab55b45f",
+          "name": "Server error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "production_meter_readings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "end_at",
+                  "value": "1473901755"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Service Unavailable",
+          "code": 503,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errorCode\": 4133,\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "42fe88b3-501f-4ca7-b7c4-d70d88437282",
+      "name": "Rgm Stats",
+      "request": {
+        "name": "Rgm Stats",
+        "description": {
+          "content": "Returns performance statistics as measured by the revenue-grade meters installed on the specified system. If the total duration requested is more than one month, returns one month of\nintervals. Intervals are 15 minutes in length and start at the top of the hour.\n\nRequests for times that do not fall on the 15-minute marks are rounded down. For example, a request for 08:01, 08:08, 08:11, or 08:14 is treated as a request for 08:00. Intervals are listed\nby their end dates; therefore, the first interval returned is 15 minutes after the requested start date.\n\nIf the system doesn't have any revenue-grade meters installed, the response includes an empty intervals array.\n\nUnder some conditions, data for a given period may be temporarily unavailable.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "systems",
+            ":system_id",
+            "rgm_stats"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "disabled": false,
+              "key": "user_id",
+              "value": "<string>",
+              "description": "(Required) "
+            },
+            {
+              "disabled": false,
+              "key": "start_at",
+              "value": "<long>",
+              "description": "Start of period to report on in Unix epoch time. If no start is specified, the assumed start is midnight today, in the timezone of the system. If the start is earlier than one year ago,\nthe response includes an empty intervals list. If the start is earlier than the system's `operational_date`, the response data begins with the first interval of the `operational_date`."
+            },
+            {
+              "disabled": false,
+              "key": "end_at",
+              "value": "<long>",
+              "description": "End of reporting period in Unix epoch time. If no end is specified, defaults to the time of the request. If the end is later than the last reported interval the response data ends with\nthe last reported interval."
+            }
+          ],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<integer>",
+              "key": "system_id",
+              "description": "(Required) "
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "6eadfdc1-4568-4ee0-be45-2f18d94b33d5",
+          "name": "OK",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "rgm_stats"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_at",
+                  "value": "1381474800"
+                },
+                {
+                  "key": "end_at",
+                  "value": "1381561200"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"system_id\": 2955,\n  \"total_devices\": 8086,\n  \"meta\": {\n    \"status\": \"normal\",\n    \"last_report_at\": 1445619615,\n    \"last_energy_at\": 1445619033,\n    \"operational_at\": 1357023600\n  },\n  \"intervals\": [\n    {\n      \"end_at\": 5739,\n      \"wh_del\": 4346,\n      \"devices_reporting\": 4899\n    },\n    {\n      \"end_at\": 6428,\n      \"wh_del\": 8346,\n      \"devices_reporting\": 3123\n    }\n  ],\n  \"meter_intervals\": [\n    {\n      \"meter_serial_number\": \"string\",\n      \"envoy_serial_number\": \"string\",\n      \"intervals\": [\n        {\n          \"channel\": 687,\n          \"end_at\": 1574,\n          \"wh_del\": 3218.9620567495303,\n          \"curr_w\": 3730\n        },\n        {\n          \"channel\": 5979,\n          \"end_at\": 5080,\n          \"wh_del\": 6367.5519145049275,\n          \"curr_w\": 7954\n        }\n      ]\n    },\n    {\n      \"meter_serial_number\": \"string\",\n      \"envoy_serial_number\": \"string\",\n      \"intervals\": [\n        {\n          \"channel\": 6250,\n          \"end_at\": 3037,\n          \"wh_del\": 5950.156853756261,\n          \"curr_w\": 8226\n        },\n        {\n          \"channel\": 7814,\n          \"end_at\": 8041,\n          \"wh_del\": 9466.125771441639,\n          \"curr_w\": 1802\n        }\n      ]\n    }\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "f18bf7e7-9887-4138-b49b-2d870fda0936",
+          "name": "Client error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "rgm_stats"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_at",
+                  "value": "1381474800"
+                },
+                {
+                  "key": "end_at",
+                  "value": "1381561200"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "8fcd82eb-d691-4610-9c91-0b8b36cd2671",
+          "name": "Conflict",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "rgm_stats"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_at",
+                  "value": "1381474800"
+                },
+                {
+                  "key": "end_at",
+                  "value": "1381561200"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Conflict",
+          "code": 409,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": [\n    \"string\",\n    \"string\"\n  ],\n  \"period\": \"hour\",\n  \"period_start\": 4870,\n  \"period_end\": 2821,\n  \"limit\": 3355\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "30762f2c-9037-4253-9fde-5e3ddeb036c6",
+          "name": "Unprocessable Entity",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "rgm_stats"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_at",
+                  "value": "1381474800"
+                },
+                {
+                  "key": "end_at",
+                  "value": "1381561200"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+          "code": 422,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": \"string\",\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ],\n  \"start\": \"1990-08-12\",\n  \"end\": \"1961-05-27\",\n  \"start_at\": 6406,\n  \"end_at\": 4889,\n  \"first_interval\": 5583,\n  \"last_interval\": 9779\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "8523eb1c-3a9e-4d1b-8b45-ba2937ab39ff",
+          "name": "Server error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "rgm_stats"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_at",
+                  "value": "1381474800"
+                },
+                {
+                  "key": "end_at",
+                  "value": "1381561200"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errorCode\": 4133,\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "ebf2f9d6-3eed-4de3-a5a7-43df3b0992e3",
+          "name": "Server error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "rgm_stats"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_at",
+                  "value": "1381474800"
+                },
+                {
+                  "key": "end_at",
+                  "value": "1381561200"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Service Unavailable",
+          "code": 503,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errorCode\": 4133,\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "27da52db-79f7-45ff-9eaf-b49b3773af1f",
+      "name": "Stats",
+      "request": {
+        "name": "Stats",
+        "description": {
+          "content": "Returns performance statistics for the specified system as reported by microinverters installed on the system. If the total duration requested is more than one day, returns one day of\nintervals. Intervals are 5 minutes in length and start at the top of the hour.\n\nRequests for times that do not fall on the 5-minute marks are rounded down. For example, a request for 08:01, 08:02, 08:03, or 08:04 is treated as a request for 08:00. Intervals are listed\nby their end dates; therefore, the first interval returned is 5 minutes after the requested start date.\n\nThe response includes intervals that have been reported for the requested period. Gaps in reporting are not filled with 0-value intervals. The dark hours on a system are an example of such a\ngap, because the microinverters do not produce at night.\n\nSometimes a request cannot be processed because the requested dates are invalid for the system in question. Examples include asking for stats starting at a time that is later than the\nsystem's last reported interval, or asking for stats before a system has started production. In cases such as these, the response code is `422` and the response body includes an error reason\nas well as the parameters used to process the request.\n\nIf the system doesn't have any microinverters installed, the response includes an empty intervals array. Under some conditions, data for a given period may be temporarily unavailable.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "systems",
+            ":system_id",
+            "stats"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "disabled": false,
+              "key": "user_id",
+              "value": "<string>",
+              "description": "(Required) "
+            },
+            {
+              "disabled": false,
+              "key": "start_at",
+              "value": "<long>",
+              "description": "Start of reporting period in Unix epoch time. If no start is specified, defaults to midnight today, in the timezone of the system. If the start date is earlier than one year ago today,\nthe response includes an empty intervals list. If the start is earlier than the system's `operational_date`, the response data begins with the `operational_date`."
+            },
+            {
+              "disabled": false,
+              "key": "end_at",
+              "value": "<long>",
+              "description": "End of reporting period in Unix epoch time. If no end is specified, the assumed end is now. If the end is later than the last reporting interval the response data ends with the last\nreported interval."
+            }
+          ],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<integer>",
+              "key": "system_id",
+              "description": "(Required) "
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "2189c8e3-6271-4ada-9963-a69192303f1e",
+          "name": "OK",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "stats"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_at",
+                  "value": "1381496100"
+                },
+                {
+                  "key": "end_at",
+                  "value": "1381497600"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"system_id\": 8942,\n  \"total_devices\": 6237,\n  \"meta\": {\n    \"status\": \"normal\",\n    \"last_report_at\": 1445619615,\n    \"last_energy_at\": 1445619033,\n    \"operational_at\": 1357023600\n  },\n  \"intervals\": [\n    {\n      \"end_at\": 922,\n      \"powr\": 5518,\n      \"enwh\": 9864,\n      \"devices_reporting\": 3391\n    },\n    {\n      \"end_at\": 8832,\n      \"powr\": 2098,\n      \"enwh\": 9,\n      \"devices_reporting\": 2142\n    }\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "f1568dfd-13b8-41c2-beb7-30cb5df4f402",
+          "name": "Client error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "stats"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_at",
+                  "value": "1381496100"
+                },
+                {
+                  "key": "end_at",
+                  "value": "1381497600"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "439eaf71-fd25-4ecf-89d1-82fd6898f0ac",
+          "name": "Conflict",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "stats"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_at",
+                  "value": "1381496100"
+                },
+                {
+                  "key": "end_at",
+                  "value": "1381497600"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Conflict",
+          "code": 409,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": [\n    \"string\",\n    \"string\"\n  ],\n  \"period\": \"hour\",\n  \"period_start\": 4870,\n  \"period_end\": 2821,\n  \"limit\": 3355\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "6f41faac-a354-46e6-a33e-8ac0b4b8af9e",
+          "name": "Unprocessable Entity",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "stats"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_at",
+                  "value": "1381496100"
+                },
+                {
+                  "key": "end_at",
+                  "value": "1381497600"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+          "code": 422,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": \"string\",\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ],\n  \"start\": \"1990-08-12\",\n  \"end\": \"1961-05-27\",\n  \"start_at\": 6406,\n  \"end_at\": 4889,\n  \"first_interval\": 5583,\n  \"last_interval\": 9779\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "21432681-3eb5-4379-ba3b-794f1c99d91c",
+          "name": "Server error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "stats"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_at",
+                  "value": "1381496100"
+                },
+                {
+                  "key": "end_at",
+                  "value": "1381497600"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errorCode\": 4133,\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "48cd2d17-7470-465a-94d9-d60b54ee5879",
+          "name": "Server error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "stats"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_at",
+                  "value": "1381496100"
+                },
+                {
+                  "key": "end_at",
+                  "value": "1381497600"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Service Unavailable",
+          "code": 503,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errorCode\": 4133,\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "6b75e155-b3e7-4a97-892e-38587662eb41",
+      "name": "Consumption Lifetime",
+      "request": {
+        "name": "Consumption Lifetime",
+        "description": {
+          "content": "Returns a time series of energy consumption as measured by the consumption meter installed on the specified system. All measurements are in Watt-hours. If the system does not have a meter,\nreturns `204` - No Content. If you don't have permission to view consumption data, the response code is `401`.\n\nThe time series includes one entry for each day from the `start_date` to the `end_date`. There are no gaps in the time series. If the response includes trailing zeroes, such as\n[909, 4970, 0, 0, 0], then no data has been reported for the last days in the series. You can check the system's status in the `meta` attribute of the response to determine when the system\nlast reported and whether it has communication or metering problems.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "systems",
+            ":system_id",
+            "consumption_lifetime"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "disabled": false,
+              "key": "user_id",
+              "value": "<string>",
+              "description": "(Required) "
+            },
+            {
+              "disabled": false,
+              "key": "start_date",
+              "value": "<date>",
+              "description": "The date on which to start the time series. Defaults to the system's operational date."
+            },
+            {
+              "disabled": false,
+              "key": "end_date",
+              "value": "<date>",
+              "description": "The last date to include in the time series. Defaults to yesterday or the last day the system reported, whichever is earlier."
+            }
+          ],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<integer>",
+              "key": "system_id",
+              "description": "(Required) "
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "2fe124bb-1675-4204-920b-7b7e784a734d",
+          "name": "OK",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "consumption_lifetime"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_date",
+                  "value": "2016-07-01"
+                },
+                {
+                  "key": "end_date",
+                  "value": "2016-07-31"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"start_date\": \"1968-02-21\",\n  \"consumption\": [\n    5919,\n    5313\n  ],\n  \"meta\": {\n    \"status\": \"normal\",\n    \"last_report_at\": 1445619615,\n    \"last_energy_at\": 1445619033,\n    \"operational_at\": 1357023600\n  },\n  \"system_id\": 8580\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "15905347-571b-4dc0-9ee4-b1327bcc7c0d",
+          "name": "Client error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "consumption_lifetime"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_date",
+                  "value": "2016-07-01"
+                },
+                {
+                  "key": "end_date",
+                  "value": "2016-07-31"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "f93706c2-6549-4d21-a908-afb12095cde3",
+          "name": "Conflict",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "consumption_lifetime"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_date",
+                  "value": "2016-07-01"
+                },
+                {
+                  "key": "end_date",
+                  "value": "2016-07-31"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Conflict",
+          "code": 409,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": [\n    \"string\",\n    \"string\"\n  ],\n  \"period\": \"hour\",\n  \"period_start\": 4870,\n  \"period_end\": 2821,\n  \"limit\": 3355\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "f86f8f1e-65c4-4359-81c7-33f07b979af3",
+          "name": "Unprocessable Entity",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "consumption_lifetime"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_date",
+                  "value": "2016-07-01"
+                },
+                {
+                  "key": "end_date",
+                  "value": "2016-07-31"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+          "code": 422,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": \"string\",\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ],\n  \"start\": \"1990-08-12\",\n  \"end\": \"1961-05-27\",\n  \"start_at\": 6406,\n  \"end_at\": 4889,\n  \"first_interval\": 5583,\n  \"last_interval\": 9779\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "44108221-c491-486a-9505-e5b10a42fd9a",
+          "name": "Server error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "consumption_lifetime"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_date",
+                  "value": "2016-07-01"
+                },
+                {
+                  "key": "end_date",
+                  "value": "2016-07-31"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errorCode\": 4133,\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "4205ab50-c2f1-472b-8b55-47fc67af092b",
+          "name": "Server error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "consumption_lifetime"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_date",
+                  "value": "2016-07-01"
+                },
+                {
+                  "key": "end_date",
+                  "value": "2016-07-31"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Service Unavailable",
+          "code": 503,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errorCode\": 4133,\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "1de29b37-95d1-46eb-8ce0-74e504ec4457",
+      "name": "Consumption Stats",
+      "request": {
+        "name": "Consumption Stats",
+        "description": {
+          "content": "Returns consumption as measured by the consumption meter installed on the specified system. If the total duration requested is more than one month, returns one month of intervals. Intervals\nare 15 minutes in length and start at the top of the hour.\n\nRequests for times that do not fall on the 15-minute marks are rounded down. For example, a request for 08:01, 08:08, 08:11, or 08:14 is treated as a request for 08:00. Intervals are listed\nby their end dates; therefore, the first interval returned is 15 minutes after the requested start date.\n\nIf the system doesn't have any consumption meters installed, the response includes an empty intervals array.\n\nIf you don't have permission to view consumption data, the response code is `401`.\n\nUnder some conditions, data for a given period may be temporarily unavailable.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "systems",
+            ":system_id",
+            "consumption_stats"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "disabled": false,
+              "key": "user_id",
+              "value": "<string>",
+              "description": "(Required) "
+            },
+            {
+              "disabled": false,
+              "key": "start_at",
+              "value": "<long>",
+              "description": "Start of period to report on in Unix epoch time. If no start is specified, the assumed start is midnight today, in the timezone of the system. If the start is earlier than one year ago,\nthe response includes an empty intervals list. If the start is earlier than the system's `operational_date`, the response data begins with the first interval of the `operational_date`."
+            },
+            {
+              "disabled": false,
+              "key": "end_at",
+              "value": "<long>",
+              "description": "End of reporting period in Unix epoch time. If no end is specified, defaults to the time of the request. If the end is later than the last reported interval the response data ends with\nthe last reported interval."
+            }
+          ],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<integer>",
+              "key": "system_id",
+              "description": "(Required) "
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "8abd782f-e1b8-4866-b876-0fbf112610d7",
+          "name": "OK",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "consumption_stats"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_at",
+                  "value": "1448946000"
+                },
+                {
+                  "key": "end_at",
+                  "value": "1449011615"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"system_id\": 1056,\n  \"total_devices\": 3479,\n  \"meta\": {\n    \"status\": \"normal\",\n    \"last_report_at\": 1445619615,\n    \"last_energy_at\": 1445619033,\n    \"operational_at\": 1357023600\n  },\n  \"intervals\": [\n    {\n      \"end_at\": 4804,\n      \"enwh\": 6029,\n      \"devices_reporting\": 8972\n    },\n    {\n      \"end_at\": 7387,\n      \"enwh\": 5618,\n      \"devices_reporting\": 2698\n    }\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "b0730577-d770-4702-b110-50373bfc017b",
+          "name": "Client error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "consumption_stats"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_at",
+                  "value": "1448946000"
+                },
+                {
+                  "key": "end_at",
+                  "value": "1449011615"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "eee9bdd3-8d96-4aea-97a4-f12df885758f",
+          "name": "Conflict",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "consumption_stats"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_at",
+                  "value": "1448946000"
+                },
+                {
+                  "key": "end_at",
+                  "value": "1449011615"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Conflict",
+          "code": 409,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": [\n    \"string\",\n    \"string\"\n  ],\n  \"period\": \"hour\",\n  \"period_start\": 4870,\n  \"period_end\": 2821,\n  \"limit\": 3355\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "b8f7c245-5816-41e2-b5b1-b6fdacfa2ff5",
+          "name": "Unprocessable Entity",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "consumption_stats"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_at",
+                  "value": "1448946000"
+                },
+                {
+                  "key": "end_at",
+                  "value": "1449011615"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+          "code": 422,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": \"string\",\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ],\n  \"start\": \"1990-08-12\",\n  \"end\": \"1961-05-27\",\n  \"start_at\": 6406,\n  \"end_at\": 4889,\n  \"first_interval\": 5583,\n  \"last_interval\": 9779\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "4d855ee6-620c-4624-af00-20e6239d010c",
+          "name": "Server error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "consumption_stats"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_at",
+                  "value": "1448946000"
+                },
+                {
+                  "key": "end_at",
+                  "value": "1449011615"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errorCode\": 4133,\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "d3a8c6d9-6e80-4a12-9fbe-19930e6247a3",
+          "name": "Server error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "consumption_stats"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "start_at",
+                  "value": "1448946000"
+                },
+                {
+                  "key": "end_at",
+                  "value": "1449011615"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Service Unavailable",
+          "code": 503,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errorCode\": 4133,\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "4203449b-f7d4-48cf-9897-495c810c0ce5",
+      "name": "Summary",
+      "request": {
+        "name": "Summary",
+        "description": {
+          "content": "Returns summary information for the specified system.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "systems",
+            ":system_id",
+            "summary"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "disabled": false,
+              "key": "user_id",
+              "value": "<string>",
+              "description": "(Required) "
+            },
+            {
+              "disabled": false,
+              "key": "summary_date",
+              "value": "<date>",
+              "description": "Start of reporting period. If no `summary_date` is provided, the start is the current day at midnight site-local time. Otherwise, the start is midnight site-local time of the requested\nday. If the requested date cannot be parsed or is in the future, the response includes an informative error message and `422` status."
+            }
+          ],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<integer>",
+              "key": "system_id",
+              "description": "(Required) "
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "7fccb307-20a9-4648-a6dc-d9748f102120",
+          "name": "OK",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "summary"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "summary_date",
+                  "value": "2010-09-17"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"current_power\": 3322,\n  \"energy_lifetime\": 19050353,\n  \"energy_today\": 25639,\n  \"last_interval_end_at\": 1380632400,\n  \"last_report_at\": 1380632791,\n  \"modules\": 31,\n  \"operational_at\": 1201362300,\n  \"size_w\": 5250,\n  \"source\": \"microinverters\",\n  \"status\": \"normal\",\n  \"summary_date\": \"2014-01-06\",\n  \"system_id\": 123\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "78558788-a33f-41da-9d4a-8a505a71ada0",
+          "name": "Client error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "summary"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "summary_date",
+                  "value": "2010-09-17"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "4cf9c645-4a43-4088-b440-f9b3cc1ef649",
+          "name": "Conflict",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "summary"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "summary_date",
+                  "value": "2010-09-17"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Conflict",
+          "code": 409,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": [\n    \"string\",\n    \"string\"\n  ],\n  \"period\": \"hour\",\n  \"period_start\": 4870,\n  \"period_end\": 2821,\n  \"limit\": 3355\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "fd562f43-0ba6-4273-b602-73f872425ed7",
+          "name": "Unprocessable Entity",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "summary"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "summary_date",
+                  "value": "2010-09-17"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+          "code": 422,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": \"string\",\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ],\n  \"start\": \"1990-08-12\",\n  \"end\": \"1961-05-27\",\n  \"start_at\": 6406,\n  \"end_at\": 4889,\n  \"first_interval\": 5583,\n  \"last_interval\": 9779\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "3f06272e-1112-4e3c-a288-1272b6ee4040",
+          "name": "Server error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "summary"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "summary_date",
+                  "value": "2010-09-17"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errorCode\": 4133,\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "12253df8-75cb-45ee-a7c3-a7bafaef6daf",
+          "name": "Server error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                ":system_id",
+                "summary"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "summary_date",
+                  "value": "2010-09-17"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "system_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Service Unavailable",
+          "code": 503,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errorCode\": 4133,\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "d72a4097-d606-44fa-80ba-58eb49a88fa9",
+      "name": "Search System Id",
+      "request": {
+        "name": "Search System Id",
+        "description": {
+          "content": "Get system ID by envoy serial number.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "systems",
+            "search_system_id"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "disabled": false,
+              "key": "user_id",
+              "value": "<string>",
+              "description": "(Required) "
+            },
+            {
+              "disabled": false,
+              "key": "serial_num",
+              "value": "<string>",
+              "description": "(Required) Serial number of the envoy."
+            }
+          ],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "0303e48a-822a-446d-a401-a2d6a100cea9",
+          "name": "OK",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                "search_system_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "serial_num",
+                  "value": "23435345345"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"system_id\": 123\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "c17be0ec-daf1-4b7d-91c7-e01cc12931ca",
+          "name": "Client error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                "search_system_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "serial_num",
+                  "value": "23435345345"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "b48af949-0136-404c-b27c-ab350c4fc5e4",
+          "name": "Not Found",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                "search_system_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "serial_num",
+                  "value": "23435345345"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Not Found",
+          "code": 404,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": [\n    \"string\",\n    \"string\"\n  ],\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "633a15d4-7c30-478b-b9dd-4b7ca8a349fc",
+          "name": "Conflict",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                "search_system_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "serial_num",
+                  "value": "23435345345"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Conflict",
+          "code": 409,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": [\n    \"string\",\n    \"string\"\n  ],\n  \"period\": \"hour\",\n  \"period_start\": 4870,\n  \"period_end\": 2821,\n  \"limit\": 3355\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "16bce314-deac-4ffe-8088-d333de37e0f5",
+          "name": "Unprocessable Entity",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                "search_system_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "serial_num",
+                  "value": "23435345345"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+          "code": 422,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"reason\": \"string\",\n  \"message\": \"string\",\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ],\n  \"start\": \"1990-08-12\",\n  \"end\": \"1961-05-27\",\n  \"start_at\": 6406,\n  \"end_at\": 4889,\n  \"first_interval\": 5583,\n  \"last_interval\": 9779\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "58e47579-4b1a-4e68-8401-3eef250cd3d7",
+          "name": "Server error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                "search_system_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "serial_num",
+                  "value": "23435345345"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errorCode\": 4133,\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "fe32dfc3-29a0-4b6f-b60f-db6ec9de3a3b",
+          "name": "Server error",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "systems",
+                "search_system_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4d6a51330a"
+                },
+                {
+                  "key": "serial_num",
+                  "value": "23435345345"
+                },
+                {
+                  "key": "key",
+                  "value": "<API Key>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Service Unavailable",
+          "code": 503,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errorCode\": 4133,\n  \"errorMessages\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.enphaseenergy.com/api/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "71b5eae3-4def-411b-b7af-b7891177d5ed",
+    "name": "The Enlighten Systems API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Enlighten Systems API is a JSON-based API that provides access to performance data for a PV system. By using the Enlighten Systems API, you agree to the Enphase Energy API License Agreement.\n\nPlease note that the Enlighten Systems API does not provide performance data at a panel or microinverter level.",
+      "type": "text/plain"
+    }
+  }
+}

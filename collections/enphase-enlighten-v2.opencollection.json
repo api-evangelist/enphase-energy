@@ -1,0 +1,467 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "The Enlighten Systems API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "key",
+      "value": "{{key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "EnergyLifetime",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api.enphaseenergy.com/api/v2/systems/:system_id/energy_lifetime",
+        "params": [
+          {
+            "name": "user_id",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "system_id",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "start_date",
+            "value": "",
+            "type": "query",
+            "description": "The date on which to start the time series. Defaults to the system's operational date."
+          },
+          {
+            "name": "end_date",
+            "value": "",
+            "type": "query",
+            "description": "The last date to include in the time series. Defaults to yesterday or the last day the system reported, whichever is earlier."
+          },
+          {
+            "name": "production",
+            "value": "",
+            "type": "query",
+            "description": "When `all`, returns the merged time series plus the time series as reported by the microinverters and the meter on the system. Other values are ignored."
+          }
+        ]
+      },
+      "docs": "Returns a time series of energy produced on the system over its lifetime. All measurements are in Watt-hours.\n\nThe time series includes one entry for each day from the `start_date` to the `end_date`. There are no gaps in the time series. If the response includes trailing zeroes, such as\n`[909, 4970, 0, 0, 0]`, then no energy has been reported for the last days in the series. You can check the system's status in the `meta` attribute of the response to determine when the\nsystem last reported and w"
+    },
+    {
+      "info": {
+        "name": "Envoys",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api.enphaseenergy.com/api/v2/systems/:system_id/envoys",
+        "params": [
+          {
+            "name": "user_id",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "system_id",
+            "value": "",
+            "type": "path"
+          }
+        ]
+      },
+      "docs": "Returns a listing of all active Envoys currently deployed on the system."
+    },
+    {
+      "info": {
+        "name": "Systems",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api.enphaseenergy.com/api/v2/systems",
+        "params": [
+          {
+            "name": "user_id",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "next",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "limit",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "system_id",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "system_id[]",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "system_name",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "system_name[]",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "status",
+            "value": "power",
+            "type": "query"
+          },
+          {
+            "name": "status[]",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "reference",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "reference[]",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "installer",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "installer[]",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "connection_type",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "connection_type[]",
+            "value": "",
+            "type": "query"
+          }
+        ]
+      },
+      "docs": "Returns a list of systems for which the user can make API requests. There is a limit to the number of systems that can be returned at one time. If the first request does not return a full\nlist, use the `next` attribute in the response body to request the next page of systems. By default, systems are returned in batches of 100. The maximum page size is 1000."
+    },
+    {
+      "info": {
+        "name": "Inventory",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api.enphaseenergy.com/api/v2/systems/:system_id/inventory",
+        "params": [
+          {
+            "name": "user_id",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "system_id",
+            "value": "",
+            "type": "path"
+          }
+        ]
+      },
+      "docs": "Returns a listing of active devices on the given system. A device is considered active if it has not been retired in Enlighten. \"Active\" does not imply that the device is currently\nreporting, producing, or measuring energy."
+    },
+    {
+      "info": {
+        "name": "InvertersSummaryByEnvoyOrSite",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api.enphaseenergy.com/api/v2/systems/inverters_summary_by_envoy_or_site",
+        "params": [
+          {
+            "name": "user_id",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "site_id",
+            "value": "",
+            "type": "query",
+            "description": "The identifier of the system."
+          }
+        ]
+      },
+      "docs": "Returns the summary along with the energy produced on the system over its lifetime."
+    },
+    {
+      "info": {
+        "name": "MonthlyProduction",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api.enphaseenergy.com/api/v2/systems/:system_id/monthly_production",
+        "params": [
+          {
+            "name": "user_id",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "system_id",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "start_date",
+            "value": "",
+            "type": "query",
+            "description": "Start date for reporting period. The reporting period ends on the previous day of the next month; for example, a `start_date` of 2011-07-20 returns data through 2011-06-19. When the\nstart date is the first of a calendar month, the end date is the last day of that month."
+          }
+        ]
+      },
+      "docs": "This endpoint is deprecated and will be removed in a future release. Use `production_meter_readings` or `energy_lifetime` instead.\n\nReturns the energy production of the system for the month starting on the given date. The start date must be at least one month ago. If a meter or meters are installed on the system,\nmeasurements come from the meter; otherwise, measurements come from the microinverters.\n\nThis endpoint can return a response of Data Temporarily Unavailable."
+    },
+    {
+      "info": {
+        "name": "ProductionMeterReadings",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api.enphaseenergy.com/api/v2/systems/:system_id/production_meter_readings",
+        "params": [
+          {
+            "name": "user_id",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "system_id",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "end_at",
+            "value": "",
+            "type": "query"
+          }
+        ]
+      },
+      "docs": "Returns the last known \"odometer\" reading of each revenue-grade production meter on the system as of the requested time.\n\nThis endpoint includes entries for every production meter on the requested system, regardless of whether the meter is currently in service or retired. `read_at` is the time at which the\nreading was taken, and is always less than or equal to the requested `end_at`. Commonly, the reading will be within 30 minutes of the requested `end_at`; however, larger deltas can occur and\nd"
+    },
+    {
+      "info": {
+        "name": "RgmStats",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api.enphaseenergy.com/api/v2/systems/:system_id/rgm_stats",
+        "params": [
+          {
+            "name": "user_id",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "system_id",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "start_at",
+            "value": "",
+            "type": "query",
+            "description": "Start of period to report on in Unix epoch time. If no start is specified, the assumed start is midnight today, in the timezone of the system. If the start is earlier than one year ago,\nthe response includes an empty intervals list. If the start is earlier than the system's `operational_date`, the response data begins with the first interval of the `operational_date`."
+          },
+          {
+            "name": "end_at",
+            "value": "",
+            "type": "query",
+            "description": "End of reporting period in Unix epoch time. If no end is specified, defaults to the time of the request. If the end is later than the last reported interval the response data ends with\nthe last reported interval."
+          }
+        ]
+      },
+      "docs": "Returns performance statistics as measured by the revenue-grade meters installed on the specified system. If the total duration requested is more than one month, returns one month of\nintervals. Intervals are 15 minutes in length and start at the top of the hour.\n\nRequests for times that do not fall on the 15-minute marks are rounded down. For example, a request for 08:01, 08:08, 08:11, or 08:14 is treated as a request for 08:00. Intervals are listed\nby their end dates; therefore, the first inter"
+    },
+    {
+      "info": {
+        "name": "Stats",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api.enphaseenergy.com/api/v2/systems/:system_id/stats",
+        "params": [
+          {
+            "name": "user_id",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "system_id",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "start_at",
+            "value": "",
+            "type": "query",
+            "description": "Start of reporting period in Unix epoch time. If no start is specified, defaults to midnight today, in the timezone of the system. If the start date is earlier than one year ago today,\nthe response includes an empty intervals list. If the start is earlier than the system's `operational_date`, the response data begins with the `operational_date`."
+          },
+          {
+            "name": "end_at",
+            "value": "",
+            "type": "query",
+            "description": "End of reporting period in Unix epoch time. If no end is specified, the assumed end is now. If the end is later than the last reporting interval the response data ends with the last\nreported interval."
+          }
+        ]
+      },
+      "docs": "Returns performance statistics for the specified system as reported by microinverters installed on the system. If the total duration requested is more than one day, returns one day of\nintervals. Intervals are 5 minutes in length and start at the top of the hour.\n\nRequests for times that do not fall on the 5-minute marks are rounded down. For example, a request for 08:01, 08:02, 08:03, or 08:04 is treated as a request for 08:00. Intervals are listed\nby their end dates; therefore, the first interv"
+    },
+    {
+      "info": {
+        "name": "ConsumptionLifetime",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api.enphaseenergy.com/api/v2/systems/:system_id/consumption_lifetime",
+        "params": [
+          {
+            "name": "user_id",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "system_id",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "start_date",
+            "value": "",
+            "type": "query",
+            "description": "The date on which to start the time series. Defaults to the system's operational date."
+          },
+          {
+            "name": "end_date",
+            "value": "",
+            "type": "query",
+            "description": "The last date to include in the time series. Defaults to yesterday or the last day the system reported, whichever is earlier."
+          }
+        ]
+      },
+      "docs": "Returns a time series of energy consumption as measured by the consumption meter installed on the specified system. All measurements are in Watt-hours. If the system does not have a meter,\nreturns `204` - No Content. If you don't have permission to view consumption data, the response code is `401`.\n\nThe time series includes one entry for each day from the `start_date` to the `end_date`. There are no gaps in the time series. If the response includes trailing zeroes, such as\n[909, 4970, 0, 0, 0], "
+    },
+    {
+      "info": {
+        "name": "ConsumptionStats",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api.enphaseenergy.com/api/v2/systems/:system_id/consumption_stats",
+        "params": [
+          {
+            "name": "user_id",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "system_id",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "start_at",
+            "value": "",
+            "type": "query",
+            "description": "Start of period to report on in Unix epoch time. If no start is specified, the assumed start is midnight today, in the timezone of the system. If the start is earlier than one year ago,\nthe response includes an empty intervals list. If the start is earlier than the system's `operational_date`, the response data begins with the first interval of the `operational_date`."
+          },
+          {
+            "name": "end_at",
+            "value": "",
+            "type": "query",
+            "description": "End of reporting period in Unix epoch time. If no end is specified, defaults to the time of the request. If the end is later than the last reported interval the response data ends with\nthe last reported interval."
+          }
+        ]
+      },
+      "docs": "Returns consumption as measured by the consumption meter installed on the specified system. If the total duration requested is more than one month, returns one month of intervals. Intervals\nare 15 minutes in length and start at the top of the hour.\n\nRequests for times that do not fall on the 15-minute marks are rounded down. For example, a request for 08:01, 08:08, 08:11, or 08:14 is treated as a request for 08:00. Intervals are listed\nby their end dates; therefore, the first interval returned i"
+    },
+    {
+      "info": {
+        "name": "Summary",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api.enphaseenergy.com/api/v2/systems/:system_id/summary",
+        "params": [
+          {
+            "name": "user_id",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "system_id",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "summary_date",
+            "value": "",
+            "type": "query",
+            "description": "Start of reporting period. If no `summary_date` is provided, the start is the current day at midnight site-local time. Otherwise, the start is midnight site-local time of the requested\nday. If the requested date cannot be parsed or is in the future, the response includes an informative error message and `422` status."
+          }
+        ]
+      },
+      "docs": "Returns summary information for the specified system."
+    },
+    {
+      "info": {
+        "name": "SearchSystemId",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api.enphaseenergy.com/api/v2/systems/search_system_id",
+        "params": [
+          {
+            "name": "user_id",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "serial_num",
+            "value": "",
+            "type": "query",
+            "description": "Serial number of the envoy."
+          }
+        ]
+      },
+      "docs": "Get system ID by envoy serial number."
+    }
+  ],
+  "bundled": true
+}
