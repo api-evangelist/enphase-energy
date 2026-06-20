@@ -11,7 +11,7 @@ description: >
   The Enlighten API v4 launched in February 2022, replacing legacy v2 with microinverter-level
   telemetry, battery-level data, and fine-grained access controls for installers and partners.
 type: Index
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 url: https://raw.githubusercontent.com/api-evangelist/enphase-energy/refs/heads/main/apis.yml
 created: 2026-06-13
 modified: 2026-06-13
@@ -42,7 +42,7 @@ apis:
       telemetry, IQ Battery telemetry and settings, Storm Guard, grid status, load control, live data
       streaming, and IQ EV charger session data. Access tokens are valid for 24 hours and refresh
       tokens for 30 days; all requests require an application API key in addition to the bearer token.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://developer-v4.enphase.com/
     baseURL: https://api.enphaseenergy.com/api/v4
     tags:
@@ -68,7 +68,7 @@ apis:
       activation creation and updates, company and user management, tariff and rate plan updates, and
       other administrative controls used to streamline Enlighten activation workflows from field
       tools. OAuth 2.0 authorization with the same authorize/token endpoints as the Monitoring API.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://developer-v4.enphase.com/
     baseURL: https://api.enphaseenergy.com/api/v4
     tags:
@@ -89,7 +89,7 @@ apis:
       VPPs that monitor, forecast, and control large fleets of distributed energy resources (DERs)
       including PV systems, batteries, EV chargers, heat pumps, and HVAC units. The API enables
       demand response programs and grid services across Enphase-connected homes and businesses.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://developer-v4.enphase.com/
     baseURL: https://api.enphaseenergy.com/api/v4
     tags:
