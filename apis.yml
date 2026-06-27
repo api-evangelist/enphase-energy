@@ -127,7 +127,7 @@ common:
     url: https://developer-v4.enphase.com/docs/release_notes
   - type: Support
     url: https://developer-v4.enphase.com/docs/support
-  - type: SignUp
+  - type: Signup
     url: https://developer-v4.enphase.com/signup
   - type: TermsOfService
     url: https://enphase.com/api-license-agreement-v4

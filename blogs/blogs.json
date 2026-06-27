@@ -2,17 +2,20 @@
   "repo": "enphase-energy",
   "feeds": [
     {
-      "source": "https://enphase.com/blog",
+      "source": "https://enphase.com/taxonomy/term/105/feed",
       "feed_url": "https://enphase.com/taxonomy/term/105/feed",
       "title": "",
       "saved": 0,
-      "method": "discovered"
+      "method": "feed"
     },
     {
       "source": "https://www.linkedin.com/company/enphase-energy",
-      "error": "HTTPError"
+      "feed_url": "https://www.linkedin.com/company/enphase-energy",
+      "title": "",
+      "saved": 0,
+      "method": "none"
     }
   ],
   "post_count": 0,
-  "fetched": "2026-06-14T20:42:17Z"
+  "fetched": "2026-06-27T12:03:07Z"
 }
