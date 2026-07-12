@@ -103,6 +103,10 @@ apis:
         url: https://developer-v4.enphase.com/docs/quickstart.html
 
 common:
+  - type: DomainSecurity
+    url: security/enphase-energy-domain-security.yml
+  - type: Authentication
+    url: authentication/enphase-energy-authentication.yml
   - type: Website
     url: https://enphase.com
   - type: Documentation

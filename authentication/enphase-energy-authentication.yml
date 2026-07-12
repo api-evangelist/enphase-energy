@@ -1,0 +1,31 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/enphase-enlighten-v2-openapi.yml, openapi/enphase-enlighten-v4-monitoring-openapi.yml
+summary:
+  types:
+  - apiKey
+  - http
+  api_key_in:
+  - header
+  - query
+schemes:
+- name: ApiKey
+  type: apiKey
+  in: query
+  parameter: key
+  sources:
+  - openapi/enphase-enlighten-v2-openapi.yml
+- name: oauth2
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  description: OAuth 2.0 bearer token obtained from Enphase authorization server.
+  sources:
+  - openapi/enphase-enlighten-v4-monitoring-openapi.yml
+- name: apiKey
+  type: apiKey
+  in: header
+  parameter: key
+  description: API key associated with your Enphase developer application.
+  sources:
+  - openapi/enphase-enlighten-v4-monitoring-openapi.yml
