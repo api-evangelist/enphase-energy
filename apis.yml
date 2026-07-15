@@ -103,6 +103,8 @@ apis:
         url: https://developer-v4.enphase.com/docs/quickstart.html
 
 common:
+  - type: AgenticAccess
+    url: agentic-access/enphase-energy-agentic-access.yml
   - type: DomainSecurity
     url: security/enphase-energy-domain-security.yml
   - type: Authentication

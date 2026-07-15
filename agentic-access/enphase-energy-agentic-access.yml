@@ -1,0 +1,613 @@
+generated: '2026-07-15'
+method: generated
+source: openapi/enphase-enlighten-v2-openapi.yml, openapi/enphase-enlighten-v4-monitoring-openapi.yml
+description: Recommended x-agentic-access execution contracts, classified heuristically from
+  the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
+  audience per deployment. See research/curity/agentic-governance/.
+summary:
+  operations: 56
+  by_action_class:
+    connected: 50
+    acting: 6
+  by_consequence:
+    read: 50
+    write: 3
+    safety-critical: 3
+  human_in_the_loop_required: 3
+operations:
+- path: /systems/{system_id}/energy_lifetime
+  method: get
+  operationId: EnergyLifetime
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /systems/{system_id}/envoys
+  method: get
+  operationId: Envoys
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /systems
+  method: get
+  operationId: Systems
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /systems/{system_id}/inventory
+  method: get
+  operationId: Inventory
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /systems/inverters_summary_by_envoy_or_site
+  method: get
+  operationId: InvertersSummaryByEnvoyOrSite
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /systems/{system_id}/monthly_production
+  method: get
+  operationId: MonthlyProduction
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /systems/{system_id}/production_meter_readings
+  method: get
+  operationId: ProductionMeterReadings
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /systems/{system_id}/rgm_stats
+  method: get
+  operationId: RgmStats
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /systems/{system_id}/stats
+  method: get
+  operationId: Stats
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /systems/{system_id}/consumption_lifetime
+  method: get
+  operationId: ConsumptionLifetime
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /systems/{system_id}/consumption_stats
+  method: get
+  operationId: ConsumptionStats
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /systems/{system_id}/summary
+  method: get
+  operationId: Summary
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /systems/search_system_id
+  method: get
+  operationId: SearchSystemId
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems
+  method: get
+  operationId: listSystems
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/search
+  method: post
+  operationId: searchSystems
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/v4/systems/{system_id}
+  method: get
+  operationId: getSystemById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/{system_id}/summary
+  method: get
+  operationId: getSystemSummary
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/{system_id}/devices
+  method: get
+  operationId: listSystemDevices
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/retrieve_system_id
+  method: get
+  operationId: retrieveSystemId
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/{system_id}/events
+  method: get
+  operationId: listSystemEvents
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/{system_id}/alarms
+  method: get
+  operationId: listSystemAlarms
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/event_types
+  method: get
+  operationId: listEventTypes
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/{system_id}/production_meter_readings
+  method: get
+  operationId: getProductionMeterReadings
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/{system_id}/rgm_stats
+  method: get
+  operationId: getRgmStats
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/{system_id}/consumption_lifetime
+  method: get
+  operationId: getConsumptionLifetime
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/{system_id}/energy_lifetime
+  method: get
+  operationId: getEnergyLifetime
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/{system_id}/battery_lifetime
+  method: get
+  operationId: getBatteryLifetime
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/{system_id}/energy_import_lifetime
+  method: get
+  operationId: getEnergyImportLifetime
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/{system_id}/energy_export_lifetime
+  method: get
+  operationId: getEnergyExportLifetime
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/inverters_summary_by_envoy_or_site
+  method: get
+  operationId: getInvertersSummary
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/{system_id}/telemetry/production_micro
+  method: get
+  operationId: getProductionMicroTelemetry
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/{system_id}/telemetry/production_meter
+  method: get
+  operationId: getProductionMeterTelemetry
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/{system_id}/telemetry/battery
+  method: get
+  operationId: getBatteryTelemetry
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/{system_id}/telemetry/consumption_meter
+  method: get
+  operationId: getConsumptionMeterTelemetry
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/{system_id}/devices/micros/{serial_no}/telemetry
+  method: get
+  operationId: getMicroTelemetry
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/{system_id}/devices/acbs/{serial_no}/telemetry
+  method: get
+  operationId: getAcbTelemetry
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/{system_id}/devices/encharges/{serial_no}/telemetry
+  method: get
+  operationId: getEnchargeTelemetry
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/config/{system_id}/battery_settings
+  method: get
+  operationId: getSystemBatterySettings
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/config/{system_id}/battery_settings
+  method: put
+  operationId: updateSystemBatterySettings
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/v4/systems/config/{system_id}/storm_guard
+  method: get
+  operationId: getSystemStormGuard
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/config/{system_id}/storm_guard
+  method: put
+  operationId: updateSystemStormGuard
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/v4/systems/config/{system_id}/grid_status
+  method: get
+  operationId: getSystemGridStatus
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/config/{system_id}/load_control
+  method: get
+  operationId: getSystemLoadControl
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/config/{system_id}/load_control
+  method: put
+  operationId: updateSystemLoadControl
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/v4/systems/{system_id}/energy_import_telemetry
+  method: get
+  operationId: getEnergyImportTelemetry
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/{system_id}/energy_export_telemetry
+  method: get
+  operationId: getEnergyExportTelemetry
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/{system_id}/live_data
+  method: get
+  operationId: getLiveData
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/{system_id}/latest_telemetry
+  method: get
+  operationId: getLatestSystemTelemetry
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/{system_id}/ev_charger/devices
+  method: get
+  operationId: fetchChargersSummary
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/{system_id}/ev_charger/events
+  method: get
+  operationId: fetchEvents
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/{system_id}/ev_charger/{serial_no}/sessions
+  method: get
+  operationId: fetchChargerSessionHistory
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/{system_id}/ev_charger/{serial_no}/schedules
+  method: get
+  operationId: fetchSchedules
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/{system_id}/ev_charger/{serial_no}/lifetime
+  method: get
+  operationId: fetchDailyEnergyConsumptionData
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/{system_id}/ev_charger/{serial_no}/telemetry
+  method: get
+  operationId: fetchEnergyConsumptionData
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v4/systems/{system_id}/ev_charger/{serial_no}/start_charging
+  method: post
+  operationId: startCharging
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/v4/systems/{system_id}/ev_charger/{serial_no}/stop_charging
+  method: post
+  operationId: stopCharging
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
