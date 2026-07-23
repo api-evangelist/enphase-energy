@@ -1,0 +1,1371 @@
+openapi: 3.0.0
+info:
+  title: The Enlighten Systems Device Level Production Monitoring EV Charger Monitoring API
+  description: 'The Enlighten Systems API is a JSON-based API that provides access to performance data for a PV system. By using the Enlighten Systems API, you agree to the Enphase Energy API License Agreement.
+
+
+    Please note that the Enlighten Systems API does not provide performance data at a panel or microinverter level.'
+  version: '2.0'
+  termsOfService: https://developer.enphase.com/docs#Display-Requirements
+  license:
+    name: Enphase API License Agreement
+    url: https://www.enphase.com/en-us/legal/api-license-agreement
+servers:
+- url: https://api.enphaseenergy.com/api/v2
+security:
+- ApiKey: []
+tags:
+- name: EV Charger Monitoring
+paths:
+  /api/v4/systems/{system_id}/ev_charger/devices:
+    get:
+      tags:
+      - EV Charger Monitoring
+      summary: Fetch active chargers for a system
+      description: API to fetch all active EV Chargers for a system
+      operationId: fetchChargersSummary
+      parameters:
+      - name: system_id
+        in: path
+        description: The unique numeric ID of the system
+        required: true
+        example: 698989834
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Active chargers
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ChargerSummaryResponse'
+        '400':
+          description: Invalid system_id
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                response:
+                  value:
+                    message: Bad request
+                    code: '400'
+                    details: Invalid system_id
+        '401':
+          description: Unauthorised
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                response:
+                  value:
+                    message: Not Authorized
+                    code: '401'
+                    details: User is not authorized
+        '403':
+          description: Forbidden
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                response:
+                  value:
+                    message: Forbidden
+                    code: '403'
+                    details: Not authorized to access this resource
+        '405':
+          description: Method Not Allowed
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseArray'
+        '500':
+          description: Internal Server Error
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                response:
+                  value:
+                    message: Internal Server Error
+                    code: '500'
+                    details: Internal Server Error
+  /api/v4/systems/{system_id}/ev_charger/events:
+    get:
+      tags:
+      - EV Charger Monitoring
+      summary: Fetch events
+      description: API to fetch all the events related to EV Charger
+      operationId: fetchEvents
+      parameters:
+      - name: system_id
+        in: path
+        description: The unique numeric ID of the system
+        required: true
+        example: 701052773
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: serial_num
+        in: query
+        description: Serial Number of the EV Charger
+        required: false
+        example: 202312100006
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 20
+      responses:
+        '200':
+          description: List of events
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/EVEventsResponse'
+        '400':
+          description: Possible Bad request reasons
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDetailArray'
+              examples:
+                response:
+                  value:
+                    message: Bad request
+                    code: '400'
+                    details:
+                    - Invalid system_id
+                    - Invalid offset/limit
+        '401':
+          description: Unauthorised
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                response:
+                  value:
+                    message: Not Authorized
+                    code: '401'
+                    details: User is not authorized
+        '403':
+          description: Forbidden
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                response:
+                  value:
+                    message: Forbidden
+                    code: '403'
+                    details: Not authorized to access this resource
+        '405':
+          description: Method Not Allowed
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseArray'
+        '500':
+          description: Internal Server Error
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                response:
+                  value:
+                    message: Internal Server Error
+                    code: '500'
+                    details: Internal Server Error
+  /api/v4/systems/{system_id}/ev_charger/{serial_no}/sessions:
+    get:
+      tags:
+      - EV Charger Monitoring
+      summary: Charger session history
+      description: Get list of sessions for a single EV Charger
+      operationId: fetchChargerSessionHistory
+      parameters:
+      - name: system_id
+        in: path
+        required: true
+        example: 698989834
+        schema:
+          type: integer
+          format: int32
+      - name: serial_no
+        in: path
+        required: true
+        example: 202320010308
+        schema:
+          type: string
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 20
+      responses:
+        '200':
+          description: Charger sessions list
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ChargeSessionDetailsResponse'
+        '400':
+          description: Possible Bad request reasons
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDetailArray'
+              examples:
+                response:
+                  value:
+                    message: Bad request
+                    code: '400'
+                    details:
+                    - Invalid system_id or serial_no
+                    - Invalid offset/limit
+        '401':
+          description: Unauthorised
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                response:
+                  value:
+                    message: Not Authorized
+                    code: '401'
+                    details: User is not authorized
+        '403':
+          description: Forbidden
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                response:
+                  value:
+                    message: Forbidden
+                    code: '403'
+                    details: Not authorized to access this resource
+        '405':
+          description: Method Not Allowed
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseArray'
+        '500':
+          description: Internal Server Error
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                response:
+                  value:
+                    message: Internal Server Error
+                    code: '500'
+                    details: Internal Server Error
+  /api/v4/systems/{system_id}/ev_charger/{serial_no}/schedules:
+    get:
+      tags:
+      - EV Charger Monitoring
+      summary: Get Schedule
+      description: API to fetch all EV Charger Schedules for a Device By System id and Serial Number
+      operationId: fetchSchedules
+      parameters:
+      - name: system_id
+        in: path
+        description: The unique numeric ID of the system
+        required: true
+        example: 698989834
+        schema:
+          type: integer
+          format: int32
+      - name: serial_no
+        in: path
+        description: Serial Number of the EV Charger
+        required: true
+        example: 202320010308
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/SchedulesBodyResponse'
+        '400':
+          description: Invalid system_id or serial_no
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                response:
+                  value:
+                    message: Bad request
+                    code: '400'
+                    details: Invalid system_id or serial_no
+        '401':
+          description: Unauthorised
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                response:
+                  value:
+                    message: Not Authorized
+                    code: '401'
+                    details: User is not authorized
+        '403':
+          description: Forbidden
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                response:
+                  value:
+                    message: Forbidden
+                    code: '403'
+                    details: Not authorized to access this resource
+        '405':
+          description: Method Not Allowed
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseArray'
+        '500':
+          description: Internal Server Error
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                response:
+                  value:
+                    message: Internal Server Error
+                    code: '500'
+                    details: Internal Server Error
+  /api/v4/systems/{system_id}/ev_charger/{serial_no}/lifetime:
+    get:
+      tags:
+      - EV Charger Monitoring
+      summary: Daily energy api
+      description: 'Retrieves the daily telemetry for a single EV Charger.
+
+        The number of data points returned in the response corresponds to
+
+        days spanned between the start_date and end_date parameter mentioned in the request.'
+      operationId: fetchDailyEnergyConsumptionData
+      parameters:
+      - name: system_id
+        in: path
+        description: The unique numeric ID of the system
+        required: true
+        example: 698989834
+        schema:
+          type: integer
+          format: int32
+      - name: serial_no
+        in: path
+        description: Serial Number of the EV Charger
+        required: true
+        example: 190179855
+        schema:
+          type: string
+      - name: start_date
+        in: query
+        description: Requested start date of the time series data. If the start_date is not provided, then the response data begins with the previous date as start_date. Pass as String date format YYYYMMDD.
+        required: true
+        example: 20240101
+        schema:
+          type: string
+      - name: end_date
+        in: query
+        description: End date of the time series data. Defaults to yesterday. Pass as String date format YYYYMMDD.
+        required: false
+        example: 20240106
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/EVEnergyResponse'
+        '400':
+          description: Possible Bad request reasons
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDetailArray'
+              examples:
+                response:
+                  value:
+                    message: Bad request
+                    code: '400'
+                    details:
+                    - Invalid system_id
+                    - Invalid start_date/end_date
+        '401':
+          description: Unauthorised
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                response:
+                  value:
+                    message: Not Authorized
+                    code: '401'
+                    details: User is not authorized
+        '403':
+          description: Forbidden
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                response:
+                  value:
+                    message: Forbidden
+                    code: '403'
+                    details: Not authorized to access this resource
+        '405':
+          description: Method Not Allowed
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseArray'
+        '500':
+          description: Internal Server Error
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                response:
+                  value:
+                    message: Internal Server Error
+                    code: '500'
+                    details: Internal Server Error
+  /api/v4/systems/{system_id}/ev_charger/{serial_no}/telemetry:
+    get:
+      tags:
+      - EV Charger Monitoring
+      summary: Interval energy api
+      description: 'Retrieves telemetry for single EV Charger.
+
+        If no start_at is specified, defaults to previous days date, in the timezone of the system.
+
+        The end_at is calculated as the minimum of the time of the request and (start time + granularity).
+
+        The meaning of granularity is as follow:
+
+
+        If granularity is day, maximum 392 intervals will appear in response where each interval is of 15 mins duration. By default start_at will appear in response. If start_date parameter is passed in the url, then start_date field will appear in response.
+
+        By default end_at will appear in response. If end_date parameter is passed in the url then end_date field will appear in response.'
+      operationId: fetchEnergyConsumptionData
+      parameters:
+      - name: system_id
+        in: path
+        description: The unique numeric ID of the system
+        required: true
+        example: 700460094
+        schema:
+          type: integer
+          format: int32
+      - name: serial_no
+        in: path
+        description: Serial Number of the EV Charger
+        required: true
+        example: 202109116909
+        schema:
+          type: string
+      - name: granularity
+        in: query
+        description: The granularity of the telemetry data. Possible values are 'week', 'day'. Default is 'day'
+        required: false
+        example: day
+        schema:
+          type: string
+      - name: start_date
+        in: query
+        description: Requested start date of the time series data. If the start_date and start_at is not provided, then the response data begins with the previous date as start_date. Pass as String date format YYYYMMDD.
+        required: false
+        example: 20240116
+        schema:
+          type: string
+      - name: start_at
+        in: query
+        description: Start time for fetching the telemetry data in Epoch time format. Alternatively one can use start_date in place of start_at for passing the start date as String in YYYYMMDD format. By default start_at will appear in response. If start_date parameter is passed in the url, then start_date field will appear in response.
+        required: false
+        example: 1705425848
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/EVIntervalEnergyResponse'
+        '400':
+          description: Possible Bad request reasons
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDetailArray'
+              examples:
+                response:
+                  value:
+                    message: Bad request
+                    code: '400'
+                    details:
+                    - Invalid granularity
+                    - Invalid system_id
+                    - Invalid start_date
+        '401':
+          description: Unauthorised
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                response:
+                  value:
+                    message: Not Authorized
+                    code: '401'
+                    details: User is not authorized
+        '403':
+          description: Forbidden
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                response:
+                  value:
+                    message: Forbidden
+                    code: '403'
+                    details: Not authorized to access this resource
+        '405':
+          description: Method Not Allowed
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseArray'
+        '500':
+          description: Internal Server Error
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                response:
+                  value:
+                    message: Internal Server Error
+                    code: '500'
+                    details: Internal Server Error
+components:
+  schemas:
+    ErrorResponseDetailArray:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+        details:
+          type: array
+          description: Additional error detail(s).
+          items:
+            type: string
+    EVEnergyResponse:
+      type: object
+      properties:
+        system_id:
+          type: integer
+          format: int64
+          example: 698989834
+        start_date:
+          type: string
+          example: 2024-01-01
+        consumption:
+          type: object
+          description: All these values are in Wh
+          example:
+          - 3494
+          - 21929
+          - 0
+          - 0
+          - 0
+          - 0
+    SchedulesBodyResponse:
+      type: object
+      properties:
+        system_id:
+          type: integer
+          format: int32
+          example: 698989834
+        charger_schedules:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScheduleList'
+    EVIntervalEnergyResponse:
+      type: object
+      properties:
+        granularity:
+          allOf:
+          - $ref: '#/components/schemas/TelemetryGranularity'
+          example: day
+        consumption:
+          type: array
+          example:
+          - consumption: 0
+            end_at: 1705385700
+          - consumption: 0
+            end_at: 1705386600
+          - consumption: 0
+            end_at: 1705387500
+          - consumption: 0
+            end_at: 1705388400
+          - consumption: 0
+            end_at: 1705389300
+          - consumption: 0
+            end_at: 1705390200
+          - consumption: 0
+            end_at: 1705391100
+          - consumption: 0
+            end_at: 1705392000
+          - consumption: 0
+            end_at: 1705392900
+          - consumption: 0
+            end_at: 1705393800
+          - consumption: 0
+            end_at: 1705394700
+          - consumption: 0
+            end_at: 1705395600
+          - consumption: 0
+            end_at: 1705396500
+          - consumption: 0
+            end_at: 1705397400
+          - consumption: 0
+            end_at: 1705398300
+          - consumption: 0
+            end_at: 1705399200
+          - consumption: 38
+            end_at: 1705400100
+          - consumption: 201
+            end_at: 1705401000
+          - consumption: 202
+            end_at: 1705401900
+          - consumption: 202
+            end_at: 1705402800
+          - consumption: 202
+            end_at: 1705403700
+          - consumption: 202
+            end_at: 1705404600
+          - consumption: 202
+            end_at: 1705405500
+          - consumption: 202
+            end_at: 1705406400
+          - consumption: 202
+            end_at: 1705407300
+          - consumption: 202
+            end_at: 1705408200
+          - consumption: 202
+            end_at: 1705409100
+          - consumption: 202
+            end_at: 1705410000
+          - consumption: 202
+            end_at: 1705410900
+          - consumption: 202
+            end_at: 1705411800
+          - consumption: 202
+            end_at: 1705412700
+          - consumption: 202
+            end_at: 1705413600
+          - consumption: 202
+            end_at: 1705414500
+          - consumption: 202
+            end_at: 1705415400
+          - consumption: 202
+            end_at: 1705416300
+          - consumption: 202
+            end_at: 1705417200
+          - consumption: 202
+            end_at: 1705418100
+          - consumption: 202
+            end_at: 1705419000
+          - consumption: 202
+            end_at: 1705419900
+          - consumption: 202
+            end_at: 1705420800
+          - consumption: 202
+            end_at: 1705421700
+          - consumption: 202
+            end_at: 1705422600
+          - consumption: 202
+            end_at: 1705423500
+          - consumption: 202
+            end_at: 1705424400
+          - consumption: 202
+            end_at: 1705425300
+          - consumption: 202
+            end_at: 1705426200
+          - consumption: 202
+            end_at: 1705427100
+          - consumption: 202
+            end_at: 1705428000
+          - consumption: 202
+            end_at: 1705428900
+          - consumption: 202
+            end_at: 1705429800
+          - consumption: 202
+            end_at: 1705430700
+          - consumption: 202
+            end_at: 1705431600
+          - consumption: 202
+            end_at: 1705432500
+          - consumption: 202
+            end_at: 1705433400
+          - consumption: 202
+            end_at: 1705434300
+          - consumption: 202
+            end_at: 1705435200
+          - consumption: 203
+            end_at: 1705436100
+          - consumption: 202
+            end_at: 1705437000
+          - consumption: 202
+            end_at: 1705437900
+          - consumption: 202
+            end_at: 1705438800
+          - consumption: 202
+            end_at: 1705439700
+          - consumption: 202
+            end_at: 1705440600
+          - consumption: 202
+            end_at: 1705441500
+          - consumption: 202
+            end_at: 1705442400
+          - consumption: 202
+            end_at: 1705443300
+          - consumption: 202
+            end_at: 1705444200
+          - consumption: 202
+            end_at: 1705445100
+          - consumption: 202
+            end_at: 1705446000
+          - consumption: 202
+            end_at: 1705446900
+          - consumption: 202
+            end_at: 1705447800
+          - consumption: 202
+            end_at: 1705448700
+          - consumption: 202
+            end_at: 1705449600
+          - consumption: 202
+            end_at: 1705450500
+          - consumption: 202
+            end_at: 1705451400
+          - consumption: 202
+            end_at: 1705452300
+          - consumption: 202
+            end_at: 1705453200
+          - consumption: 202
+            end_at: 1705454100
+          - consumption: 202
+            end_at: 1705455000
+          - consumption: 202
+            end_at: 1705455900
+          - consumption: 202
+            end_at: 1705456800
+          - consumption: 202
+            end_at: 1705457700
+          - consumption: 202
+            end_at: 1705458600
+          - consumption: 202
+            end_at: 1705459500
+          - consumption: 202
+            end_at: 1705460400
+          - consumption: 202
+            end_at: 1705461300
+          - consumption: 202
+            end_at: 1705462200
+          - consumption: 202
+            end_at: 1705463100
+          - consumption: 202
+            end_at: 1705464000
+          - consumption: 202
+            end_at: 1705464900
+          - consumption: 202
+            end_at: 1705465800
+          - consumption: 202
+            end_at: 1705466700
+          - consumption: 202
+            end_at: 1705467600
+          - consumption: 104
+            end_at: 1705468500
+          - consumption: 0
+            end_at: 1705469400
+          - consumption: 0
+            end_at: 1705470300
+          - consumption: 0
+            end_at: 1705471200
+          items:
+            $ref: '#/components/schemas/EnergyConsumption'
+        system_id:
+          type: integer
+          format: int32
+          example: 700460094
+        start_date:
+          type: string
+          example: 2024-01-16
+        end_date:
+          type: string
+          example: 2024-01-16
+        start_at:
+          type: integer
+          format: int64
+        end_at:
+          type: integer
+          format: int64
+    ScheduleList:
+      type: object
+      properties:
+        schedules:
+          type: array
+          example:
+          - days:
+            - 1
+            - 2
+            start_time: 60
+            end_time: 120
+            charging_level: 70
+          - days:
+            - 3
+            - 4
+            - 5
+            - 6
+            - 7
+            start_time: 120
+            end_time: 180
+            charging_level: 80
+          items:
+            $ref: '#/components/schemas/Schedule'
+        type:
+          type: string
+          example: Custom
+        is_active:
+          type: boolean
+          example: false
+        reminder_flag:
+          type: boolean
+          example: true
+        reminder_timer:
+          type: integer
+          format: int32
+          example: 10
+    TelemetryGranularity:
+      type: string
+      description: Interval size used when returning telemetry time series.
+      enum:
+      - 5mins
+      - 15mins
+      - day
+      - week
+    EventDetail:
+      type: object
+      properties:
+        status:
+          allOf:
+          - $ref: '#/components/schemas/EventStatus'
+          example: Info
+        triggered_date:
+          type: integer
+          format: int64
+          example: 1705399759
+        cleared_date:
+          type: integer
+          format: int64
+          example: 1705399759
+        details:
+          type: string
+          example: Charging started on IQ EV Charger (SNo. 202312100006).
+    EventStatus:
+      type: string
+      description: Lifecycle state reported for events.
+      enum:
+      - Info
+      - Open
+      - Closed
+    EnergyConsumption:
+      type: object
+      properties:
+        consumption:
+          type: integer
+          format: int32
+        end_at:
+          type: integer
+          format: int64
+      example:
+      - consumption: 0
+        end_at: 1705385700
+      - consumption: 0
+        end_at: 1705386600
+      - consumption: 0
+        end_at: 1705387500
+      - consumption: 0
+        end_at: 1705388400
+      - consumption: 0
+        end_at: 1705389300
+      - consumption: 0
+        end_at: 1705390200
+      - consumption: 0
+        end_at: 1705391100
+      - consumption: 0
+        end_at: 1705392000
+      - consumption: 0
+        end_at: 1705392900
+      - consumption: 0
+        end_at: 1705393800
+      - consumption: 0
+        end_at: 1705394700
+      - consumption: 0
+        end_at: 1705395600
+      - consumption: 0
+        end_at: 1705396500
+      - consumption: 0
+        end_at: 1705397400
+      - consumption: 0
+        end_at: 1705398300
+      - consumption: 0
+        end_at: 1705399200
+      - consumption: 38
+        end_at: 1705400100
+      - consumption: 201
+        end_at: 1705401000
+      - consumption: 202
+        end_at: 1705401900
+      - consumption: 202
+        end_at: 1705402800
+      - consumption: 202
+        end_at: 1705403700
+      - consumption: 202
+        end_at: 1705404600
+      - consumption: 202
+        end_at: 1705405500
+      - consumption: 202
+        end_at: 1705406400
+      - consumption: 202
+        end_at: 1705407300
+      - consumption: 202
+        end_at: 1705408200
+      - consumption: 202
+        end_at: 1705409100
+      - consumption: 202
+        end_at: 1705410000
+      - consumption: 202
+        end_at: 1705410900
+      - consumption: 202
+        end_at: 1705411800
+      - consumption: 202
+        end_at: 1705412700
+      - consumption: 202
+        end_at: 1705413600
+      - consumption: 202
+        end_at: 1705414500
+      - consumption: 202
+        end_at: 1705415400
+      - consumption: 202
+        end_at: 1705416300
+      - consumption: 202
+        end_at: 1705417200
+      - consumption: 202
+        end_at: 1705418100
+      - consumption: 202
+        end_at: 1705419000
+      - consumption: 202
+        end_at: 1705419900
+      - consumption: 202
+        end_at: 1705420800
+      - consumption: 202
+        end_at: 1705421700
+      - consumption: 202
+        end_at: 1705422600
+      - consumption: 202
+        end_at: 1705423500
+      - consumption: 202
+        end_at: 1705424400
+      - consumption: 202
+        end_at: 1705425300
+      - consumption: 202
+        end_at: 1705426200
+      - consumption: 202
+        end_at: 1705427100
+      - consumption: 202
+        end_at: 1705428000
+      - consumption: 202
+        end_at: 1705428900
+      - consumption: 202
+        end_at: 1705429800
+      - consumption: 202
+        end_at: 1705430700
+      - consumption: 202
+        end_at: 1705431600
+      - consumption: 202
+        end_at: 1705432500
+      - consumption: 202
+        end_at: 1705433400
+      - consumption: 202
+        end_at: 1705434300
+      - consumption: 202
+        end_at: 1705435200
+      - consumption: 203
+        end_at: 1705436100
+      - consumption: 202
+        end_at: 1705437000
+      - consumption: 202
+        end_at: 1705437900
+      - consumption: 202
+        end_at: 1705438800
+      - consumption: 202
+        end_at: 1705439700
+      - consumption: 202
+        end_at: 1705440600
+      - consumption: 202
+        end_at: 1705441500
+      - consumption: 202
+        end_at: 1705442400
+      - consumption: 202
+        end_at: 1705443300
+      - consumption: 202
+        end_at: 1705444200
+      - consumption: 202
+        end_at: 1705445100
+      - consumption: 202
+        end_at: 1705446000
+      - consumption: 202
+        end_at: 1705446900
+      - consumption: 202
+        end_at: 1705447800
+      - consumption: 202
+        end_at: 1705448700
+      - consumption: 202
+        end_at: 1705449600
+      - consumption: 202
+        end_at: 1705450500
+      - consumption: 202
+        end_at: 1705451400
+      - consumption: 202
+        end_at: 1705452300
+      - consumption: 202
+        end_at: 1705453200
+      - consumption: 202
+        end_at: 1705454100
+      - consumption: 202
+        end_at: 1705455000
+      - consumption: 202
+        end_at: 1705455900
+      - consumption: 202
+        end_at: 1705456800
+      - consumption: 202
+        end_at: 1705457700
+      - consumption: 202
+        end_at: 1705458600
+      - consumption: 202
+        end_at: 1705459500
+      - consumption: 202
+        end_at: 1705460400
+      - consumption: 202
+        end_at: 1705461300
+      - consumption: 202
+        end_at: 1705462200
+      - consumption: 202
+        end_at: 1705463100
+      - consumption: 202
+        end_at: 1705464000
+      - consumption: 202
+        end_at: 1705464900
+      - consumption: 202
+        end_at: 1705465800
+      - consumption: 202
+        end_at: 1705466700
+      - consumption: 202
+        end_at: 1705467600
+      - consumption: 104
+        end_at: 1705468500
+      - consumption: 0
+        end_at: 1705469400
+      - consumption: 0
+        end_at: 1705470300
+      - consumption: 0
+        end_at: 1705471200
+    ChargeSessionDetailsResponse:
+      required:
+      - count
+      - sessions
+      - system_id
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Count of sessions
+          format: int32
+          example: 1
+        system_id:
+          type: integer
+          description: system_id
+          format: int32
+          example: 698989834
+        sessions:
+          type: array
+          description: List of sessions
+          items:
+            $ref: '#/components/schemas/ChargeSessionDetail'
+    ErrorResponseArray:
+      required:
+      - message
+      - reason
+      type: object
+      properties:
+        message:
+          type: array
+          description: message
+          example:
+          - Method not allowed
+          items:
+            type: string
+            description: message
+            example: '["Method not allowed"]'
+        reason:
+          type: string
+          description: statusCode
+          example: '405'
+    Schedule:
+      type: object
+      properties:
+        days:
+          type: array
+          items:
+            type: integer
+            format: int32
+        start_time:
+          type: string
+        end_time:
+          type: string
+        charging_level:
+          type: integer
+          format: int32
+      example:
+      - days:
+        - 1
+        - 2
+        start_time: 60
+        end_time: 120
+        charging_level: 70
+      - days:
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        start_time: 120
+        end_time: 180
+        charging_level: 80
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+        details:
+          type: string
+          description: Additional error detail.
+    ChargerSummaryResponse:
+      type: object
+      properties:
+        items:
+          type: string
+          example: devices
+        total_devices:
+          type: integer
+          format: int32
+          example: 1
+        system_id:
+          type: integer
+          format: int32
+          example: 698989834
+        devices:
+          type: object
+          additionalProperties:
+            type: array
+            example:
+              ev_chargers:
+              - id: 202320010308:698989834
+                sku: IQ-EVSE-NA-1040-0110-0100
+                status: normal
+                serial_number: '202320010308'
+                name: IQ EV Charger NACS
+                model: IQ-EVSE-40R
+                part_number: 800-00555 0303
+                last_report_at: 1700074065
+                firmware: v0.04.22
+                active: true
+            items:
+              $ref: '#/components/schemas/ChargerSummary'
+          example:
+            ev_chargers:
+            - id: 202320010308:698989834
+              sku: IQ-EVSE-NA-1040-0110-0100
+              status: normal
+              serial_number: '202320010308'
+              name: IQ EV Charger NACS
+              model: IQ-EVSE-40R
+              part_number: 800-00555 0303
+              last_report_at: 1700074065
+              firmware: v0.04.22
+              active: true
+    ChargeSessionDetail:
+      required:
+      - charge_time
+      - cost
+      - duration
+      - end_time
+      - energy_added
+      - miles_added
+      - start_time
+      type: object
+      properties:
+        start_time:
+          type: integer
+          description: session start time
+          format: int64
+          example: 1700059683
+        end_time:
+          type: integer
+          description: session end time
+          format: int64
+          example: 1700071180
+        duration:
+          type: integer
+          description: session duration in seconds
+          format: int64
+          example: 11497
+        energy_added:
+          type: number
+          description: energy added in Wh
+          format: double
+          example: 14.83
+        charge_time:
+          type: integer
+          description: Total charging time
+          format: int64
+          example: 7080
+        miles_added:
+          type: number
+          description: Miles added
+          format: double
+          example: 1.2
+        cost:
+          type: number
+          description: session cost
+          example: 0.5
+      description: List of sessions
+    ChargerSummary:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 202320010308:698989834
+        sku:
+          type: string
+          example: IQ-EVSE-NA-1040-0110-0100
+        status:
+          type: string
+          example: normal
+        serial_number:
+          type: string
+          example: '202320010308'
+        name:
+          type: string
+          example: IQ EV Charger NACS
+        model:
+          type: string
+          example: IQ-EVSE-40R
+        part_number:
+          type: string
+          example: 800-00555 0303
+        firmware:
+          type: string
+          example: v0.04.22
+        active:
+          type: boolean
+          example: true
+      example:
+        ev_chargers:
+        - id: 202320010308:698989834
+          sku: IQ-EVSE-NA-1040-0110-0100
+          status: normal
+          serial_number: '202320010308'
+          name: IQ EV Charger NACS
+          model: IQ-EVSE-40R
+          part_number: 800-00555 0303
+          last_report_at: 1700074065
+          firmware: v0.04.22
+          active: true
+    EVEventsResponse:
+      type: object
+      properties:
+        count:
+          type: integer
+          format: int32
+          example: 1
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventDetail'
+        system_id:
+          type: integer
+          format: int32
+          example: 701052773
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      name: key
+      in: query

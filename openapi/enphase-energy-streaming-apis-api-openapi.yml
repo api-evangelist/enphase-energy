@@ -1,0 +1,712 @@
+openapi: 3.0.0
+info:
+  title: The Enlighten Systems Device Level Production Monitoring Streaming APIs API
+  description: 'The Enlighten Systems API is a JSON-based API that provides access to performance data for a PV system. By using the Enlighten Systems API, you agree to the Enphase Energy API License Agreement.
+
+
+    Please note that the Enlighten Systems API does not provide performance data at a panel or microinverter level.'
+  version: '2.0'
+  termsOfService: https://developer.enphase.com/docs#Display-Requirements
+  license:
+    name: Enphase API License Agreement
+    url: https://www.enphase.com/en-us/legal/api-license-agreement
+servers:
+- url: https://api.enphaseenergy.com/api/v2
+security:
+- ApiKey: []
+tags:
+- name: Streaming APIs
+paths:
+  /api/v4/systems/{system_id}/live_data:
+    get:
+      description: API users can get real time live status data on demand for a given system. User can retrieve real time power for PV Production, Grid Import/Export, Consumption, Battery Charge/Discharge, and Generator. Users can also retrieve Grid Status, Battery Mode, and Battery State of Charge. User will receive the stream for a duration of 30 seconds by default and can configure the time in seconds by passing ‘duration’ as a parameter with a minimum value of 30 and maximum value of 300
+      operationId: getLiveData
+      parameters:
+      - description: The unique numeric ID of the system
+        in: path
+        name: system_id
+        required: true
+        schema:
+          type: integer
+      - description: Duration of the stream in seconds. Default=30, Min=30, Max=300, e.g=30
+        in: header
+        name: duration
+        required: false
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            text/event-stream:
+              schema:
+                properties:
+                  data:
+                    properties:
+                      data:
+                        properties:
+                          battery_mode:
+                            allOf:
+                            - $ref: '#/components/schemas/BatteryMode'
+                            description: Battery mode of the site; Possible values are Savings Mode, Full Backup, and Self-consumption
+                          battery_power:
+                            description: Battery power in watts; Power will be positive in case of discharge and negative in case of charge
+                            type: integer
+                          battery_soc:
+                            description: Battery soc in percentage
+                            type: integer
+                          consumption_power:
+                            description: Consumption power in watts
+                            type: integer
+                          envoy_serial_number:
+                            items:
+                              description: Serial number of the envoy; For multi-envoy sites, the data will be returned only for one of the envoys
+                              type: string
+                            type: array
+                          generator_power:
+                            description: Generator power in watts
+                            type: integer
+                          grid_power:
+                            description: Grid power in watts; Power will be negative in case of export and positive in case of import
+                            type: integer
+                          grid_status:
+                            description: Grid state of the site; Possible values are On Grid, Off Grid, Unknown
+                            type: string
+                          pv_power:
+                            description: PV power in watts
+                            type: integer
+                          system_id:
+                            description: The unique numeric ID of the system
+                            type: integer
+                        type: object
+                      timestamp_epoch:
+                        description: timestamp in epoch format
+                        type: integer
+                      timestamp_utc:
+                        description: timestamp in UTC format
+                        type: string
+                      type:
+                        description: response
+                        type: string
+                    type: object
+                type: object
+              examples:
+                response:
+                  value:
+                    data:
+                      data:
+                        battery_mode: Savings Mode
+                        battery_power: 5
+                        battery_soc: 40
+                        consumption_power: 15
+                        envoy_serial_number:
+                        - '1234'
+                        generator_power: 0
+                        grid_power: -10
+                        grid_status: On Grid
+                        pv_power: 30
+                        system_id: 123
+                      timestamp_epoch: 1679041508556
+                      timestamp_utc: 2023-03-17 08:25:08.556000
+                      type: response
+        '401':
+          description: 'User will get 401 in the below cases. Response content type is application/json
+
+            NOT_AUTHENTICATED - API key is missing
+
+            UNAUTHORIZED - Access token is invalid
+
+            UNAUTHORIZED - Access token has expired
+
+            NOT_AUTHENTICATED - API Key is invalid
+
+            UNAUTHORIZED - Application is not authorized to access the requested resource
+
+            '
+          content:
+            text/event-stream:
+              schema:
+                properties:
+                  error:
+                    properties:
+                      code:
+                        description: '401'
+                        type: integer
+                      details:
+                        items:
+                          type: object
+                        type: array
+                      message:
+                        description: API Key is missing
+                        type: string
+                      status:
+                        description: NOT_AUTHENTICATED
+                        type: string
+                    type: object
+                  timestamp_epoch:
+                    description: timestamp in epoch format
+                    type: integer
+                  timestamp_utc:
+                    description: timestamp in UTC format
+                    type: string
+                  type:
+                    description: authentication_error
+                    type: string
+                type: object
+              examples:
+                response:
+                  value:
+                    error:
+                      code: 401
+                      details:
+                      - {}
+                      message: API Key is invalid
+                      status: NOT_AUTHENTICATED
+                    timestamp_epoch: 1679041508556
+                    timestamp_utc: 2023-03-17 08:25:08.556000
+                    type: authentication_error
+        '403':
+          description: User is not authorized. Response content type is application/json
+          content:
+            text/event-stream:
+              schema:
+                properties:
+                  error:
+                    properties:
+                      code:
+                        description: '403'
+                        type: integer
+                      details:
+                        items:
+                          type: object
+                        type: array
+                      message:
+                        description: API Key is invalid
+                        type: string
+                      status:
+                        description: FORBIDDEN
+                        type: string
+                    type: object
+                  timestamp_epoch:
+                    description: timestamp in epoch format
+                    type: integer
+                  timestamp_utc:
+                    description: timestamp in UTC format
+                    type: string
+                  type:
+                    description: authorization_error
+                    type: string
+                type: object
+              examples:
+                response:
+                  value:
+                    error:
+                      code: 403
+                      details:
+                      - {}
+                      message: User is not authorized
+                      status: FORBIDDEN
+                    timestamp_epoch: 1679041508556
+                    timestamp_utc: 2023-03-17 08:25:08.556000
+                    type: authorization_error
+        '429':
+          description: Too Many Requests. Response content type is application/json
+          content:
+            text/event-stream:
+              schema:
+                properties:
+                  error:
+                    properties:
+                      code:
+                        description: '429'
+                        type: integer
+                      details:
+                        items:
+                          type: object
+                        type: array
+                      message:
+                        description: Too Many Requests
+                        type: string
+                      status:
+                        description: TOO_MANY_REQUESTS
+                        type: string
+                    type: object
+                  timestamp_epoch:
+                    description: timestamp in epoch format
+                    type: integer
+                  timestamp_utc:
+                    description: timestamp in UTC format
+                    type: string
+                  type:
+                    description: request_exceeded_error
+                    type: string
+                type: object
+              examples:
+                response:
+                  value:
+                    error:
+                      code: 429
+                      details:
+                      - {}
+                      message: Too Many Requests
+                      status: TOO_MANY_REQUESTS
+                    timestamp_epoch: 1679041508556
+                    timestamp_utc: 2023-03-17 08:25:08.556000
+                    type: request_exceeded_error
+        '461':
+          description: Duration is less than 30 seconds. Response content type is application/json
+          content:
+            text/event-stream:
+              schema:
+                properties:
+                  error:
+                    properties:
+                      code:
+                        description: '461'
+                        type: integer
+                      details:
+                        items:
+                          type: object
+                        type: array
+                      message:
+                        description: Duration cannot be less than 30
+                        type: string
+                      status:
+                        description: INVALID_DURATION
+                        type: string
+                    type: object
+                  timestamp_epoch:
+                    description: timestamp in epoch format
+                    type: integer
+                  timestamp_utc:
+                    description: timestamp in UTC format
+                    type: string
+                  type:
+                    description: validation_error
+                    type: string
+                type: object
+              examples:
+                response:
+                  value:
+                    error:
+                      code: 461
+                      details:
+                      - {}
+                      message: Duration cannot be less than 30
+                      status: INVALID_DURATION
+                    timestamp_epoch: 1679041508556
+                    timestamp_utc: 2023-03-17 08:25:08.556000
+                    type: validation_error
+        '462':
+          description: Duration is greater then 900 seconds. Response content type is application/json
+          content:
+            text/event-stream:
+              schema:
+                properties:
+                  error:
+                    properties:
+                      code:
+                        description: '462'
+                        type: integer
+                      details:
+                        items:
+                          type: object
+                        type: array
+                      message:
+                        description: Duration cannot be greater than 900
+                        type: string
+                      status:
+                        description: INVALID_DURATION
+                        type: string
+                    type: object
+                  timestamp_epoch:
+                    description: timestamp in epoch format
+                    type: integer
+                  timestamp_utc:
+                    description: timestamp in UTC format
+                    type: string
+                  type:
+                    description: validation_error
+                    type: string
+                type: object
+              examples:
+                response:
+                  value:
+                    error:
+                      code: 462
+                      details:
+                      - {}
+                      message: Duration cannot be greater than 900
+                      status: INVALID_DURATION
+                    timestamp_epoch: 1679041508556
+                    timestamp_utc: 2023-03-17 08:25:08.556000
+                    type: validation_error
+        '463':
+          description: Duration is not integer. Response content type is application/json
+          content:
+            text/event-stream:
+              schema:
+                properties:
+                  error:
+                    properties:
+                      code:
+                        description: '463'
+                        type: integer
+                      details:
+                        items:
+                          type: object
+                        type: array
+                      message:
+                        description: Duration must be an integer
+                        type: string
+                      status:
+                        description: INVALID_DURATION
+                        type: string
+                    type: object
+                  timestamp_epoch:
+                    description: timestamp in epoch format
+                    type: integer
+                  timestamp_utc:
+                    description: timestamp in UTC format
+                    type: string
+                  type:
+                    description: validation_error
+                    type: string
+                type: object
+              examples:
+                response:
+                  value:
+                    error:
+                      code: 463
+                      details:
+                      - {}
+                      message: Duration must be an integer
+                      status: INVALID_DURATION
+                    timestamp_epoch: 1679041508556
+                    timestamp_utc: 2023-03-17 08:25:08.556000
+                    type: validation_error
+        '466':
+          description: Envoy must be active and envoy version must be at least 6.0.0. Response content type is application/json
+          content:
+            text/event-stream:
+              schema:
+                properties:
+                  error:
+                    properties:
+                      code:
+                        description: '466'
+                        type: integer
+                      details:
+                        items:
+                          type: object
+                        type: array
+                      message:
+                        description: Envoy must be active and envoy version must be at least 6.0.0
+                        type: string
+                      status:
+                        description: UNSUPPORTED_ENVOY
+                        type: string
+                    type: object
+                  timestamp_epoch:
+                    description: timestamp in epoch format
+                    type: integer
+                  timestamp_utc:
+                    description: timestamp in UTC format
+                    type: string
+                  type:
+                    description: validation_error
+                    type: string
+                type: object
+              examples:
+                response:
+                  value:
+                    error:
+                      code: 466
+                      details:
+                      - {}
+                      message: Envoy must be active and envoy version must be at least 6.0.0
+                      status: UNSUPPORTED_ENVOY
+                    timestamp_epoch: 1679041508556
+                    timestamp_utc: 2023-03-17 08:25:08.556000
+                    type: validation_error
+        '468':
+          description: System ID does not exist. Response content type is application/json
+          content:
+            text/event-stream:
+              schema:
+                properties:
+                  error:
+                    properties:
+                      code:
+                        description: '468'
+                        type: integer
+                      details:
+                        items:
+                          type: object
+                        type: array
+                      message:
+                        description: System ID doesn't exist
+                        type: string
+                      status:
+                        description: INVALID_SYSTEM_ID
+                        type: string
+                    type: object
+                  timestamp_epoch:
+                    description: timestamp in epoch format
+                    type: integer
+                  timestamp_utc:
+                    description: timestamp in UTC format
+                    type: string
+                  type:
+                    description: validation_error
+                    type: string
+                type: object
+              examples:
+                response:
+                  value:
+                    error:
+                      code: 468
+                      details:
+                      - {}
+                      message: System ID doesn't exist
+                      status: INVALID_SYSTEM_ID
+                    timestamp_epoch: 1677854252
+                    timestamp_utc: 2023-03-17 08:25:08.556000
+                    type: validation_error
+        '472':
+          description: For Ensemble sites, live stream will be supported in the following cases - If site has an active battery or active system controller, then site must have  active production meter and active consumption meter; Otherwise, site must have active production meter. Response content type is application/json
+          content:
+            text/event-stream:
+              schema:
+                properties:
+                  error:
+                    properties:
+                      code:
+                        description: '472'
+                        type: integer
+                      details:
+                        items:
+                          type: object
+                        type: array
+                      message:
+                        description: The system doesn’t support live stream
+                        type: string
+                      status:
+                        description: LIVE_STREAM_NOT_SUPPORTED
+                        type: string
+                    type: object
+                  timestamp_epoch:
+                    description: timestamp in epoch format
+                    type: integer
+                  timestamp_utc:
+                    description: timestamp in UTC format
+                    type: string
+                  type:
+                    description: validation_error
+                    type: string
+                type: object
+              examples:
+                response:
+                  value:
+                    error:
+                      code: 472
+                      details:
+                      - {}
+                      message: The system doesn’t support live stream
+                      status: LIVE_STREAM_NOT_SUPPORTED
+                    timestamp_epoch: 1677854252
+                    timestamp_utc: 2023-03-17 08:25:08.556000
+                    type: validation_error
+        '473':
+          description: IQ gateway is not reporting. Response content type is application/json
+          content:
+            text/event-stream:
+              schema:
+                properties:
+                  error:
+                    properties:
+                      code:
+                        description: '473'
+                        type: integer
+                      details:
+                        items:
+                          type: object
+                        type: array
+                      message:
+                        description: IQ gateway is not reporting
+                        type: string
+                      status:
+                        description: IQ_GATEWAY_NOT_REPORTING
+                        type: string
+                    type: object
+                  timestamp_epoch:
+                    description: timestamp in epoch format
+                    type: integer
+                  timestamp_utc:
+                    description: timestamp in UTC format
+                    type: string
+                  type:
+                    description: site_connectivity_error
+                    type: string
+                type: object
+              examples:
+                response:
+                  value:
+                    error:
+                      code: 473
+                      details:
+                      - {}
+                      message: IQ gateway is not reporting
+                      status: IQ_GATEWAY_NOT_REPORTING
+                    timestamp_epoch: 1677854252
+                    timestamp_utc: 2023-03-17 08:25:08.556000
+                    type: site_connectivity_error
+        '550':
+          description: Service unreachable. Response content type is application/json
+          content:
+            text/event-stream:
+              schema:
+                properties:
+                  error:
+                    properties:
+                      code:
+                        description: '550'
+                        type: integer
+                      details:
+                        items:
+                          type: object
+                        type: array
+                      message:
+                        description: Service unreachable, please try again
+                        type: string
+                      status:
+                        description: SERVICE_UNREACHABLE
+                        type: string
+                    type: object
+                  timestamp_epoch:
+                    description: timestamp in epoch format
+                    type: integer
+                  timestamp_utc:
+                    description: timestamp in UTC format
+                    type: string
+                  type:
+                    description: server_error
+                    type: string
+                type: object
+              examples:
+                response:
+                  value:
+                    error:
+                      code: 550
+                      details:
+                      - {}
+                      message: Service unreachable, please try again
+                      status: SERVICE_UNREACHABLE
+                    timestamp_epoch: 1677854252
+                    timestamp_utc: 2023-03-17 08:25:08.556000
+                    type: server_error
+        '551':
+          description: Service unreachable. Response content type is application/json
+          content:
+            text/event-stream:
+              schema:
+                properties:
+                  error:
+                    properties:
+                      code:
+                        description: '551'
+                        type: integer
+                      details:
+                        items:
+                          type: object
+                        type: array
+                      message:
+                        description: Service unreachable, please try again
+                        type: string
+                      status:
+                        description: SERVICE_UNREACHABLE
+                        type: string
+                    type: object
+                  timestamp_epoch:
+                    description: timestamp in epoch format
+                    type: integer
+                  timestamp_utc:
+                    description: timestamp in UTC format
+                    type: string
+                  type:
+                    description: server_error
+                    type: string
+                type: object
+              examples:
+                response:
+                  value:
+                    error:
+                      code: 551
+                      details:
+                      - {}
+                      message: Service unreachable, please try again
+                      status: SERVICE_UNREACHABLE
+                    timestamp_epoch: 1677854252
+                    timestamp_utc: 2023-03-17 08:25:08.556000
+                    type: server_error
+        '552':
+          description: Unable to connect. Response content type is application/json
+          content:
+            text/event-stream:
+              schema:
+                properties:
+                  error:
+                    properties:
+                      code:
+                        description: '552'
+                        type: integer
+                      details:
+                        items:
+                          type: object
+                        type: array
+                      message:
+                        description: Unable to connect, please try again
+                        type: string
+                      status:
+                        description: CONNECTION_NOT_ESTABLISHED
+                        type: string
+                    type: object
+                  timestamp_epoch:
+                    description: timestamp in epoch format
+                    type: integer
+                  timestamp_utc:
+                    description: timestamp in UTC format
+                    type: string
+                  type:
+                    description: server_error
+                    type: string
+                type: object
+              examples:
+                response:
+                  value:
+                    error:
+                      code: 552
+                      details:
+                      - {}
+                      message: Unable to connect, please try again
+                      status: CONNECTION_NOT_ESTABLISHED
+                    timestamp_epoch: 1677854252
+                    timestamp_utc: 2023-03-17 08:25:08.556000
+                    type: server_error
+      summary: Site Level Live Status
+      tags:
+      - Streaming APIs
+components:
+  schemas:
+    BatteryMode:
+      type: string
+      description: Battery operating mode configured for supported systems.
+      enum:
+      - Savings Mode
+      - Full Backup
+      - Self-consumption
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      name: key
+      in: query

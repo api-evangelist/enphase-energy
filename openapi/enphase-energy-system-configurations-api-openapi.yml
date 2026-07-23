@@ -1,0 +1,1569 @@
+openapi: 3.0.0
+info:
+  title: The Enlighten Systems Device Level Production Monitoring System Configurations API
+  description: 'The Enlighten Systems API is a JSON-based API that provides access to performance data for a PV system. By using the Enlighten Systems API, you agree to the Enphase Energy API License Agreement.
+
+
+    Please note that the Enlighten Systems API does not provide performance data at a panel or microinverter level.'
+  version: '2.0'
+  termsOfService: https://developer.enphase.com/docs#Display-Requirements
+  license:
+    name: Enphase API License Agreement
+    url: https://www.enphase.com/en-us/legal/api-license-agreement
+servers:
+- url: https://api.enphaseenergy.com/api/v2
+security:
+- ApiKey: []
+tags:
+- name: System Configurations
+paths:
+  /api/v4/systems/config/{system_id}/battery_settings:
+    get:
+      summary: Returns the current battery settings of a system
+      description: Returns the current battery settings of a system
+      operationId: getSystemBatterySettings
+      parameters:
+      - name: system_id
+        in: path
+        description: The unique numeric id of the system
+        required: true
+        schema:
+          type: string
+      tags:
+      - System Configurations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  system_id:
+                    type: integer
+                  battery_mode:
+                    allOf:
+                    - $ref: '#/components/schemas/BatteryMode'
+                    description: Current battery mode of the system. Possible values are Savings Mode, Full Backup, and Self-consumption
+                  reserve_soc:
+                    type: integer
+                    description: Reserve soc for the current mode
+                  energy_independence:
+                    type: string
+                    description: 'Energy independence after peak hours enabled/disabled . Enabled: Battery will discharge to save money during peak hours when electricity rates are high. Once that is done, energy independence is prioritized. This will increase the energy self-sufficiency until the reserve soc is hit. Battery will charge from solar in the morning to get ready for the next period Disabled: Battery will discharge only during peak hours when electricity rates are high. During other times, battery will be idle or will charge from solar in the morning to get ready for the next period'
+                  charge_from_grid:
+                    type: string
+                    description: 'Charge battery from grid enabled/disabled. Enabled: Battery may also charge from the grid when in full backup mode or when battery charge is below the reserve capacity in savings or self-consumption mode'
+                  battery_shutdown_level:
+                    type: integer
+                    description: Level at which battery shutdowns to conserve energy. Battery restarts by using the conserved energy when the utility grid restores power or solar panels start producing energy
+              examples:
+                response:
+                  value:
+                    system_id: 1765
+                    battery_mode: Self-consumption
+                    reserve_soc: 95
+                    energy_independence: enabled
+                    charge_from_grid: disabled
+                    battery_shutdown_level: 13
+        '401':
+          description: Authentication Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Authorized
+                    details: User is not authorized
+                    code: 401
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Forbidden
+                    details: Not authorized to access this resource
+                    code: 403
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Found
+                    details: System not found for {:id=>"1"}
+                    code: 404
+        '405':
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '405'
+                    message:
+                    - Method not allowed
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Unprocessable Entity
+                    details: System doesn't have encharges
+                    code: 422
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+                  period:
+                    type: string
+                    description: Quota exceeded for minute/month
+                  period_start:
+                    type: integer
+                    description: Starting period timestamp
+                  period_end:
+                    type: integer
+                    description: Ending period timestamp
+                  limit:
+                    type: integer
+                    description: Limit count for the period
+              examples:
+                response:
+                  value:
+                    message: Too Many Requests
+                    details: Usage limit exceeded for plan Kilowatt
+                    code: 429
+                    period: minute
+                    period_start: 1623825660
+                    period_end: 1623825720
+                    limit: 5
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '501'
+                    message:
+                    - Not Implemented
+    put:
+      summary: Updates the current battery settings of a system
+      description: Updates the current battery settings of a system.
+      operationId: updateSystemBatterySettings
+      parameters:
+      - name: system_id
+        in: path
+        description: The unique numeric id of the system
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                battery_mode:
+                  allOf:
+                  - $ref: '#/components/schemas/BatteryMode'
+                  description: To update battery mode of the system (case sensitive) - "Savings Mode" / "Self-consumption" / "Full Backup"
+                reserve_soc:
+                  type: integer
+                  description: Reserve soc for the current mode - cannot be less than vls
+                energy_independence:
+                  type: string
+                  description: 'Energy independence after peak hours "enabled"/"disabled" . Enabled: Battery will discharge to save money during peak hours when electricity rates are high. Once that is done, energy independence is prioritized. This will increase the energy self-sufficiency until the reserve soc is hit. Battery will charge from solar in the morning to get ready for the next period Disabled: Battery will discharge only during peak hours when electricity rates are high. During other times, battery will be idle or will charge from solar in the morning to get ready for the next period'
+      tags:
+      - System Configurations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  system_id:
+                    type: integer
+                  battery_mode:
+                    allOf:
+                    - $ref: '#/components/schemas/BatteryMode'
+                    description: Current battery mode of the system
+                  reserve_soc:
+                    type: integer
+                    description: Reserve soc for the current mode
+                  energy_independence:
+                    type: string
+                    description: 'Energy independence after peak hours enabled/disabled . Enabled: Battery will discharge to save money during peak hours when electricity rates are high. Once that is done, energy independence is prioritized. This will increase the energy self-sufficiency until the reserve soc is hit. Battery will charge from solar in the morning to get ready for the next period Disabled: Battery will discharge only during peak hours when electricity rates are high. During other times, battery will be idle or will charge from solar in the morning to get ready for the next period'
+                  charge_from_grid:
+                    type: string
+                    description: 'Charge battery from grid enabled/disabled. Enabled: Battery may also charge from the grid when in full backup mode or when battery charge is below the reserve capacity in savings or self-consumption mode'
+                  battery_shutdown_level:
+                    type: integer
+                    description: Level at which battery shutdowns to conserve energy. Battery restarts by using the conserved energy when the utility grid restores power or solar panels start producing energy
+              examples:
+                response:
+                  value:
+                    system_id: 1765
+                    battery_mode: Self-consumption
+                    reserve_soc: 95
+                    energy_independence: enabled
+                    charge_from_grid: disabled
+                    battery_shutdown_level: 13
+        '401':
+          description: Authentication Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Authorized
+                    details: User is not authorized
+                    code: 401
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Forbidden
+                    details: Not authorized to access this resource
+                    code: 403
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Found
+                    details: System not found for {:id=>"1"}
+                    code: 404
+        '405':
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '405'
+                    message:
+                    - Method not allowed
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Unprocessable Entity
+                    details: System doesn't have encharge
+                    code: 422
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+                  period:
+                    type: string
+                    description: Quota exceeded for minute/month
+                  period_start:
+                    type: integer
+                    description: Starting period timestamp
+                  period_end:
+                    type: integer
+                    description: Ending period timestamp
+                  limit:
+                    type: integer
+                    description: Limit count for the period
+              examples:
+                response:
+                  value:
+                    message: Too Many Requests
+                    details: Usage limit exceeded for plan Kilowatt
+                    code: 429
+                    period: minute
+                    period_start: 1623825660
+                    period_end: 1623825720
+                    limit: 5
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '501'
+                    message:
+                    - Not Implemented
+  /api/v4/systems/config/{system_id}/storm_guard:
+    get:
+      summary: Returns the current storm guard settings of a system
+      description: Returns the current storm guard settings of a system
+      operationId: getSystemStormGuard
+      parameters:
+      - name: system_id
+        in: path
+        description: The unique numeric id of the system
+        required: true
+        schema:
+          type: string
+      tags:
+      - System Configurations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  system_id:
+                    type: integer
+                  storm_guard_status:
+                    type: string
+                    description: Overrides your battery profile to full backup mode when a severe weather condition alert is issued in the localitym
+                  storm_alert:
+                    type: string
+                    description: True if severe weather condition alert is issued in the locality
+              examples:
+                response:
+                  value:
+                    system_id: 1765
+                    storm_guard_status: enabled
+                    storm_alert: 'false'
+        '401':
+          description: Authentication Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Authorized
+                    details: User is not authorized
+                    code: 401
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Forbidden
+                    details: Not authorized to access this resource
+                    code: 403
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Found
+                    details: System not found for {:id=>"1"}
+                    code: 404
+        '405':
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '405'
+                    message:
+                    - Method not allowed
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Unprocessable Entity
+                    details: System doesn't have encharges
+                    code: 422
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+                  period:
+                    type: string
+                    description: Quota exceeded for minute/month
+                  period_start:
+                    type: integer
+                    description: Starting period timestamp
+                  period_end:
+                    type: integer
+                    description: Ending period timestamp
+                  limit:
+                    type: integer
+                    description: Limit count for the period
+              examples:
+                response:
+                  value:
+                    message: Too Many Requests
+                    details: Usage limit exceeded for plan Kilowatt
+                    code: 429
+                    period: minute
+                    period_start: 1623825660
+                    period_end: 1623825720
+                    limit: 5
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '501'
+                    message:
+                    - Not Implemented
+    put:
+      summary: Updates the current storm guard settings of a system
+      description: Updates the current storm guard status of a system.
+      operationId: updateSystemStormGuard
+      parameters:
+      - name: system_id
+        in: path
+        description: The unique numeric id of the system
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                storm_guard_status:
+                  type: string
+                  description: Overrides your battery profile to full backup mode when a severe weather condition alert is issued in the locality, can be enabled/disabled
+              required:
+              - storm_guard_status
+      tags:
+      - System Configurations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  system_id:
+                    type: integer
+                  storm_guard_status:
+                    type: string
+                    description: Overrides your battery profile to full backup mode when a severe weather condition alert is issued in the locality
+                  storm_alert:
+                    type: string
+                    description: True if severe weather condition alert is issued in the locality
+              examples:
+                response:
+                  value:
+                    system_id: 1765
+                    storm_guard_status: Enabled (Inactive)
+                    storm_alert: 'false'
+        '401':
+          description: Authentication Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Authorized
+                    details: User is not authorized
+                    code: 401
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Forbidden
+                    details: Not authorized to access this resource
+                    code: 403
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Found
+                    details: System not found for {:id=>"1"}
+                    code: 404
+        '405':
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '405'
+                    message:
+                    - Method not allowed
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Unprocessable Entity
+                    details: System doesn't have encharge
+                    code: 422
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+                  period:
+                    type: string
+                    description: Quota exceeded for minute/month
+                  period_start:
+                    type: integer
+                    description: Starting period timestamp
+                  period_end:
+                    type: integer
+                    description: Ending period timestamp
+                  limit:
+                    type: integer
+                    description: Limit count for the period
+              examples:
+                response:
+                  value:
+                    message: Too Many Requests
+                    details: Usage limit exceeded for plan Kilowatt
+                    code: 429
+                    period: minute
+                    period_start: 1623825660
+                    period_end: 1623825720
+                    limit: 5
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '501'
+                    message:
+                    - Not Implemented
+  /api/v4/systems/config/{system_id}/grid_status:
+    get:
+      summary: Returns the current grid status of a system
+      description: Returns the current grid status of a system
+      operationId: getSystemGridStatus
+      parameters:
+      - name: system_id
+        in: path
+        description: The unique numeric id of the system
+        required: true
+        schema:
+          type: string
+      tags:
+      - System Configurations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  system_id:
+                    type: integer
+                  grid_state:
+                    type: string
+                    description: Indicates whether the site is On Grid, Off Grid or grid status of site is Unknown
+                  last_report_date:
+                    type: integer
+                    description: Timestamp (in epoch format) at which the system's Envoy last submitted a report
+              examples:
+                response:
+                  value:
+                    system_id: 1765
+                    grid_state: On Grid
+                    last_report_date: 1676029267
+        '401':
+          description: Authentication Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Authorized
+                    details: User is not authorized
+                    code: 401
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Forbidden
+                    details: Not authorized to access this resource
+                    code: 403
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Found
+                    details: System not found for {:id=>"1"}
+                    code: 404
+        '405':
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '405'
+                    message:
+                    - Method not allowed
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Unprocessable Entity
+                    details: grid_state not available as the site has not reported yet
+                    code: 422
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Too Many Requests
+                    details: Usage limit exceeded for plan Kilowatt
+                    code: 429
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '501'
+                    message:
+                    - Not Implemented
+  /api/v4/systems/config/{system_id}/load_control:
+    get:
+      summary: Returns the current load control settings of a system
+      description: Returns the current load control settings of a system
+      operationId: getSystemLoadControl
+      parameters:
+      - name: system_id
+        in: path
+        description: The unique numeric id of the system
+        required: true
+        schema:
+          type: string
+      tags:
+      - System Configurations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  system_id:
+                    type: integer
+                  load_control_data:
+                    type: array
+                    items:
+                      properties:
+                        name:
+                          type: string
+                          description: Name of the dry contact
+                        load_name:
+                          type: string
+                          description: Name of the load
+                        owner_can_override:
+                          type: boolean
+                          description: Indicates if the homeowner can override the load control settings
+                        mode:
+                          type: string
+                          description: Current load control configuration
+                        soc_low:
+                          type: integer
+                          description: Applicable for advanced mode. Load will be powered off when the battery soc reaches this level
+                        soc_high:
+                          type: integer
+                          description: Applicable for advanced mode. Load powers off when battery reacheds soc_low. The load will be powered on when the battery soc reaches soc_high
+                        status:
+                          type: string
+                          description: enabled/disabled
+                        essential_start_time:
+                          type: integer
+                          description: Applicable for scheduled mode. Time in seconds. Load will powered on between essential_start_time and essential_end_time
+                        essential_end_time:
+                          type: integer
+                          description: Applicable for scheduled mode. Time in seconds. Load will powered on between essential_start_time and essential_end_time
+                    description: load control data for all the configured loads
+              examples:
+                response:
+                  value:
+                    system_id: 1932237
+                    load_control_data:
+                    - name: NC1
+                      load_name: Downstairs A/C
+                      owner_can_override: true
+                      mode: Basic
+                      soc_low: 30
+                      soc_high: 50
+                      status: enabled
+                      essential_start_time: 32400
+                      essential_end_time: 57600
+                    - name: NC2
+                      load_name: Upstairs A/C
+                      owner_can_override: true
+                      mode: Basic
+                      soc_low: 30
+                      soc_high: 50
+                      status: enabled
+                      essential_start_time: 32400
+                      essential_end_time: 57600
+        '401':
+          description: Authentication Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Authorized
+                    details: User is not authorized
+                    code: 401
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Forbidden
+                    details: Not authorized to access this resource
+                    code: 403
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Found
+                    details: System not found for {:id=>"1"}
+                    code: 404
+        '405':
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '405'
+                    message:
+                    - Method not allowed
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+                  period:
+                    type: string
+                    description: Quota exceeded for minute/month
+                  period_start:
+                    type: integer
+                    description: Starting period timestamp
+                  period_end:
+                    type: integer
+                    description: Ending period timestamp
+                  limit:
+                    type: integer
+                    description: Limit count for the period
+              examples:
+                response:
+                  value:
+                    message: Too Many Requests
+                    details: Usage limit exceeded for plan Kilowatt
+                    code: 429
+                    period: minute
+                    period_start: 1623825660
+                    period_end: 1623825720
+                    limit: 5
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '501'
+                    message:
+                    - Not Implemented
+    put:
+      summary: Updates the current load control settings of a system
+      description: Updates the current load control settings of a system.
+      operationId: updateSystemLoadControl
+      parameters:
+      - name: system_id
+        in: path
+        description: The unique numeric id of the system
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Name of the dry contact. Name cannot be changed. It is only used to identify the dry contact that needs to be updated.
+                load_name:
+                  type: string
+                  description: Load Name of the load. Load Name cannot be changed. It is only used to identify the dry contact that needs to be updated.
+                mode:
+                  allOf:
+                  - $ref: '#/components/schemas/LoadControlMode'
+                  description: Mode. Possible values are "Scheduled", "Basic", "Advanced_BatteryPowered", "Manual_always_not_powered", "Manual_always_powered", "Advanced_GeneratorPowered"
+                soc_low:
+                  type: integer
+                  description: Applicable for advanced mode. Load will be powered off when the battery soc reaches this level. It can be between 10 to 90
+                essential_start_time:
+                  type: integer
+                  description: Applicable for scheduled mode. Time in seconds. Load will powered on between essential_start_time and essential_end_time
+                essential_end_time:
+                  type: integer
+                  description: Applicable for scheduled mode. Time in seconds. Load will powered on between essential_start_time and essential_end_time
+              required:
+              - name
+      tags:
+      - System Configurations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  system_id:
+                    type: integer
+                  load_control_data:
+                    type: array
+                    items:
+                      properties:
+                        name:
+                          type: string
+                          description: Name of the dry contact
+                        load_name:
+                          type: string
+                          description: Name of the load
+                        owner_can_override:
+                          type: boolean
+                          description: Indicates if the homeowner can override the load control settings
+                        mode:
+                          allOf:
+                          - $ref: '#/components/schemas/LoadControlMode'
+                          description: Current load control configuration
+                        soc_low:
+                          type: integer
+                          description: Applicable for advanced mode. Load will be powered off when the battery soc reaches this level
+                        soc_high:
+                          type: integer
+                          description: Applicable for advanced mode. Load powers off when battery reacheds soc_low. The load will be powered on when the battery soc reaches soc_high
+                        status:
+                          type: string
+                          description: enabled/disabled
+                        essential_start_time:
+                          type: integer
+                          description: Applicable for scheduled mode. Time in seconds. Load will powered on between essential_start_time and essential_end_time
+                        essential_end_time:
+                          type: integer
+                          description: Applicable for scheduled mode. Time in seconds. Load will powered on between essential_start_time and essential_end_time
+                    description: load control data for all the configured loads
+              examples:
+                response:
+                  value:
+                    system_id: 1932237
+                    load_control_data:
+                    - name: NC1
+                      load_name: Downstairs A/C
+                      owner_can_override: true
+                      mode: Basic
+                      soc_low: 30
+                      soc_high: 50
+                      status: enabled
+                      essential_start_time: 32400
+                      essential_end_time: 57600
+                    - name: NC2
+                      load_name: Upstairs A/C
+                      owner_can_override: true
+                      mode: Basic
+                      soc_low: 30
+                      soc_high: 50
+                      status: enabled
+                      essential_start_time: 32400
+                      essential_end_time: 57600
+        '401':
+          description: Authentication Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Authorized
+                    details: User is not authorized
+                    code: 401
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Forbidden
+                    details: Not authorized to access this resource
+                    code: 403
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Found
+                    details: System not found for {:id=>"1"}
+                    code: 404
+        '405':
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '405'
+                    message:
+                    - Method not allowed
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Unprocessable Entity
+                    details: soc_low is mandatory for Advanced_BatteryPowered mode
+                    code: 422
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+                  period:
+                    type: string
+                    description: Quota exceeded for minute/month
+                  period_start:
+                    type: integer
+                    description: Starting period timestamp
+                  period_end:
+                    type: integer
+                    description: Ending period timestamp
+                  limit:
+                    type: integer
+                    description: Limit count for the period
+              examples:
+                response:
+                  value:
+                    message: Too Many Requests
+                    details: Usage limit exceeded for plan Kilowatt
+                    code: 429
+                    period: minute
+                    period_start: 1623825660
+                    period_end: 1623825720
+                    limit: 5
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '501'
+                    message:
+                    - Not Implemented
+components:
+  schemas:
+    BatteryMode:
+      type: string
+      description: Battery operating mode configured for supported systems.
+      enum:
+      - Savings Mode
+      - Full Backup
+      - Self-consumption
+    LoadControlMode:
+      type: string
+      description: Supported load control operating modes.
+      enum:
+      - Scheduled
+      - Basic
+      - Advanced_BatteryPowered
+      - Manual_always_not_powered
+      - Manual_always_powered
+      - Advanced_GeneratorPowered
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      name: key
+      in: query

@@ -1,0 +1,838 @@
+openapi: 3.0.0
+info:
+  title: The Enlighten Systems Device Level Production Monitoring API
+  description: 'The Enlighten Systems API is a JSON-based API that provides access to performance data for a PV system. By using the Enlighten Systems API, you agree to the Enphase Energy API License Agreement.
+
+
+    Please note that the Enlighten Systems API does not provide performance data at a panel or microinverter level.'
+  version: '2.0'
+  termsOfService: https://developer.enphase.com/docs#Display-Requirements
+  license:
+    name: Enphase API License Agreement
+    url: https://www.enphase.com/en-us/legal/api-license-agreement
+servers:
+- url: https://api.enphaseenergy.com/api/v2
+security:
+- ApiKey: []
+tags:
+- name: Device Level Production Monitoring
+paths:
+  /api/v4/systems/{system_id}/devices/micros/{serial_no}/telemetry:
+    get:
+      summary: Retrieves telemetry for single micro/pcu.
+      description: "Retrieves telemetry for single micro/pcu. \nIf no start_at is specified, defaults to midnight today, in the timezone of the system. If the start_at specified is earlier than the system’s first reported date, then midnight of the system’s first reported date is considered as start_at.\nThe end_at is calculated as the minimum of the time of the request and (start time + granularity). \nThe meaning of granularity is as follow:\n\nIf granularity is 15mins, maximum 3 intervals will appear in response. If granularity is day, maximum 288 intervals will appear in response where each interval is of 5 mins duration.\n \n The requested start date must be within 2 years from current date. \n By default start_at will appear in response. If start_date parameter is passed in the url, then start_date field will appear in response. \nBy default end_at will appear in response. If end_date parameter is passed in the url then end_date field will appear in response. Empty list will be returned if the last interval < requested start time < current time."
+      operationId: getMicroTelemetry
+      parameters:
+      - name: system_id
+        in: path
+        description: System id
+        required: true
+        schema:
+          type: integer
+      - name: serial_no
+        in: path
+        description: Serial Number of the individual solar Microinverter
+        required: true
+        schema:
+          type: string
+      - name: start_at
+        in: query
+        description: Start time for fetching the telemetry data in Epoch time format. Alternatively one can use start_date in place of start_at for passing the start date as String in YYYY-MM-DD format. By default start_at will appear in response. If start_date parameter is passed in the url, then start_date field will appear in response.
+        schema:
+          type: integer
+      - name: granularity
+        in: query
+        description: The granularity of the telemetry data. Possible values are 'week', 'day', '15mins', '5mins'. Default is 'day'
+        schema:
+          $ref: '#/components/schemas/TelemetryGranularity'
+      tags:
+      - Device Level Production Monitoring
+      responses:
+        '200':
+          description: Telemetry for micro
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  system_id:
+                    type: integer
+                    description: The unique numeric ID of the system
+                  serial_number:
+                    type: string
+                    description: The device serial number
+                  granularity:
+                    allOf:
+                    - $ref: '#/components/schemas/TelemetryGranularity'
+                    description: The granularity of the telemetry data. Possible values are 'week', 'day', '15mins', '5mins'. Default is 'day'
+                  total_devices:
+                    type: integer
+                    description: Shall always be 1 since this is telemetry from individual micros
+                  start_at:
+                    type: integer
+                    description: Start Time of the data series. Either Start_date or start_at will be present. By default start_at will appear in response. If start_date parameter passed in the url then start_date field will appear in response.
+                  end_at:
+                    type: integer
+                    description: End Time of the data series. Either end_date or end_at will be present. By default end_at will appear in response. If end_date parameter passed in the url then end_date field will appear in response.
+                  items:
+                    type: string
+                    description: The list key 'intervals'
+                  intervals:
+                    type: array
+                    items:
+                      properties:
+                        end_at:
+                          type: integer
+                          description: End time of the telemetry interval
+                        powr:
+                          type: integer
+                          description: Average power (in Watt) produced by all the microinverters during this interval, measured in Watts.
+                        enwh:
+                          type: integer
+                          description: Energy produced (in Watt-Hours) from all the microinverters combined during that period
+              examples:
+                response:
+                  value:
+                    system_id: 1765
+                    serial_number: '12345'
+                    granularity: day
+                    total_devices: 1
+                    start_at: 1496526300
+                    end_at: 1496529300
+                    items: intervals
+                    intervals:
+                    - end_at: 1496526300
+                      powr: 30
+                      enwh: 40
+                    - end_at: 1496526600
+                      powr: 20
+                      enwh: 40
+        '401':
+          description: Authentication Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Authorized
+                    details: User is not authorized
+                    code: 401
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Forbidden
+                    details: Not authorized to access this resource
+                    code: 403
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Found
+                    details: Micro not found for {:id=>"1"}
+                    code: 404
+        '405':
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '405'
+                    message:
+                    - Method not allowed
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Unprocessable Entity
+                    details: Invalid request because of 'Requested date range is invalid for this system. {:start_at=>1566930600, :end_at=>1565333100, :first_interval=>1565072100, :last_interval=>1565333700}'
+                    code: 422
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+                  period:
+                    type: string
+                    description: Quota exceeded for minute/month
+                  period_start:
+                    type: integer
+                    description: Starting period timestamp
+                  period_end:
+                    type: integer
+                    description: Ending period timestamp
+                  limit:
+                    type: integer
+                    description: Limit count for the period
+              examples:
+                response:
+                  value:
+                    message: Too Many Requests
+                    details: Usage limit exceeded for plan Kilowatt
+                    code: 429
+                    period: minute
+                    period_start: 1623825660
+                    period_end: 1623825720
+                    limit: 5
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '501'
+                    message:
+                    - Not Implemented
+  /api/v4/systems/{system_id}/devices/acbs/{serial_no}/telemetry:
+    get:
+      summary: Retrieves telemetry for single ACB
+      description: "Retrieves telemetry for single ACB. \nIf no start_at is specified, defaults to midnight today, in the timezone of the system. If the start_at specified is earlier than the system’s first reported date, then midnight of the system’s first reported date is considered as start_at.\nThe end_at is calculated as the minimum of the time of the request and (start time + granularity). \nThe meaning of granularity is as follow:\n\nIf granularity is 15mins, maximum 1 interval will appear in response. If granularity is day, maximum 96 intervals, and if granularity is week, maximum 672 intervals,  will appear in response where each interval is of 15 mins duration.\n \n The requested start date must be within 2 years from current date. \n By default start_at will appear in response. If start_date parameter is passed in the url, then start_date field will appear in response. \nBy default end_at will appear in response. If end_date parameter is passed in the url then end_date field will appear in response. Empty list will be returned if the last interval < requested start time < current time."
+      operationId: getAcbTelemetry
+      parameters:
+      - name: system_id
+        in: path
+        description: System id
+        required: true
+        schema:
+          type: integer
+      - name: serial_no
+        in: path
+        description: Serial Number of the acb
+        required: true
+        schema:
+          type: string
+      - name: start_at
+        in: query
+        description: Start time for fetching the telemetry data in Epoch time format. Alternatively one can use start_date in place of start_at for passing the start date as String in YYYY-MM-DD format. By default start_at will appear in response. If start_date parameter is passed in the url, then start_date field will appear in response.
+        schema:
+          type: integer
+      - name: granularity
+        in: query
+        description: The granularity of the telemetry data. Possible values are 'week', 'day', '15mins', '5mins'. Default is 'day'
+        schema:
+          $ref: '#/components/schemas/TelemetryGranularity'
+      tags:
+      - Device Level Production Monitoring
+      responses:
+        '200':
+          description: Telemetry for the ACB
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  system_id:
+                    type: integer
+                    description: System id
+                  serial_number:
+                    type: string
+                    description: The device serial number
+                  granularity:
+                    allOf:
+                    - $ref: '#/components/schemas/TelemetryGranularity'
+                    description: The granularity of the telemetry data. Possible values are 'week', 'day', '15mins', '5mins'. Default is 'day'
+                  total_devices:
+                    type: integer
+                    description: Shall always be 1 since this is telemetry from individual micros
+                  start_at:
+                    type: integer
+                    description: Start Time of the data series. Either Start_date or start_at will be present. By default start_at will appear in response. If start_date parameter passed in the url then start_date field will appear in response.
+                  end_at:
+                    type: integer
+                    description: End Time of the data series. Either end_date or end_at will be present. By default end_at will appear in response. If end_date parameter passed in the url then end_date field will appear in response.
+                  items:
+                    type: string
+                    description: The list key 'intervals'
+                  intervals:
+                    type: array
+                    items:
+                      properties:
+                        end_at:
+                          type: integer
+                          description: End time of the telemetry interval.
+                        charge:
+                          type: object
+                          properties:
+                            enwh:
+                              type: integer
+                              description: Energy into the battery during the interval
+                        discharge:
+                          type: object
+                          properties:
+                            enwh:
+                              type: integer
+                              description: Energy discharged from the battery during the interval
+                        soc:
+                          type: object
+                          properties:
+                            percent:
+                              type: integer
+                              description: Battery soc percentage
+                  last_reported_time:
+                    type: integer
+                    description: Last reported timestamp
+                  last_reported_soc:
+                    type: string
+                    description: Last reported soc percentage
+              examples:
+                response:
+                  value:
+                    system_id: 1765
+                    serial_number: '12345'
+                    granularity: day
+                    total_devices: 1
+                    start_at: 1496526300
+                    end_at: 1496529300
+                    items: intervals
+                    intervals:
+                    - end_at: 1384122700
+                      charge:
+                        enwh: 40
+                      discharge:
+                        enwh: 0
+                      soc:
+                        percent: 25
+                    last_reported_time: 1650349170
+                    last_reported_soc: 99%
+        '401':
+          description: Authentication Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Authorized
+                    details: User is not authorized
+                    code: 401
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Forbidden
+                    details: Not authorized to access this resource
+                    code: 403
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Found
+                    details: ACB not found for {:id=>"1"}
+                    code: 404
+        '405':
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '405'
+                    message:
+                    - Method not allowed
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Unprocessable Entity
+                    details: Invalid request because of 'Requested date range is invalid for this system. {:start_at=>1566930600, :end_at=>1565333100, :first_interval=>1565072100, :last_interval=>1565333700}'
+                    code: 422
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+                  period:
+                    type: string
+                    description: Quota exceeded for minute/month
+                  period_start:
+                    type: integer
+                    description: Starting period timestamp
+                  period_end:
+                    type: integer
+                    description: Ending period timestamp
+                  limit:
+                    type: integer
+                    description: Limit count for the period
+              examples:
+                response:
+                  value:
+                    message: Too Many Requests
+                    details: Usage limit exceeded for plan Kilowatt
+                    code: 429
+                    period: minute
+                    period_start: 1623825660
+                    period_end: 1623825720
+                    limit: 5
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '501'
+                    message:
+                    - Not Implemented
+  /api/v4/systems/{system_id}/devices/encharges/{serial_no}/telemetry:
+    get:
+      summary: Retrieves telemetry for single Encharge
+      description: "Retrieves telemetry for single Encharge. \nIf no start_at is specified, defaults to midnight today, in the timezone of the system. If the start_at specified is earlier than the system’s first reported date, then midnight of the system’s first reported date is considered as start_at.\nThe end_at is calculated as the minimum of the time of the request and (start time + granularity). \nThe meaning of granularity is as follow:\n\nIf granularity is 15mins, maximum 1 interval will appear in response. If granularity is day, maximum 96 intervals, and if granularity is week, maximum 672 intervals,  will appear in response where each interval is of 15 mins duration.\n \n The requested start date must be within 2 years from current date. \n By default start_at will appear in response. If start_date parameter is passed in the url, then start_date field will appear in response. \nBy default end_at will appear in response. If end_date parameter is passed in the url then end_date field will appear in response. Empty list will be returned if the last interval < requested start time < current time."
+      operationId: getEnchargeTelemetry
+      parameters:
+      - name: system_id
+        in: path
+        description: System id
+        required: true
+        schema:
+          type: integer
+      - name: serial_no
+        in: path
+        description: Serial Number of the encharge
+        required: true
+        schema:
+          type: string
+      - name: start_at
+        in: query
+        description: Start time for fetching the telemetry data in Epoch time format. Alternatively one can use start_date in place of start_at for passing the start date as String in YYYY-MM-DD format. By default start_at will appear in response. If start_date parameter is passed in the url, then start_date field will appear in response.
+        schema:
+          type: integer
+      - name: granularity
+        in: query
+        description: The granularity of the telemetry data. Possible values are 'week', 'day', '15mins', '5mins'. Default is 'day'
+        schema:
+          $ref: '#/components/schemas/TelemetryGranularity'
+      tags:
+      - Device Level Production Monitoring
+      responses:
+        '200':
+          description: Telemetry for the Encharge
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  system_id:
+                    type: integer
+                    description: System id
+                  serial_number:
+                    type: string
+                    description: The device serial number
+                  granularity:
+                    allOf:
+                    - $ref: '#/components/schemas/TelemetryGranularity'
+                    description: The granularity of the telemetry data. Possible values are 'week', 'day', '15mins', '5mins'. Default is 'day'
+                  total_devices:
+                    type: integer
+                    description: Shall always be 1 since this is telemetry from individual micros
+                  start_at:
+                    type: integer
+                    description: Start Time of the data series. Either Start_date or start_at will be present. By default start_at will appear in response. If start_date parameter passed in the url then start_date field will appear in response.
+                  end_at:
+                    type: integer
+                    description: End Time of the data series. Either end_date or end_at will be present. By default end_at will appear in response. If end_date parameter passed in the url then end_date field will appear in response.
+                  items:
+                    type: string
+                    description: The list key 'intervals'
+                  intervals:
+                    type: array
+                    items:
+                      properties:
+                        end_at:
+                          type: integer
+                          description: End time of the telemetry interval.
+                        charge:
+                          type: object
+                          properties:
+                            enwh:
+                              type: integer
+                              description: Energy into the battery during the interval
+                        discharge:
+                          type: object
+                          properties:
+                            enwh:
+                              type: integer
+                              description: Energy discharged from the battery during the interval
+                        soc:
+                          type: object
+                          properties:
+                            percent:
+                              type: integer
+                              description: Battery soc percentage
+                  last_reported_time:
+                    type: integer
+                    description: Last reported timestamp
+                  last_reported_soc:
+                    type: string
+                    description: Last reported soc percentage
+              examples:
+                response:
+                  value:
+                    system_id: 1765
+                    serial_number: '12345'
+                    granularity: day
+                    total_devices: 1
+                    start_at: 1496526300
+                    end_at: 1496529300
+                    items: intervals
+                    intervals:
+                    - end_at: 1384122700
+                      charge:
+                        enwh: 40
+                      discharge:
+                        enwh: 0
+                      soc:
+                        percent: 25
+                    last_reported_time: 1650349170
+                    last_reported_soc: 99%
+        '401':
+          description: Authentication Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Authorized
+                    details: User is not authorized
+                    code: 401
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Forbidden
+                    details: Not authorized to access this resource
+                    code: 403
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Found
+                    details: Encharge not found for {:id=>"1"}
+                    code: 404
+        '405':
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '405'
+                    message:
+                    - Method not allowed
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Unprocessable Entity
+                    details: Invalid request because of 'Requested date range is invalid for this system. {:start_at=>1566930600, :end_at=>1565333100, :first_interval=>1565072100, :last_interval=>1565333700}'
+                    code: 422
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+                  period:
+                    type: string
+                    description: Quota exceeded for minute/month
+                  period_start:
+                    type: integer
+                    description: Starting period timestamp
+                  period_end:
+                    type: integer
+                    description: Ending period timestamp
+                  limit:
+                    type: integer
+                    description: Limit count for the period
+              examples:
+                response:
+                  value:
+                    message: Too Many Requests
+                    details: Usage limit exceeded for plan Kilowatt
+                    code: 429
+                    period: minute
+                    period_start: 1623825660
+                    period_end: 1623825720
+                    limit: 5
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '501'
+                    message:
+                    - Not Implemented
+components:
+  schemas:
+    TelemetryGranularity:
+      type: string
+      description: Interval size used when returning telemetry time series.
+      enum:
+      - 5mins
+      - 15mins
+      - day
+      - week
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      name: key
+      in: query

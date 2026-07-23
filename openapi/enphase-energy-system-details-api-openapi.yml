@@ -1,0 +1,2603 @@
+openapi: 3.0.0
+info:
+  title: The Enlighten Systems Device Level Production Monitoring System Details API
+  description: 'The Enlighten Systems API is a JSON-based API that provides access to performance data for a PV system. By using the Enlighten Systems API, you agree to the Enphase Energy API License Agreement.
+
+
+    Please note that the Enlighten Systems API does not provide performance data at a panel or microinverter level.'
+  version: '2.0'
+  termsOfService: https://developer.enphase.com/docs#Display-Requirements
+  license:
+    name: Enphase API License Agreement
+    url: https://www.enphase.com/en-us/legal/api-license-agreement
+servers:
+- url: https://api.enphaseenergy.com/api/v2
+security:
+- ApiKey: []
+tags:
+- name: System Details
+paths:
+  /api/v4/systems:
+    get:
+      summary: Fetch systems
+      description: Returns a list of systems for which the user can make API requests. By default, systems are returned in batches of 10. The maximum size is 100.
+      operationId: listSystems
+      tags:
+      - System Details
+      parameters:
+      - name: page
+        in: query
+        description: The page to be returned. Default=1, Min=1. For example, if page is set to 2, 2nd page is returned
+        schema:
+          type: integer
+      - name: size
+        in: query
+        description: Maximum number of records shown per page. Default=10, Min=1, Max=100.  For example, if max is set to 5, 5 records are shown per page
+        schema:
+          type: integer
+      - name: sort_by
+        in: query
+        description: Returns list of systems sorted by <sort_by> field. To get the ASC order sorted list, user sort_by = id. To get the DESC order sorted list, use sort_by = -id. By default, the list is sorted by ascending order of system ID.
+        schema:
+          type: string
+          enum:
+          - id
+          - -id
+      responses:
+        '200':
+          description: List of Systems
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                    description: Total number of systems
+                  current_page:
+                    type: integer
+                    description: 'Number of the current page fetched '
+                  size:
+                    type: integer
+                    description: Maximum number of records shown per page. Default=10, Min=1, Max=100.
+                  count:
+                    type: integer
+                    description: Total number of systems actually returned for the current page
+                  items:
+                    type: string
+                    description: Named key of the list data. In this endpoint, it is systems
+                  systems:
+                    type: array
+                    items:
+                      properties:
+                        system_id:
+                          type: integer
+                          description: The unique numeric ID of the system
+                        name:
+                          type: string
+                          description: Name of the system
+                        public_name:
+                          type: string
+                          description: Name displayed on the public system page. Available values are All, Residential System, Commercial etc. Default='Residential System'. Only for systems that allow public access.
+                        timezone:
+                          type: string
+                          nullable: true
+                          description: Timezone to which the system belongs
+                        address:
+                          type: object
+                          properties:
+                            city:
+                              type: string
+                              description: City in which the system is located
+                            state:
+                              type: string
+                              nullable: true
+                              description: State in which the system is located
+                            country:
+                              type: string
+                              nullable: true
+                              description: Country in which the system is located
+                            postal_code:
+                              type: string
+                              nullable: true
+                              description: Postal Code of the system's location
+                          description: Address object for the system. It can contain the following items
+                        connection_type:
+                          allOf:
+                          - $ref: '#/components/schemas/SystemConnectionType'
+                          description: Connection Type of the system. Available values are ethernet, Wi-Fi, Cellular
+                        energy_lifetime:
+                          type: integer
+                          description: Deprecated field. The API will always return this field as -1
+                        energy_today:
+                          type: integer
+                          description: Deprecated field. The API will always return this field as -1
+                        system_size:
+                          type: number
+                          format: float
+                          description: Deprecated field. The API will always return this field as -1
+                        status:
+                          type: string
+                          description: System's status. Corresponding Enlighten values can be found in table added at the end of page.
+                        last_report_at:
+                          type: integer
+                          description: Timestamp (in epoch format) at which the system's Envoy last submitted a report
+                        last_energy_at:
+                          type: integer
+                          nullable: true
+                          description: Timestamp (in epoch format) at which the systems's produced energy was last reported. Even if the last produced energy is 0, its timestamp will be returned.
+                        operational_at:
+                          type: integer
+                          nullable: true
+                          description: Timestamp (in epoch format) at which this system became operational. Corresponds to the system’s interconnect time, if one is specified. Otherwise, it is the system’s first reported interval end time.
+                        attachment_type:
+                          type: string
+                          allOf:
+                          - $ref: '#/components/schemas/MicroinverterAttachmentType'
+                          nullable: true
+                          description: Micro inverter attachment type. Available values are rack_mount, zep, acm, bipv, frame_mount, railless_mount
+                        interconnect_date:
+                          type: string
+                          format: date
+                          nullable: true
+                          description: Date on which the system was approved to connect to the grid
+                        reference:
+                          type: string
+                          description: If the calling user belongs to a company and that company has provided its own identifier for a system, that ID is included here. Otherwise, this attribute is not returned.
+                        other_references:
+                          type: array
+                          items:
+                            type: string
+                          description: If any other companies have provided their own identifiers for a system, those identifiers are included here. Otherwise, this attribute is not returned.
+                    description: 'List of systems. It contains the following:'
+              example:
+                total: 28
+                current_page: 1
+                size: 2
+                count: 2
+                items: systems
+                systems:
+                - system_id: 698910067
+                  name: Enphase System
+                  public_name: Residential System
+                  timezone: Australia/Sydney
+                  address:
+                    city: Sydney
+                    state: NSW
+                    country: AU
+                    postal_code: '2127'
+                  connection_type: ethernet
+                  energy_lifetime: -1
+                  energy_today: -1
+                  system_size: -1
+                  status: micro
+                  last_report_at: 1508174262
+                  last_energy_at: 1508174172
+                  operational_at: 1497445200
+                  attachment_type: acm
+                  interconnect_date: null
+                  reference: '106015287'
+                  other_references:
+                  - '106015287'
+                - system_id: 698906018
+                  name: Enphase Public System
+                  public_name: Residential System
+                  timezone: US/Pacific
+                  address:
+                    city: Los Angeles
+                    state: CA
+                    country: US
+                    postal_code: '94954'
+                  connection_type: ethernet
+                  energy_lifetime: -1
+                  energy_today: -1
+                  system_size: -1
+                  status: normal
+                  last_report_at: 1508174262
+                  last_energy_at: 1508174172
+                  operational_at: 1497445200
+                  attachment_type: rack_mount
+                  interconnect_date: null
+                  reference: '106015287'
+                  other_references:
+                  - '106015287'
+        '401':
+          description: Authentication Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Authorized
+                    details: User is not authorized
+                    code: 401
+        '405':
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '405'
+                    message:
+                    - Method not allowed
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Unprocessable Entity
+                    details: Invalid request because of 'The sorting parameter is not supported. Please use id for sorting by Asc or -id for sorting by Desc'
+                    code: 422
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Too Many Requests
+                    details: Usage limit exceeded for plan Kilowatt
+                    code: 429
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '501'
+                    message:
+                    - Not Implemented
+  /api/v4/systems/search:
+    post:
+      summary: Search and filter systems
+      description: Search and filter systems. Provide only valid values in request parameters. Empty values will be ignored. Invalid keys will be rejected.
+      operationId: searchSystems
+      tags:
+      - System Details
+      parameters:
+      - name: page
+        in: query
+        description: The page to be returned. Default=1, Min=1, e.g=2
+        schema:
+          type: integer
+      - name: size
+        in: query
+        description: Maximum number of records shown per page. Default=10, Min=1, Max=1000, e.g=5
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                sort_by:
+                  type: string
+                  enum:
+                  - id
+                  - -id
+                  description: Returns list of systems sorted by <sort_by> field. To get ASC order sorted list, user sort_by = id. To get DESC order sorted list, use sort_by = -id. By default, the list is sorted by ascending order of system ID.
+                system:
+                  type: object
+                  properties:
+                    ids:
+                      type: array
+                      description: Filter system by particular Ids
+                      items:
+                        type: integer
+                    name:
+                      type: string
+                      description: Search by name of the System.
+                    reference:
+                      type: string
+                      description: Search by reference of the System.
+                    other_reference:
+                      type: string
+                      description: Search by any other_references of the System.
+                    statuses:
+                      type: array
+                      description: Search by System status.
+                      items:
+                        type: string
+                        enum:
+                        - normal
+                        - comm
+                        - micro
+                        - power
+                        - meter
+                        - battery
+                        - storage_idle
+                        - meter_issue
+                        - enpower
+                        - encharge
+                        - enpower_issue
+                        - encharge_issue
+              required:
+              - system
+      responses:
+        '200':
+          description: List of Systems
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                    description: Total number of systems available
+                  current_page:
+                    type: integer
+                    description: Current page of the systems result. Default is 1
+                  size:
+                    type: integer
+                    description: Max number of records from API per page is 100. Default is 10.
+                  count:
+                    type: integer
+                    description: Total number of systems actually returned for the current page
+                  items:
+                    type: string
+                    description: Named key of the list data. In this endpoint, it is systems
+                  systems:
+                    type: array
+                    items:
+                      properties:
+                        system_id:
+                          type: integer
+                          description: The unique numeric ID of the system
+                        name:
+                          type: string
+                          description: Name of the system
+                        public_name:
+                          type: string
+                          description: Name displayed on the public system page. Available values are All, Residential System, Commercial etc. Default='Residential System'. Only for systems that allow public access.
+                        timezone:
+                          type: string
+                          nullable: true
+                          description: Timezone to which the system belongs
+                        address:
+                          type: object
+                          properties:
+                            state:
+                              type: string
+                              nullable: true
+                              description: State in which the system is located
+                            country:
+                              type: string
+                              nullable: true
+                              description: Country in which the system is located
+                            postal_code:
+                              type: string
+                              nullable: true
+                              description: Postal Code of the system's location
+                          description: Address object for the system. It can contain the following items
+                        connection_type:
+                          allOf:
+                          - $ref: '#/components/schemas/SystemConnectionType'
+                          description: Connection Type of the system. Available values are ethernet, Wi-Fi, Cellular
+                        status:
+                          type: string
+                          description: System's status. Corresponding Enlighten values can be found in table added at the end of page.
+                        last_report_at:
+                          type: integer
+                          nullable: true
+                          description: Timestamp (in epoch format) at which the system's Envoy last submitted a report
+                        last_energy_at:
+                          type: integer
+                          nullable: true
+                          description: Timestamp (in epoch format) at which the systems's produced energy was last reported. Even if the last produced energy is 0, its timestamp will be returned.
+                        operational_at:
+                          type: integer
+                          nullable: true
+                          description: Timestamp (in epoch format) at which this system became operational. Corresponds to the system’s interconnect time, if one is specified. Otherwise, it is the system’s first reported interval end time.
+                        attachment_type:
+                          type: string
+                          allOf:
+                          - $ref: '#/components/schemas/MicroinverterAttachmentType'
+                          nullable: true
+                          description: Micro inverter attachment type. Available values are rack_mount, zep, acm, bipv, frame_mount, railless_mount
+                        interconnect_date:
+                          type: string
+                          format: date
+                          nullable: true
+                          description: Date on which the system was approved to connect to the grid
+                        energy_lifetime:
+                          type: integer
+                          description: Deprecated field. The API will always return this field as -1
+                        energy_today:
+                          type: integer
+                          description: Deprecated field. The API will always return this field as -1
+                        system_size:
+                          type: number
+                          format: float
+                          description: Deprecated field. The API will always return this field as -1
+                        reference:
+                          type: string
+                          nullable: true
+                          description: Company specific identifier for the system when available.
+                        other_references:
+                          type: array
+                          items:
+                            type: string
+                          description: Additional identifiers provided by other companies, when available.
+                    description: List of filtered systems. It contains the following items
+              example:
+                total: 28
+                current_page: 1
+                size: 2
+                count: 2
+                items: systems
+                systems:
+                - system_id: 698910067
+                  name: Enphase System
+                  public_name: Residential System
+                  timezone: null
+                  address:
+                    state: null
+                    country: null
+                    postal_code: null
+                  connection_type: ethernet
+                  status: micro
+                  last_report_at: 1557400231
+                  last_energy_at: null
+                  operational_at: null
+                  attachment_type: bipv
+                  interconnect_date: null
+                  energy_lifetime: -1
+                  energy_today: -1
+                  system_size: -1
+                - system_id: 698906018
+                  name: Enphase Public System
+                  public_name: Residential System
+                  timezone: US/Pacific
+                  address:
+                    state: CA
+                    country: US
+                    postal_code: '94954'
+                  connection_type: ethernet
+                  status: normal
+                  last_report_at: 1508174262
+                  last_energy_at: 1508174172
+                  operational_at: 1497445200
+                  attachment_type: acm
+                  interconnect_date: null
+                  energy_lifetime: -1
+                  energy_today: -1
+                  system_size: -1
+                  reference: '106015287'
+                  other_references:
+                  - '106015287'
+        '401':
+          description: Authentication Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Authorized
+                    details: User is not authorized
+                    code: 401
+        '405':
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '405'
+                    message:
+                    - Method not allowed
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Unprocessable Entity
+                    details: system is missing at Json body location
+                    code: 422
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Too Many Requests
+                    details: Usage limit exceeded for plan Kilowatt
+                    code: 429
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '501'
+                    message:
+                    - Not Implemented
+  /api/v4/systems/{system_id}:
+    get:
+      summary: Retrieves a System by id
+      description: Retrieves a System by ID
+      operationId: getSystemById
+      tags:
+      - System Details
+      parameters:
+      - name: system_id
+        in: path
+        description: The unique numeric ID of the system. If an empty value is passed in the ID, this endpoint behaves as Fetch systems endpoint.
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: System fetched
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  system_id:
+                    type: integer
+                    description: The unique numeric ID of the system
+                  name:
+                    type: string
+                    description: Name of the system
+                  public_name:
+                    type: string
+                    description: Name displayed on the public system page. Available values are All, Residential System, Commercial etc. Default='Residential System'. Only for systems that allow public access.
+                  timezone:
+                    type: string
+                    description: Timezone to which the system belongs
+                  address:
+                    type: object
+                    properties:
+                      city:
+                        type: string
+                        description: City in which the system is located
+                      state:
+                        type: string
+                        description: State in which the system is located
+                      country:
+                        type: string
+                        description: Country in which the system is located
+                      postal_code:
+                        type: string
+                        description: Postal Code of the system's location
+                    description: Address object for the system. It can contain the following items
+                  connection_type:
+                    type: string
+                    description: Connection Type of the system. Available values are ethernet, Wi-Fi, Cellular
+                  energy_lifetime:
+                    type: integer
+                    description: Deprecated field. The API will always return this field as -1
+                  energy_today:
+                    type: integer
+                    description: Deprecated field. The API will always return this field as -1
+                  system_size:
+                    type: number
+                    format: float
+                    description: Deprecated field. The API will always return this field as -1
+                  status:
+                    type: string
+                    description: System's status. Corresponding Enlighten values can be found in table added at the end of page.
+                  last_report_at:
+                    type: integer
+                    nullable: true
+                    description: Timestamp (in epoch format) at which the system's Envoy last submitted a report
+                  last_energy_at:
+                    type: integer
+                    nullable: true
+                    description: Timestamp (in epoch format) at which the systems's produced energy was last reported. Even if the last produced energy is 0, its timestamp will be returned.
+                  operational_at:
+                    type: integer
+                    nullable: true
+                    description: Timestamp (in epoch format) at which this system became operational. Corresponds to the system’s interconnect time, if one is specified. Otherwise, it is the system’s first reported interval end time.
+                  attachment_type:
+                    type: string
+                    nullable: true
+                    description: Micro inverter attachment type. Available values are rack_mount, zep, acm, bipv, frame_mount, railless_mount
+                  interconnect_date:
+                    type: string
+                    format: date
+                    nullable: true
+                    description: Date on which the system was approved to connect to the grid
+                  reference:
+                    type: string
+                    description: If the calling user belongs to a company and that company has provided its own identifier for a system, that ID is included here. Otherwise, this attribute is not returned.
+                  other_references:
+                    type: array
+                    items:
+                      type: string
+                    description: If any other companies have provided their own identifiers for a system, those identifiers are included here. Otherwise, this attribute is not returned.
+              examples:
+                response:
+                  value:
+                    system_id: 72
+                    name: Enphase System
+                    public_name: Residential System
+                    timezone: America/Los_Angeles
+                    address:
+                      city: Los Angeles
+                      state: CA
+                      country: US
+                      postal_code: '94954'
+                    connection_type: cellular
+                    energy_lifetime: -1
+                    energy_today: -1
+                    system_size: -1
+                    status: normal
+                    last_report_at: 1445619615
+                    last_energy_at: 1445619033
+                    operational_at: 1357023600
+                    attachment_type: acm
+                    interconnect_date: 2012-10-13
+                    reference: '106015287'
+                    other_references:
+                    - '106015287'
+        '401':
+          description: Authentication Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Authorized
+                    details: User is not authorized
+                    code: 401
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Forbidden
+                    details: Not authorized to access this resource
+                    code: 403
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Found
+                    details: System not found for {:id=>"1"}
+                    code: 404
+        '405':
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '405'
+                    message:
+                    - Method not allowed
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Too Many Requests
+                    details: Usage limit exceeded for plan Kilowatt
+                    code: 429
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '501'
+                    message:
+                    - Not Implemented
+  /api/v4/systems/{system_id}/summary:
+    get:
+      summary: Retrieves a system summary
+      description: Returns system summary based on the specified system ID.
+      operationId: getSystemSummary
+      tags:
+      - System Details
+      parameters:
+      - name: system_id
+        in: path
+        description: The unique numeric ID of the system
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: System summary fetched
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  system_id:
+                    type: integer
+                    description: The unique numeric ID of the system
+                  current_power:
+                    type: integer
+                    description: Current power production of the system in Watts
+                  energy_lifetime:
+                    type: integer
+                    description: Energy generated by the system during its lifetime in Wh
+                  energy_today:
+                    type: integer
+                    description: Energy generated by the system today in Wh
+                  last_interval_end_at:
+                    type: integer
+                    description: The last known time that the system produced energy. When a system has not been communicating for a length of time, the last_report_at can be recent, whereas the last_interval_end_at may be further back.
+                  last_report_at:
+                    type: integer
+                    description: Timestamp (in epoch format) at which the system's Envoy last submitted a report
+                  modules:
+                    type: integer
+                    description: Total number of modules in the system
+                  operational_at:
+                    type: integer
+                    nullable: true
+                    description: Timestamp (in epoch format) at which this system became operational. Corresponds to the system’s interconnect time, if one is specified. Otherwise, it is the system’s first reported interval end time.
+                  size_w:
+                    type: integer
+                    description: System size in watts
+                  nmi:
+                    type: string
+                    description: National Meter Identifier
+                  source:
+                    type: string
+                    description: Source of energy measurement
+                  status:
+                    type: string
+                    description: Current status of the system
+                  summary_date:
+                    type: string
+                    description: Summary date
+                  battery_charge_w:
+                    type: integer
+                    description: Maximum charge power of all the batteries of the system in watts
+                  battery_discharge_w:
+                    type: integer
+                    description: Maximum discharge power of all the batteries of the system in watts
+                  battery_capacity_wh:
+                    type: integer
+                    description: Total capacity of all the batteries of the system in watt-hours
+              examples:
+                response:
+                  value:
+                    system_id: 698910067
+                    current_power: 0
+                    energy_lifetime: 0
+                    energy_today: 0
+                    last_interval_end_at: 1557400231
+                    last_report_at: 1557400231
+                    modules: 5
+                    operational_at: null
+                    size_w: 1250
+                    nmi: '1213141516'
+                    source: meter
+                    status: normal
+                    summary_date: 2019-05-12
+                    battery_charge_w: 1280
+                    battery_discharge_w: 1280
+                    battery_capacity_wh: 3360
+        '401':
+          description: Authentication Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Authorized
+                    details: User is not authorized
+                    code: 401
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Forbidden
+                    details: Not authorized to access this resource
+                    code: 403
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Found
+                    details: System not found for {:id=>"1"}
+                    code: 404
+        '405':
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '405'
+                    message:
+                    - Method not allowed
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+                  period:
+                    type: string
+                    description: Quota exceeded for minute/month
+                  period_start:
+                    type: integer
+                    description: Starting period timestamp
+                  period_end:
+                    type: integer
+                    description: Ending period timestamp
+                  limit:
+                    type: integer
+                    description: Limit count for the period
+              examples:
+                response:
+                  value:
+                    message: Too Many Requests
+                    details: Usage limit exceeded for plan Kilowatt
+                    code: 429
+                    period: minute
+                    period_start: 1623825660
+                    period_end: 1623825720
+                    limit: 5
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '501'
+                    message:
+                    - Not Implemented
+  /api/v4/systems/{system_id}/devices:
+    get:
+      summary: Retrieves devices for a given system
+      description: Retrieves devices for a given system. Only devices that are active will be returned in the response.
+      operationId: listSystemDevices
+      tags:
+      - System Details
+      parameters:
+      - name: system_id
+        in: path
+        description: The unique numeric ID of the system
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: List of devices
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  system_id:
+                    type: integer
+                    description: System id
+                  total_devices:
+                    type: integer
+                    description: Total active devices associated with the System
+                  items:
+                    type: string
+                    description: The list key
+                  devices:
+                    type: object
+                    description: 'Hash keys include all the possible device types: micros, meters, gateways, q_relays, ACBs, Encharges, Enpowers, ev_chargers (if the devices of this type are present). For all the device types, the object will contain the serial_number and model with some additional information pertaining to the device type.'
+                    additionalProperties:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          last_report_at:
+                            type: integer
+                          name:
+                            type: string
+                          serial_number:
+                            type: string
+                          part_number:
+                            type: string
+                          emu_sw_version:
+                            type: string
+                          sku:
+                            type: string
+                            nullable: true
+                          model:
+                            type: string
+                          status:
+                            type: string
+                          active:
+                            type: boolean
+                          state:
+                            type: string
+                          config_type:
+                            type: string
+                          product_name:
+                            type: string
+                          cellular_modem:
+                            type: object
+                            properties:
+                              imei:
+                                type: string
+                              part_num:
+                                type: string
+                              sku:
+                                type: string
+                              plan_start_date:
+                                type: integer
+                              plan_end_date:
+                                type: integer
+                            description: Cellular modem details for gateways equipped with a modem.
+                          firmware:
+                            type: string
+              examples:
+                response:
+                  value:
+                    system_id: 698910067
+                    total_devices: 11
+                    items: devices
+                    devices:
+                      micros:
+                      - id: 1023273222
+                        last_report_at: 1508174262
+                        name: Microinverter 902167438951
+                        serial_number: '902167438951'
+                        part_number: 800-01333-r01
+                        sku: IQ8A-72-2-US
+                        model: M250
+                        status: normal
+                        active: true
+                        product_name: M250
+                      - id: 1023273243
+                        last_report_at: 1508174262
+                        name: Microinverter 902372021616
+                        serial_number: '902372021616'
+                        part_number: 800-01333-r01
+                        sku: IQ8A-72-2-US
+                        model: M250
+                        status: normal
+                        active: true
+                        product_name: M250
+                      meters:
+                      - id: 1059640322
+                        last_report_at: 1508174262
+                        name: production
+                        serial_number: 901553005272EIM1
+                        part_number: 800-00655-r08
+                        sku: null
+                        model: Envoy S
+                        status: normal
+                        active: true
+                        state: enabled
+                        config_type: Net
+                        product_name: RGM
+                      - id: 1059640322
+                        last_report_at: 1508174262
+                        name: production
+                        serial_number: 901553005272EIM2
+                        part_number: 800-00655-r08
+                        sku: null
+                        model: Envoy S
+                        status: normal
+                        active: true
+                        state: enabled
+                        config_type: Production
+                        product_name: RGM
+                      gateways:
+                      - id: 1059563029
+                        last_report_at: 1508174262
+                        name: Gateway 202323054201
+                        serial_number: '901553005272'
+                        part_number: 800-00655-r08
+                        emu_sw_version: D4.6.11.170403 (799d2d)
+                        sku: ENV-IQ-AM1-240
+                        model: Envoy-S-Standard-NA
+                        status: normal
+                        active: true
+                        cellular_modem:
+                          imei: '352009112238477'
+                          part_num: 860-00157-r01
+                          sku: CELLMODEM-M1
+                          plan_start_date: 1614796200
+                          plan_end_date: 1772562600
+                        product_name: Envoy-S-Metered-EU
+                      q_relays:
+                      - id: 1059640316
+                        last_report_at: 1508174262
+                        name: IQ Relay 912158973973
+                        serial_number: '912158973973'
+                        part_number: 800-00595-r01
+                        sku: Q-RELAY-1P-INT
+                        model: ''
+                        status: normal
+                        active: true
+                        product_name: IQ Relay
+                      - id: 1059640326
+                        last_report_at: 1508174262
+                        name: IQ Relay 912163603334
+                        serial_number: '912163603334'
+                        part_number: 800-00595-r01
+                        sku: Q-RELAY-1P-INT
+                        model: ''
+                        status: normal
+                        active: true
+                        product_name: IQ Relay
+                      acbs:
+                      - id: 1059640321
+                        last_report_at: 1508174262
+                        name: AC Battery 911364446952
+                        serial_number: '911364446952'
+                        part_number: 800-00560-r03
+                        sku: IQ7-B1200-LN-I-INT01-RV0
+                        model: ''
+                        status: normal
+                        active: true
+                        product_name: ACB
+                      - id: 1059640321
+                        last_report_at: 1508174262
+                        name: AC Battery 911499228280
+                        serial_number: '911499228280'
+                        part_number: 800-00560-r03
+                        sku: IQ7-B1200-LN-I-INT01-RV0
+                        model: ''
+                        status: normal
+                        active: true
+                        product_name: ACB
+                      encharges:
+                      - id: 1059640295
+                        last_report_at: 1508174262
+                        name: IQ Battery 492312001241
+                        serial_number: '121593621979'
+                        part_number: 800-00562-r01
+                        sku: B03-A01-US00-1-3
+                        model: ''
+                        status: normal
+                        active: true
+                        product_name: IQ Battery R3 - 5P
+                      enpowers:
+                      - id: 1059640294
+                        last_report_at: 1508174262
+                        name: IQ System Controller 482218007023
+                        serial_number: '121245173988'
+                        part_number: 800-01135-r02
+                        sku: EP200G101-M240US00
+                        model: ''
+                        status: normal
+                        active: true
+                        product_name: IQ System Controller
+                      ev_chargers:
+                      - id: 202313029329
+                        last_report_at: 1686134789
+                        name: IQ EV Charger 202313029329
+                        serial_number: '202313029329'
+                        part_number: 861-02006 09
+                        sku: IQ-EVSE-NA-1060-0100-0100
+                        model: IQ-EVSE-60R
+                        status: normal
+                        active: true
+                        firmware: v0.04.17
+        '401':
+          description: Authentication Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Authorized
+                    details: User is not authorized
+                    code: 401
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Forbidden
+                    details: Not authorized to access this resource
+                    code: 403
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Found
+                    details: System not found for {:id=>"1"}
+                    code: 404
+        '405':
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '405'
+                    message:
+                    - Method not allowed
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Too Many Requests
+                    details: Usage limit exceeded for plan Kilowatt
+                    code: 429
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Internal Server Error
+                    details: unable to fetch data
+                    code: 500
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '501'
+                    message:
+                    - Not Implemented
+  /api/v4/systems/retrieve_system_id:
+    get:
+      summary: Retrieve system for a given envoy serial number
+      description: Get system ID by passing envoy serial number. If the serial number of a retired envoy is passed in the request param, a 404 Not Found response will be returned.
+      operationId: retrieveSystemId
+      tags:
+      - System Details
+      parameters:
+      - name: serial_num
+        in: query
+        description: Envoy Serial Number
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: search_system_id
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  system_id:
+                    type: integer
+                    description: The unique numeric ID of the system
+              examples:
+                response:
+                  value:
+                    system_id: 123
+        '401':
+          description: Authentication Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Authorized
+                    details: User is not authorized
+                    code: 401
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Found
+                    details: Envoy not found with this serial number
+                    code: 404
+        '405':
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '405'
+                    message:
+                    - Method not allowed
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Unprocessable Entity
+                    details: Provide envoy serial number
+                    code: 422
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+                  period:
+                    type: string
+                    description: Quota exceeded for minute/month
+                  period_start:
+                    type: integer
+                    description: Starting period timestamp
+                  period_end:
+                    type: integer
+                    description: Ending period timestamp
+                  limit:
+                    type: integer
+                    description: Limit count for the period
+              examples:
+                response:
+                  value:
+                    message: Too Many Requests
+                    details: Usage limit exceeded for plan Kilowatt
+                    code: 429
+                    period: minute
+                    period_start: 1623825660
+                    period_end: 1623825720
+                    limit: 5
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '501'
+                    message:
+                    - Not Implemented
+  /api/v4/systems/{system_id}/events:
+    get:
+      summary: To retrieve the list of events for a site
+      description: 'This endpoint is used to retrieve the events for a site. start_time is mandatory and cannot be older than 9 months from the current time.  Maximum 1 week of data can be retrieved in a single call.
+
+
+        An Event is triggered when a site/device meets a pre-defined set of conditions. Each of these pre-defined set of conditions is called an “Event type”. These conditions are defined at both site and device level, therefore events can be triggered at both site and device level. Each event is associated with an event type.
+
+
+        Most Event types (not all) further have pre-defined configurations. Whenever an Event of a given Event type meets these pre-defined configurations, then the Event triggers an Alarm. An example of pre-defined configuration for an event type is - Event status is “Open” beyond a certain time limit.
+
+
+        Events are generated when a site or device meets specific, predefined conditions. These conditions are grouped into what we call “Event types.” Each event is always linked to an event type. For example, ‘Gateway not reporting’ is an event type and an event gets created on a site if the gateway stops reporting. Similarly, if a gateway on another site stops reporting, another event is created specific to that site with the same event type.
+
+
+        Many event types (though not all) come with predefined escalation criteria for alarms. When an event meets these configurations, it can trigger an alarm. For example, a common configuration might specify that an event should trigger an alarm if its status remains “Open” beyond a certain time threshold.'
+      operationId: listSystemEvents
+      tags:
+      - System Details
+      parameters:
+      - name: system_id
+        in: path
+        description: The unique numeric ID of the system.
+        required: true
+        schema:
+          type: integer
+      - name: start_time
+        in: query
+        description: Requested start time of the events data in Epoch time format.
+        required: true
+        schema:
+          type: integer
+      - name: end_time
+        in: query
+        description: Requested end time of the events data in Epoch time format. Defaults to minimum (start time + 1 day, current time)
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: List of events
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  system_id:
+                    type: integer
+                    description: The unique numeric ID of the system.
+                  events:
+                    type: array
+                    description: List of events
+                    items:
+                      type: object
+                      properties:
+                        status:
+                          allOf:
+                          - $ref: '#/components/schemas/EventStatus'
+                          description: 'Represents the current status of the event. Possible values are: Info, Open, and Closed. Transient events have a status of Info. Stateful events are Open if event_end_time is null, and Closed if event_end_time is not null.'
+                        event_type_id:
+                          type: integer
+                          description: Indicates the type of event to which the current event belongs.
+                        event_start_time:
+                          type: integer
+                          description: Timestamp when the event started (Unix Epoch)
+                        event_end_time:
+                          type: integer
+                          description: Timestamp when the event was cleared (Unix Epoch)
+                        serial_number:
+                          type: string
+                          description: Serial number of the impacted device.
+              examples:
+                response:
+                  value:
+                    events:
+                    - status: Closed
+                      event_type_id: 28
+                      event_start_time: 1740213328
+                      event_end_time: 1740373425
+                      serial_number: '202241095486'
+                    system_id: 701644354
+        '401':
+          description: Authentication Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Authorized
+                    details: User is not authorized
+                    code: 401
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Forbidden
+                    details: Not authorized to access this resource
+                    code: 403
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Found
+                    details: System not found for {:id=>"1"}
+                    code: 404
+        '405':
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '405'
+                    message:
+                    - Method not allowed
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Unprocessable Entity
+                    details: start_time is required
+                    code: 422
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Too Many Requests
+                    details: Usage limit exceeded for plan Kilowatt
+                    code: 429
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '501'
+                    message:
+                    - Not Implemented
+  /api/v4/systems/{system_id}/alarms:
+    get:
+      summary: To retrieve the list of alarms for a site
+      description: 'This endpoint is used to retrieve the alarms for a site. start_time is mandatory and cannot be older than 9 months from the current time.  Maximum 1 week of data can be retrieved in a single call.
+
+
+        Many event types (though not all) come with predefined escalation criteria for alarms. When an event meets these configurations, it can trigger an alarm. For example, a common configuration might specify that an event should trigger an alarm if its status remains “Open” beyond a certain time threshold.
+
+
+        An Alarm is always tied to an Event, and the relationship between them can be one-to-one or one-to-many. For instance, if a site has a single battery and its State of Charge (SOC) drops below a predefined threshold, an event is created. If the SOC remains below that threshold for a specified duration, an alarm is triggered for that battery. In another scenario, if a site has multiple batteries and all of them fall below the SOC threshold, individual events are created for each battery. If the low SOC condition persists across all batteries for the defined time period, a single alarm may be triggered for all of them.
+
+
+        This means:
+
+
+        - An alarm can be associated with multiple events.
+
+
+        - But an event can be associated with only one alarm.'
+      operationId: listSystemAlarms
+      tags:
+      - System Details
+      parameters:
+      - name: system_id
+        in: path
+        description: The unique numeric ID of the system.
+        required: true
+        schema:
+          type: integer
+      - name: start_time
+        in: query
+        description: Requested start time of the alarms data in Epoch time format.
+        required: true
+        schema:
+          type: integer
+      - name: end_time
+        in: query
+        description: Requested end time of the alarms data in Epoch time format. Defaults to minimum (start time + 1 day, current time)
+        schema:
+          type: integer
+      - name: cleared
+        in: query
+        description: Filters alarms based on their status. Set to true to return cleared alarms; defaults to false to return active alarms.
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: List of alarms
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  system_id:
+                    type: integer
+                    description: The unique numeric ID of the system.
+                  alarms:
+                    type: array
+                    description: List of alarms
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Unique alarm identifier.
+                        event_type_id:
+                          type: integer
+                          description: Associated event type ID
+                        cleared:
+                          type: boolean
+                          description: Alarm status (false = not cleared, true = cleared).
+                        alarm_start_time:
+                          type: integer
+                          description: Timestamp when the alarm was first triggered (Unix Epoch).
+                        alarm_end_time:
+                          type: integer
+                          nullable: true
+                          description: Timestamp when the alarm was cleared (Unix Epoch). Null if still open.
+                        severity:
+                          type: integer
+                          description: 'Severity level of the alarm: FATAL = 1; ERROR = 2; WARNING = 3; INFO = 4; DEBUG = 5; NONE = 6.'
+                        events:
+                          type: array
+                          description: List of devices impacted by the alarm.
+                          items:
+                            type: object
+                            properties:
+                              serial_number:
+                                type: string
+                                description: Device serial number.
+                              start_date:
+                                type: integer
+                                description: Event start timestamp (Unix Epoch).
+                              end_date:
+                                type: integer
+                                description: Event cleared timestamp (Unix Epoch).
+              examples:
+                response:
+                  value:
+                    alarms:
+                    - id: '1082701398'
+                      cleared: false
+                      severity: 4
+                      events:
+                      - serial_number: '202241095486'
+                        start_date: 1737750626
+                        end_date: 1737866703
+                      event_type_id: 28
+                      alarm_start_time: 1737750626
+                      alarm_end_time: null
+                    system_id: 701644354
+        '401':
+          description: Authentication Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Authorized
+                    details: User is not authorized
+                    code: 401
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Forbidden
+                    details: Not authorized to access this resource
+                    code: 403
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Found
+                    details: System not found for {:id=>"1"}
+                    code: 404
+        '405':
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '405'
+                    message:
+                    - Method not allowed
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Unprocessable Entity
+                    details: start_time is required
+                    code: 422
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Too Many Requests
+                    details: Usage limit exceeded for plan Kilowatt
+                    code: 429
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '501'
+                    message:
+                    - Not Implemented
+  /api/v4/systems/event_types:
+    get:
+      summary: To retrieve the list of event_type_id along with event_description and recommended_action
+      description: This endpoint is used to retrieve the list of all available event_types. The endpoint will return list of event_type_id along with the event_description and recommended_action. If an event_type_id is passed, this endpoint will return the detail of specific event_type
+      operationId: listEventTypes
+      tags:
+      - System Details
+      parameters:
+      - name: event_type_id
+        in: query
+        description: The unique numeric ID of the event type.
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: The list of event_types
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  event_types:
+                    type: array
+                    description: List of event types
+                    items:
+                      type: object
+                      properties:
+                        event_type_id:
+                          type: integer
+                          description: Unique identifier of the event type.
+                        event_type_key:
+                          type: string
+                          description: Slug that identifies the event type.
+                        stateful:
+                          type: boolean
+                          description: Event state (true = stateful, false = transient)
+                        event_name:
+                          type: string
+                          description: Name of the event
+                        event_description:
+                          type: string
+                          description: Description of the event
+                        recommended_action:
+                          type: string
+                          description: Available recommended action for this event
+              examples:
+                response:
+                  value:
+                    event_types:
+                    - event_type_id: 28
+                      event_type_key: envoy_no_report
+                      stateful: true
+                      event_name: Gateway not reporting
+                      event_description: The broadband Internet connection that the Enphase gateway uses to communicate to the Enphase servers is experiencing a problem.
+                      recommended_action: Check that your gateway and Internet router are plugged in and that the site's Internet service is not experiencing an outage.
+                    - event_type_id: 4781
+                      event_type_key: acb_sleeping
+                      stateful: false
+                      event_name: AC Battery Sleeping
+                      event_description: AC Battery has entered the target state of charge band. Cleared when the battery exits the state of charge target, or sleep mode is removed.
+                      recommended_action: No action is required.
+        '401':
+          description: Authentication Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Authorized
+                    details: User is not authorized
+                    code: 401
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Found
+                    details: Event type not found for {:id=>"12345"}
+                    code: 404
+        '405':
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '405'
+                    message:
+                    - Method not allowed
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Too Many Requests
+                    details: Usage limit exceeded for plan Kilowatt
+                    code: 429
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '501'
+                    message:
+                    - Not Implemented
+  /api/v4/systems/inverters_summary_by_envoy_or_site:
+    get:
+      summary: inverters_summary_by_envoy_or_site
+      description: Returns the microinverters summary based on the specified active envoy serial number or system.
+      operationId: getInvertersSummary
+      tags:
+      - System Details
+      parameters:
+      - name: site_id
+        in: query
+        description: Site id. The response will contain only those microinverters reporting to one of the active envoys of the given site.
+        schema:
+          type: integer
+      - name: envoy_serial_number
+        in: query
+        description: Envoy Serial Number. Only microinverters reporting to the given envoy will be present in the response.
+        schema:
+          type: integer
+      - name: page
+        in: query
+        description: The page to be returned. Default=1, Min=1. For example, if page is set to 2, 2nd page is returned
+        schema:
+          type: integer
+      - name: size
+        in: query
+        description: Maximum number of records shown per page. Default=10, Min=1, Max=100.  For example, if max is set to 5, 5 records are shown per page
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: inverters_summary_by_envoy_or_site
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    signal_strength:
+                      type: integer
+                      description: Signal Strength
+                    micro_inverters:
+                      type: array
+                      items:
+                        properties:
+                          id:
+                            type: integer
+                            description: Numeric id of the microinverter
+                          serial_number:
+                            type: string
+                            description: Serial number of the microinverter
+                          model:
+                            type: string
+                            description: Microinverter model type
+                          part_number:
+                            type: string
+                            description: Microinverter part number
+                          sku:
+                            type: string
+                            description: SKU of the microinverter
+                          status:
+                            type: string
+                            description: Current status of the micro inverter
+                          power_produced:
+                            type: object
+                            properties:
+                              value:
+                                type: integer
+                                description: Current power produced by the microinverter
+                              units:
+                                type: string
+                                description: Power units
+                              precision:
+                                type: integer
+                                description: ''
+                          proc_load:
+                            type: string
+                            description: Processor load
+                          param_table:
+                            type: string
+                            description: Parameter table
+                          envoy_serial_number:
+                            type: string
+                            description: Enovy serial number of the system that the micro reports to
+                          energy:
+                            type: object
+                            properties:
+                              value:
+                                type: integer
+                                description: Lifetime energy produced by the microinverter
+                              units:
+                                type: string
+                                description: Energy units
+                              precision:
+                                type: integer
+                                description: ''
+                          grid_profile:
+                            type: string
+                            description: Grid profile ID
+                          last_report_date:
+                            type: integer
+                            description: Date on which the microinverter last reported
+                      description: Microinverters
+              examples:
+                response:
+                  value:
+                  - signal_strength: 5
+                    micro_inverters:
+                    - id: 1059689835
+                      serial_number: '688346865858'
+                      model: M215
+                      part_number: 800-00107-r01
+                      sku: M215-60-2LL-S22-NA
+                      status: normal
+                      power_produced:
+                        value: 96
+                        units: W
+                        precision: 0
+                      proc_load: 521-00005-r00-v02.32.01
+                      param_table: 549-00018-r00-v02.32.01
+                      envoy_serial_number: '121842012242'
+                      energy:
+                        value: 232
+                        units: Wh
+                        precision: 0
+                      grid_profile: 57227c50e4d7973ae602c4e6
+                      last_report_date: 1600427843
+                    - id: 1059689836
+                      serial_number: '686868727227'
+                      model: M215
+                      part_number: 800-00107-r01
+                      sku: M215-60-2LL-S22-NA
+                      status: normal
+                      power_produced:
+                        value: 20
+                        units: W
+                        precision: 0
+                      proc_load: 521-00005-r00-v02.32.01
+                      param_table: 549-00018-r00-v02.32.01
+                      envoy_serial_number: '121842012242'
+                      energy:
+                        value: 120
+                        units: Wh
+                        precision: 0
+                      grid_profile: 57227c50e4d7973ae602c4e6
+                      last_report_date: 1600427843
+        '401':
+          description: Authentication Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Not Authorized
+                    details: User is not authorized
+                    code: 401
+        '405':
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '405'
+                    message:
+                    - Method not allowed
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+              examples:
+                response:
+                  value:
+                    message: Unprocessable Entity
+                    details: Envoy serial number or Site id mandatory
+                    code: 422
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error Type
+                  details:
+                    type: string
+                    description: Error Details
+                  code:
+                    type: integer
+                    description: Error Code
+                  period:
+                    type: string
+                    description: Quota exceeded for minute/month
+                  period_start:
+                    type: integer
+                    description: Starting period timestamp
+                  period_end:
+                    type: integer
+                    description: Ending period timestamp
+                  limit:
+                    type: integer
+                    description: Limit count for the period
+              examples:
+                response:
+                  value:
+                    message: Too Many Requests
+                    details: Usage limit exceeded for plan Kilowatt
+                    code: 429
+                    period: minute
+                    period_start: 1623825660
+                    period_end: 1623825720
+                    limit: 5
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  message:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                response:
+                  value:
+                    reason: '501'
+                    message:
+                    - Not Implemented
+components:
+  schemas:
+    SystemConnectionType:
+      type: string
+      description: Connection type reported by the system.
+      enum:
+      - ethernet
+      - wifi
+      - cellular
+    EventStatus:
+      type: string
+      description: Lifecycle state reported for events.
+      enum:
+      - Info
+      - Open
+      - Closed
+    MicroinverterAttachmentType:
+      type: string
+      description: Microinverter attachment style configured for the system.
+      enum:
+      - rack_mount
+      - zep
+      - acm
+      - bipv
+      - frame_mount
+      - railless_mount
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      name: key
+      in: query

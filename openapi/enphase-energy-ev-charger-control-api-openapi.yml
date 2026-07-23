@@ -1,0 +1,263 @@
+openapi: 3.0.0
+info:
+  title: The Enlighten Systems Device Level Production Monitoring EV Charger Control API
+  description: 'The Enlighten Systems API is a JSON-based API that provides access to performance data for a PV system. By using the Enlighten Systems API, you agree to the Enphase Energy API License Agreement.
+
+
+    Please note that the Enlighten Systems API does not provide performance data at a panel or microinverter level.'
+  version: '2.0'
+  termsOfService: https://developer.enphase.com/docs#Display-Requirements
+  license:
+    name: Enphase API License Agreement
+    url: https://www.enphase.com/en-us/legal/api-license-agreement
+servers:
+- url: https://api.enphaseenergy.com/api/v2
+security:
+- ApiKey: []
+tags:
+- name: EV Charger Control
+paths:
+  /api/v4/systems/{system_id}/ev_charger/{serial_no}/start_charging:
+    post:
+      tags:
+      - EV Charger Control
+      summary: Start charging. Illustrative only - access via VPP api for partners
+      description: API to send start charging command to the EV Charger
+      operationId: startCharging
+      parameters:
+      - name: system_id
+        in: path
+        description: The unique numeric ID of the system
+        required: true
+        example: 701052773
+        schema:
+          type: integer
+          format: int32
+      - name: serial_no
+        in: path
+        description: Serial Number of the EV Charger
+        required: true
+        example: 202312100006
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StartChargingRequestBody'
+      responses:
+        '202':
+          description: Request accepted
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/DefaultCommandResponse'
+        '400':
+          description: Possible Bad request reasons
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseDetailArray'
+              examples:
+                response:
+                  value:
+                    message: Bad request
+                    code: '400'
+                    details:
+                    - Invalid system_id or serial_no
+                    - Connector Id must be greater than 0
+                    - Charging level should be in the range [0-100]
+        '401':
+          description: Unauthorised
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                response:
+                  value:
+                    message: Not Authorized
+                    code: '401'
+                    details: User is not authorized
+        '403':
+          description: Forbidden
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                response:
+                  value:
+                    message: Forbidden
+                    code: '403'
+                    details: Not authorized to access this resource
+        '405':
+          description: Method Not Allowed
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseArray'
+        '500':
+          description: Internal Server Error
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                response:
+                  value:
+                    message: Internal Server Error
+                    code: '500'
+                    details: Internal Server Error
+  /api/v4/systems/{system_id}/ev_charger/{serial_no}/stop_charging:
+    post:
+      tags:
+      - EV Charger Control
+      summary: Stop charging. Illustrative only - access via VPP api for partners
+      description: API to send stop charging command to the EV Charger
+      operationId: stopCharging
+      parameters:
+      - name: system_id
+        in: path
+        description: The unique numeric ID of the system
+        required: true
+        example: 701052773
+        schema:
+          type: integer
+          format: int32
+      - name: serial_no
+        in: path
+        description: Serial Number of the EV Charger
+        required: true
+        example: 202312100006
+        schema:
+          type: string
+      responses:
+        '202':
+          description: Request accepted
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/DefaultCommandResponse'
+        '400':
+          description: Invalid system_id or serial_no
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                response:
+                  value:
+                    message: Bad request
+                    code: '400'
+                    details: Invalid system_id or serial_no
+        '401':
+          description: Unauthorised
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                response:
+                  value:
+                    message: Not Authorized
+                    code: '401'
+                    details: User is not authorized
+        '403':
+          description: Forbidden
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                response:
+                  value:
+                    message: Forbidden
+                    code: '403'
+                    details: Not authorized to access this resource
+        '405':
+          description: Method Not Allowed
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseArray'
+        '500':
+          description: Internal Server Error
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                response:
+                  value:
+                    message: Internal Server Error
+                    code: '500'
+                    details: Internal Server Error
+components:
+  schemas:
+    ErrorResponseDetailArray:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+        details:
+          type: array
+          description: Additional error detail(s).
+          items:
+            type: string
+    DefaultCommandResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Success message
+          example: Request sent successfully
+    ErrorResponseArray:
+      required:
+      - message
+      - reason
+      type: object
+      properties:
+        message:
+          type: array
+          description: message
+          example:
+          - Method not allowed
+          items:
+            type: string
+            description: message
+            example: '["Method not allowed"]'
+        reason:
+          type: string
+          description: statusCode
+          example: '405'
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+        details:
+          type: string
+          description: Additional error detail.
+    StartChargingRequestBody:
+      type: object
+      properties:
+        connectorId:
+          type: string
+          description: connector id. It Should be a positive integer.
+          example: '1'
+        chargingLevel:
+          maximum: 100
+          minimum: 0
+          type: string
+          description: Charging current level. It Should be an integer in [0-100].
+          example: '40'
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      name: key
+      in: query
