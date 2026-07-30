@@ -11,7 +11,20 @@ description: >
   The Enlighten API v4 launched in February 2022, replacing legacy v2 with microinverter-level
   telemetry, battery-level data, and fine-grained access controls for installers and partners.
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: paid
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Paid · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/enphase-energy.png
 url: https://raw.githubusercontent.com/api-evangelist/enphase-energy/refs/heads/main/apis.yml
 created: 2026-06-13
 modified: 2026-06-13
@@ -32,76 +45,162 @@ tags:
   - IoT
   - Telemetry
 apis:
-  - aid: enphase-energy:enphase-enlighten-systems-api-v4
-    name: Enphase Enlighten Systems API v4 (Monitoring)
-    description: >
-      The Enlighten Systems API v4 (Monitoring API) is a JSON-based, OAuth 2.0 protected API
-      that provides access to system-level, device-level, and battery-level performance data for
-      Enphase photovoltaic and storage systems. It exposes systems search and inventory, energy and
-      consumption lifetime time series, revenue-grade meter readings (RGM), microinverter and meter
-      telemetry, IQ Battery telemetry and settings, Storm Guard, grid status, load control, live data
-      streaming, and IQ EV charger session data. Access tokens are valid for 24 hours and refresh
-      tokens for 30 days; all requests require an application API key in addition to the bearer token.
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://developer-v4.enphase.com/
-    baseURL: https://api.enphaseenergy.com/api/v4
-    tags:
-      - Solar
-      - Energy
-      - Microinverters
-      - Battery Storage
-      - IoT
-      - Monitoring
-      - Telemetry
-      - Time Series
-    properties:
-      - type: Documentation
-        url: https://developer-v4.enphase.com/docs/quickstart.html
-      - type: OpenAPI
-        url: openapi/enphase-enlighten-v4-monitoring-openapi.yml
-
-  - aid: enphase-energy:enphase-enlighten-commissioning-api
-    name: Enphase Enlighten Commissioning API
-    description: >
-      The Commissioning API is the installer-facing companion to the Monitoring API.
-      Available to Partner-plan customers (qualifying installers with 10+ installations), it allows
-      activation creation and updates, company and user management, tariff and rate plan updates, and
-      other administrative controls used to streamline Enlighten activation workflows from field
-      tools. OAuth 2.0 authorization with the same authorize/token endpoints as the Monitoring API.
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://developer-v4.enphase.com/
-    baseURL: https://api.enphaseenergy.com/api/v4
-    tags:
-      - Solar
-      - Energy
-      - Commissioning
-      - Installer
-      - Activation
-      - Partner
-    properties:
-      - type: Documentation
-        url: https://developer-v4.enphase.com/docs/quickstart.html
-
-  - aid: enphase-energy:enphase-enlighten-vpp-api
-    name: Enphase VPP API
-    description: >
-      The Virtual Power Plant (VPP) API allows energy aggregators and utilities to create and manage
-      VPPs that monitor, forecast, and control large fleets of distributed energy resources (DERs)
-      including PV systems, batteries, EV chargers, heat pumps, and HVAC units. The API enables
-      demand response programs and grid services across Enphase-connected homes and businesses.
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://developer-v4.enphase.com/
-    baseURL: https://api.enphaseenergy.com/api/v4
-    tags:
-      - Virtual Power Plant
-      - Distributed Energy Resources
-      - Grid Services
-      - Fleet Management
-      - Demand Response
-    properties:
-      - type: Documentation
-        url: https://developer-v4.enphase.com/docs/quickstart.html
-
+- aid: enphase-energy:enphase-enlighten-commissioning-api
+  name: Enphase Enlighten Commissioning API
+  description: >
+    The Commissioning API is the installer-facing companion to the Monitoring API. Available to Partner-plan
+    customers (qualifying installers with 10+ installations), it allows activation creation and updates,
+    company and user management, tariff and rate plan updates, and other administrative controls used
+    to streamline Enlighten activation workflows from field tools. OAuth 2.0 authorization with the same
+    authorize/token endpoints as the Monitoring API.
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer-v4.enphase.com/
+  baseURL: https://api.enphaseenergy.com/api/v4
+  tags:
+  - Solar
+  - Energy
+  - Commissioning
+  - Installer
+  - Activation
+  - Partner
+  properties:
+  - type: Documentation
+    url: https://developer-v4.enphase.com/docs/quickstart.html
+- aid: enphase-energy:enphase-enlighten-vpp-api
+  name: Enphase VPP API
+  description: >
+    The Virtual Power Plant (VPP) API allows energy aggregators and utilities to create and manage VPPs
+    that monitor, forecast, and control large fleets of distributed energy resources (DERs) including
+    PV systems, batteries, EV chargers, heat pumps, and HVAC units. The API enables demand response programs
+    and grid services across Enphase-connected homes and businesses.
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer-v4.enphase.com/
+  baseURL: https://api.enphaseenergy.com/api/v4
+  tags:
+  - Virtual Power Plant
+  - Distributed Energy Resources
+  - Grid Services
+  - Fleet Management
+  - Demand Response
+  properties:
+  - type: Documentation
+    url: https://developer-v4.enphase.com/docs/quickstart.html
+- aid: enphase-energy:enphase-energy-device-level-production-monitoring-api
+  name: Enphase Energy Device Level Production Monitoring API
+  description: >-
+    The Device Level Production Monitoring API from Enphase Energy — 3 operation(s) for device level production
+    monitoring.
+  humanURL: https://developer-v4.enphase.com/
+  baseURL: https://api.enphaseenergy.com/api/v4
+  tags:
+  - Device Level Production Monitoring
+  properties:
+  - type: OpenAPI
+    url: openapi/enphase-energy-device-level-production-monitoring-api-openapi.yml
+  - type: Documentation
+    url: https://developer-v4.enphase.com/docs/quickstart.html
+- aid: enphase-energy:enphase-energy-ev-charger-control-api
+  name: Enphase Energy EV Charger Control API
+  description: The EV Charger Control API from Enphase Energy — 2 operation(s) for ev charger control.
+  humanURL: https://developer-v4.enphase.com/
+  baseURL: https://api.enphaseenergy.com/api/v4
+  tags:
+  - EV Charger Control
+  properties:
+  - type: OpenAPI
+    url: openapi/enphase-energy-ev-charger-control-api-openapi.yml
+  - type: Documentation
+    url: https://developer-v4.enphase.com/docs/quickstart.html
+- aid: enphase-energy:enphase-energy-ev-charger-monitoring-api
+  name: Enphase Energy EV Charger Monitoring API
+  description: >-
+    The EV Charger Monitoring API from Enphase Energy — 6 operation(s) for ev charger monitoring.
+  humanURL: https://developer-v4.enphase.com/
+  baseURL: https://api.enphaseenergy.com/api/v4
+  tags:
+  - EV Charger Monitoring
+  properties:
+  - type: OpenAPI
+    url: openapi/enphase-energy-ev-charger-monitoring-api-openapi.yml
+  - type: Documentation
+    url: https://developer-v4.enphase.com/docs/quickstart.html
+- aid: enphase-energy:enphase-energy-site-level-consumption-monitoring-api
+  name: Enphase Energy Site Level Consumption Monitoring API
+  description: >-
+    The Site Level Consumption Monitoring API from Enphase Energy — 9 operation(s) for site level consumption
+    monitoring.
+  humanURL: https://developer-v4.enphase.com/
+  baseURL: https://api.enphaseenergy.com/api/v4
+  tags:
+  - Site Level Consumption Monitoring
+  properties:
+  - type: OpenAPI
+    url: openapi/enphase-energy-site-level-consumption-monitoring-api-openapi.yml
+  - type: Documentation
+    url: https://developer-v4.enphase.com/docs/quickstart.html
+- aid: enphase-energy:enphase-energy-site-level-production-monitoring-api
+  name: Enphase Energy Site Level Production Monitoring API
+  description: >-
+    The Site Level Production Monitoring API from Enphase Energy — 5 operation(s) for site level production
+    monitoring.
+  humanURL: https://developer-v4.enphase.com/
+  baseURL: https://api.enphaseenergy.com/api/v4
+  tags:
+  - Site Level Production Monitoring
+  properties:
+  - type: OpenAPI
+    url: openapi/enphase-energy-site-level-production-monitoring-api-openapi.yml
+  - type: Documentation
+    url: https://developer-v4.enphase.com/docs/quickstart.html
+- aid: enphase-energy:enphase-energy-streaming-apis-api
+  name: Enphase Energy Streaming APIs API
+  description: The Streaming APIs API from Enphase Energy — 1 operation(s) for streaming apis.
+  humanURL: https://developer-v4.enphase.com/
+  baseURL: https://api.enphaseenergy.com/api/v4
+  tags:
+  - Streaming APIs
+  properties:
+  - type: OpenAPI
+    url: openapi/enphase-energy-streaming-apis-api-openapi.yml
+  - type: Documentation
+    url: https://developer-v4.enphase.com/docs/quickstart.html
+- aid: enphase-energy:enphase-energy-system-configurations-api
+  name: Enphase Energy System Configurations API
+  description: >-
+    The System Configurations API from Enphase Energy — 4 operation(s) for system configurations.
+  humanURL: https://developer-v4.enphase.com/
+  baseURL: https://api.enphaseenergy.com/api/v4
+  tags:
+  - System Configurations
+  properties:
+  - type: OpenAPI
+    url: openapi/enphase-energy-system-configurations-api-openapi.yml
+  - type: Documentation
+    url: https://developer-v4.enphase.com/docs/quickstart.html
+- aid: enphase-energy:enphase-energy-system-details-api
+  name: Enphase Energy System Details API
+  description: The System Details API from Enphase Energy — 10 operation(s) for system details.
+  humanURL: https://developer-v4.enphase.com/
+  baseURL: https://api.enphaseenergy.com/api/v4
+  tags:
+  - System Details
+  properties:
+  - type: OpenAPI
+    url: openapi/enphase-energy-system-details-api-openapi.yml
+  - type: Documentation
+    url: https://developer-v4.enphase.com/docs/quickstart.html
+- aid: enphase-energy:enphase-energy-systems-api
+  name: Enphase Energy Systems API
+  description: The Systems API from Enphase Energy — 13 operation(s) for systems.
+  humanURL: https://developer-v4.enphase.com/
+  baseURL: https://api.enphaseenergy.com/api/v4
+  tags:
+  - Systems
+  properties:
+  - type: OpenAPI
+    url: openapi/enphase-energy-systems-api-openapi.yml
+  - type: Documentation
+    url: https://developer-v4.enphase.com/docs/quickstart.html
 common:
   - type: AgenticAccess
     url: agentic-access/enphase-energy-agentic-access.yml
