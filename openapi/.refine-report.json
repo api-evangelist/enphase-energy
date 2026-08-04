@@ -1,0 +1,30 @@
+{
+  "provider": "enphase-energy",
+  "sources": [
+    "enphase-energy-device-level-production-monitoring-api-openapi.yml",
+    "enphase-energy-ev-charger-control-api-openapi.yml",
+    "enphase-energy-ev-charger-monitoring-api-openapi.yml",
+    "enphase-energy-site-level-consumption-monitoring-api-openapi.yml",
+    "enphase-energy-site-level-production-monitoring-api-openapi.yml",
+    "enphase-energy-streaming-apis-api-openapi.yml",
+    "enphase-energy-system-configurations-api-openapi.yml",
+    "enphase-energy-system-details-api-openapi.yml",
+    "enphase-energy-systems-api-openapi.yml"
+  ],
+  "outputs": [
+    "enphase-energy-device-level-production-monitoring-api-openapi.yml",
+    "enphase-energy-ev-charger-control-api-openapi.yml",
+    "enphase-energy-ev-charger-monitoring-api-openapi.yml",
+    "enphase-energy-site-level-consumption-monitoring-api-openapi.yml",
+    "enphase-energy-site-level-production-monitoring-api-openapi.yml",
+    "enphase-energy-streaming-apis-api-openapi.yml",
+    "enphase-energy-system-configurations-api-openapi.yml",
+    "enphase-energy-system-details-api-openapi.yml",
+    "enphase-energy-systems-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
