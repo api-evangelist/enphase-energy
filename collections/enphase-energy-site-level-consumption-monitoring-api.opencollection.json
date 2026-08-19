@@ -1,0 +1,293 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "The Enlighten Systems Device Level Production Monitoring Site Level Consumption Monitoring API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "key",
+      "value": "{{key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Site Level Consumption Monitoring",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "consumption_lifetime",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/:system_id/consumption_lifetime",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Requested start date of the time series data. Defaults to the system’s operational date. If the start_date is earlier than the system’s operational_date, then the response data begins with the system operational_date as start_date. Pass as String date format YYYY-MM-DD."
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "End date of the time series data. Defaults to yesterday. Pass as String date format YYYY-MM-DD."
+              }
+            ]
+          },
+          "docs": "Returns a daily time series of energy consumption as measured by the consumption meter installed on the specified system. All measurements are in Watt hours.\n The time series includes one entry for each day from the start_date to the end_date. There are no gaps in the time series. If the response includes trailing zeroes, such as [909, 4970, 0, 0, 0], then no data has been reported for the last three days."
+        },
+        {
+          "info": {
+            "name": "battery_lifetime",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/:system_id/battery_lifetime",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Requested start date of the time series data. Defaults to the system’s operational date. If the start_date is earlier than the system’s operational_date, then the response data begins with the system operational_date as start_date. Pass as String date format YYYY-MM-DD."
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "End date of the time series data. Defaults to yesterday. Pass as String date format YYYY-MM-DD."
+              }
+            ]
+          },
+          "docs": "Returns a daily time series of energy charged into the batteries and energy discharged from the batteries for a system over its lifetime. All measurements are in Watt hours. The time series includes one entry for each day from the start_date to the end_date with no gaps in the time series. If the response includes trailing zeroes, such as [909, 4970, 0, 0, 0], then no energy has been charged/discharged for the last days in the series."
+        },
+        {
+          "info": {
+            "name": "import_lifetime",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/:system_id/energy_import_lifetime",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Requested start date of the time series data. Defaults to the system’s operational date. If the start_date is earlier than the system’s operational_date, then the response data begins with the system operational_date as start_date. Pass as String date format YYYY-MM-DD."
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "End date of the time series data. Defaults to yesterday. Pass as String date format YYYY-MM-DD."
+              }
+            ]
+          },
+          "docs": "Returns a daily time series of energy imported to the grid by the system over its lifetime. All measurements are in Watt hours. The time series includes one entry for each day from the start_date to the end_date with no gaps in the time series. If the response contains trailing zeroes, such as [909, 4970, 0, 0, 0], then no energy has been imported for the last days in the series."
+        },
+        {
+          "info": {
+            "name": "export_lifetime",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/:system_id/energy_export_lifetime",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Requested start date of the time series data. Defaults to the system’s operational date. If the start_date is earlier than the system’s operational_date, then the response data begins with the system operational_date as start_date. Pass as String date format YYYY-MM-DD."
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "End date of the time series data. Defaults to yesterday. Pass as String date format YYYY-MM-DD."
+              }
+            ]
+          },
+          "docs": "Returns a daily time series of energy exported to the grid by the system over its lifetime. All measurements are in Watt-hours. The time series includes one entry for each day from the start_date to the end_date with no gaps in the time series. If the response contains trailing zeroes, such as [909, 4970, 0, 0, 0], then no energy has been exported for the last days in the series."
+        },
+        {
+          "info": {
+            "name": "Retrieves telemetry for all batteries for a system",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/:system_id/telemetry/battery",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "System id"
+              },
+              {
+                "name": "start_at",
+                "value": "",
+                "type": "query",
+                "description": "Start time for fetching the telemetry data in Epoch time format. Alternatively one can use start_date in place of start_at for passing the start date as String date format YYYY-MM-DD. By default start_at will appear in response. If start_date parameter is passed in the url, then start_date field will appear in response."
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "query",
+                "description": "The granularity of the telemetry data. Possible values are 'week', 'day', '15mins', '5mins'. Default is 'day'"
+              }
+            ]
+          },
+          "docs": "Retrieves telemetry for all the batteries of a system. \nIf no start_at is specified, defaults to midnight today, in the timezone of the system. If the start_at specified is earlier than the system’s first reported date, then midnight of the system’s first reported date is considered as start_at.\nThe end_at is calculated as the minimum of the time of the request and (start time + granularity). \nThe meaning of granularity is as follow:\n\nIf granularity is 15mins, maximum 1 interval will appear in r"
+        },
+        {
+          "info": {
+            "name": "Retrieves telemetry for all consumption meters for a system",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/:system_id/telemetry/consumption_meter",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "start_at",
+                "value": "",
+                "type": "query",
+                "description": "Requested start time for telemetry data in Epoch time format. Alternatively one can use start_date in place of start_at for passing the start date as String in YYYY-MM-DD format. If no start_at is specified, defaults to midnight today, in the timezone of the system. If the start_at specified is earlier than the system’s first reported date, then the system first reported date is considered as start_at. By default start_at will appear in response. If start_date parameter is passed in the url, then start_date field will appear in response."
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "query",
+                "description": "The granularity of the telemetry data. Possible values are 'week', 'day', '15mins', '5mins'. Default is 'day'"
+              }
+            ]
+          },
+          "docs": "Retrieves telemetry for all the consumption meters of a system. \nIf the start_at specified is earlier than the system’s first reported date, then midnight of the system’s first reported date is considered as start_at.\nThe end_at is calculated as the minimum of the time of the request and (start time + granularity). \nThe meaning of granularity is as follow:\n If granularity is 15mins, maximum 1 interval will appear in response. If granularity is day, maximum 96 intervals, and if granularity is wee"
+        },
+        {
+          "info": {
+            "name": "Retrieves energy imported from grid in regular intervals",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/:system_id/energy_import_telemetry",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "start_at",
+                "value": "",
+                "type": "query",
+                "description": "Start time for fetching the telemetry data in Epoch time format. Alternatively one can use start_date in place of start_at for passing the start date as String in YYYY-MM-DD format. By default start_at will appear in response. If start_date parameter is passed in the url, then start_date field will appear in response."
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "query",
+                "description": "The granularity of the telemetry data. Possible values are 'week', 'day', '15mins', '5mins'. Default is 'day'"
+              }
+            ]
+          },
+          "docs": "Retrieves energy imported from grid in regular intervals. If no start_at is specified, defaults to midnight today, in the timezone of the system. If the start_at specified is earlier than the system’s first reported date, then midnight of the system’s first reported date is considered as start_at. The end_at is calculated as the minimum of the time of the request and (start time + granularity). The meaning of granularity is as follow: If granularity is 15mins, maximum 1 intervals will appear in "
+        },
+        {
+          "info": {
+            "name": "Retrieves energy exported to grid in regular intervals",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/:system_id/energy_export_telemetry",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "start_at",
+                "value": "",
+                "type": "query",
+                "description": "Start time for fetching the telemetry data in Epoch time format. Alternatively one can use start_date in place of start_at for passing the start date as String in YYYY-MM-DD format. By default start_at will appear in response. If start_date parameter is passed in the url, then start_date field will appear in response."
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "query",
+                "description": "The granularity of the telemetry data. Possible values are 'week', 'day', '15mins', '5mins'. Default is 'day'"
+              }
+            ]
+          },
+          "docs": "Retrieves energy exported to grid in regular intervals. If no start_at is specified, defaults to midnight today, in the timezone of the system. If the start_at specified is earlier than the system’s first reported date, then midnight of the system’s first reported date is considered as start_at. The end_at is calculated as the minimum of the time of the request and (start time + granularity). The meaning of granularity is as follow: If granularity is 15mins, maximum 1 intervals will appear in re"
+        },
+        {
+          "info": {
+            "name": "Returns a system's last reported PV Power, Consumption Power, and Battery Power in Watts.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/:system_id/latest_telemetry",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              }
+            ]
+          },
+          "docs": "Returns a system's last reported PV Power, Consumption Power, and Battery Power in Watts. If the last_report_at is older than 7 days for a specific device, “last_report_at”, “power” and “operational_mode” parameters will be returned in the response with the value as null."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

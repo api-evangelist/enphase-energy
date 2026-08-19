@@ -1,0 +1,80 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "The Enlighten Systems Device Level Production Monitoring EV Charger Control API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "key",
+      "value": "{{key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "EV Charger Control",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Start charging. Illustrative only - access via VPP api for partners",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/:system_id/ev_charger/:serial_no/start_charging",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "701052773",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "serial_no",
+                "value": "202312100006",
+                "type": "path",
+                "description": "Serial Number of the EV Charger"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "API to send start charging command to the EV Charger"
+        },
+        {
+          "info": {
+            "name": "Stop charging. Illustrative only - access via VPP api for partners",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/:system_id/ev_charger/:serial_no/stop_charging",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "701052773",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "serial_no",
+                "value": "202312100006",
+                "type": "path",
+                "description": "Serial Number of the EV Charger"
+              }
+            ]
+          },
+          "docs": "API to send stop charging command to the EV Charger"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

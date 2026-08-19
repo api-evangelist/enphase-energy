@@ -1,0 +1,181 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "The Enlighten Systems Device Level Production Monitoring Site Level Production Monitoring API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "key",
+      "value": "{{key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Site Level Production Monitoring",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "production_meter_readings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/:system_id/production_meter_readings",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "end_at",
+                "value": "",
+                "type": "query",
+                "description": "End of reporting period in Unix epoch time. If no end is specified, defaults to the time of the request. If the end is later than the last reported interval the response data ends with the last reported interval"
+              }
+            ]
+          },
+          "docs": "Returns the last known reading of each production meter on the system as of the requested time, regardless of whether the meter is currently in service or retired. \n Read_at is the time at which the reading was taken, and is always less than or equal to the requested end_at. Commonly, the reading will be within 30 minutes of the requested end_at. However, larger deltas can occur and do not necessarily mean there is a problem with the meter or the system. Systems that are configured to report inf"
+        },
+        {
+          "info": {
+            "name": "rgm_stats",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/:system_id/rgm_stats",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric id of the system"
+              },
+              {
+                "name": "start_at",
+                "value": "",
+                "type": "query",
+                "description": "Start of period to report on in Unix epoch time. If no start is specified, the assumed start is midnight today, in the timezone of the system. If the start is earlier than the system’s operational_date, the response data begins at midnight of the first reported interval date."
+              },
+              {
+                "name": "end_at",
+                "value": "",
+                "type": "query",
+                "description": "End of reporting period in Unix epoch time. If no end is specified, default to the time of the request or (start time + 1 week), whichever is earlier. If the end is later than the last reported interval the response data ends with the last reported interval."
+              }
+            ]
+          },
+          "docs": "Returns performance statistics as measured by the revenue-grade meters installed on the specified system. If the total duration requested is more than one week, returns one week of intervals. Intervals are 15 minutes in length and start at the top of the hour.\n Requests for times that do not fall on the 15-minute marks are rounded down. For example, a request for 08:01, 08:08, 08:11, or 08:14 (in epoch format) is treated as a request for 08:00 (in epoch format). Intervals are listed by their end"
+        },
+        {
+          "info": {
+            "name": "energy_lifetime",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/:system_id/energy_lifetime",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Start date of the time series data. Defaults to the system’s operational date. If the start_date is earlier than the system’s operational_date, then the response data begins with the system operational_date as start_date. Pass as String date format YYYY-MM-DD."
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "End date of the time series data. Defaults to yesterday. Pass as String date format YYYY-MM-DD."
+              },
+              {
+                "name": "production",
+                "value": "",
+                "type": "query",
+                "description": "When “all”, returns the merged time series plus the time series as reported by the microinverters and the meter on the system. Other values are ignored."
+              }
+            ]
+          },
+          "docs": "Returns a daily time series of energy produced by the system over its lifetime. All measurements are in Watt hours.\n The time series includes one entry for each day from the start_date to the end_date with no gaps in the time series. If the response includes trailing zeroes, such as [909, 4970, 0, 0, 0], then no energy has been reported for the last days in the series.\n If the system has a meter, the time series includes data as measured by the microinverters until the first full day after the m"
+        },
+        {
+          "info": {
+            "name": "Retrieves telemetry for all production micros for a system",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/:system_id/telemetry/production_micro",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "start_at",
+                "value": "",
+                "type": "query",
+                "description": "Start time for fetching the telemetry data in Epoch time format. Alternatively one can use start_date in place of start_at for passing the start date as String in YYYY-MM-DD format. By default start_at will appear in response. If start_date parameter is passed in the url, then start_date field will appear in response."
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "query",
+                "description": "The granularity of the telemetry data. Possible values are 'week', 'day', '15mins', '5mins'. Default is 'day'"
+              }
+            ]
+          },
+          "docs": "Retrieves telemetry for all the production micros of a system. \nIf no start_at is specified, defaults to midnight today, in the timezone of the system. If the start_at specified is earlier than the system’s first reported date, then midnight of the system’s first reported date is considered as start_at.\nThe end_at is calculated as the minimum of the time of the request and (start time + granularity). \nThe meaning of granularity is as follow:\n\nIf granularity is 15mins, maximum 3 intervals will ap"
+        },
+        {
+          "info": {
+            "name": "Retrieves telemetry for all production meters for a system",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/:system_id/telemetry/production_meter",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "start_at",
+                "value": "",
+                "type": "query",
+                "description": "Start time for fetching the telemetry data in Epoch time format. Alternatively one can use start_date in place of start_at for passing the start date as String date format YYYY-MM-DD. By default start_at will appear in response. If start_date parameter is passed in the url, then start_date field will appear in response."
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "query",
+                "description": "The granularity of the telemetry data. Possible values are 'week', 'day', '15mins', '5mins'. Default is 'day'"
+              }
+            ]
+          },
+          "docs": "Retrieves telemetry for all the production meters of a system. \nIf no start_at is specified, defaults to midnight today, in the timezone of the system. If the start_at specified is earlier than the system’s first reported date, then midnight of the system’s first reported date is considered as start_at.\nThe end_at is calculated as the minimum of the time of the request and (start time + granularity). \nThe meaning of granularity is as follow:\n\nIf granularity is 15mins, maximum 1 intervals will ap"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

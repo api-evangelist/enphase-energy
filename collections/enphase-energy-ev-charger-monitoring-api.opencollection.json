@@ -1,0 +1,218 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "The Enlighten Systems Device Level Production Monitoring EV Charger Monitoring API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "key",
+      "value": "{{key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "EV Charger Monitoring",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Fetch active chargers for a system",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/:system_id/ev_charger/devices",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "698989834",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              }
+            ]
+          },
+          "docs": "API to fetch all active EV Chargers for a system"
+        },
+        {
+          "info": {
+            "name": "Fetch events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/:system_id/ev_charger/events",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "701052773",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "serial_num",
+                "value": "202312100006",
+                "type": "query",
+                "description": "Serial Number of the EV Charger"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "API to fetch all the events related to EV Charger"
+        },
+        {
+          "info": {
+            "name": "Charger session history",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/:system_id/ev_charger/:serial_no/sessions",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "698989834",
+                "type": "path"
+              },
+              {
+                "name": "serial_no",
+                "value": "202320010308",
+                "type": "path"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get list of sessions for a single EV Charger"
+        },
+        {
+          "info": {
+            "name": "Get Schedule",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/:system_id/ev_charger/:serial_no/schedules",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "698989834",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "serial_no",
+                "value": "202320010308",
+                "type": "path",
+                "description": "Serial Number of the EV Charger"
+              }
+            ]
+          },
+          "docs": "API to fetch all EV Charger Schedules for a Device By System id and Serial Number"
+        },
+        {
+          "info": {
+            "name": "Daily energy api",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/:system_id/ev_charger/:serial_no/lifetime",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "698989834",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "serial_no",
+                "value": "190179855",
+                "type": "path",
+                "description": "Serial Number of the EV Charger"
+              },
+              {
+                "name": "start_date",
+                "value": "20240101",
+                "type": "query",
+                "description": "Requested start date of the time series data. If the start_date is not provided, then the response data begins with the previous date as start_date. Pass as String date format YYYYMMDD."
+              },
+              {
+                "name": "end_date",
+                "value": "20240106",
+                "type": "query",
+                "description": "End date of the time series data. Defaults to yesterday. Pass as String date format YYYYMMDD."
+              }
+            ]
+          },
+          "docs": "Retrieves the daily telemetry for a single EV Charger.\nThe number of data points returned in the response corresponds to\ndays spanned between the start_date and end_date parameter mentioned in the request."
+        },
+        {
+          "info": {
+            "name": "Interval energy api",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/:system_id/ev_charger/:serial_no/telemetry",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "700460094",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              },
+              {
+                "name": "serial_no",
+                "value": "202109116909",
+                "type": "path",
+                "description": "Serial Number of the EV Charger"
+              },
+              {
+                "name": "granularity",
+                "value": "day",
+                "type": "query",
+                "description": "The granularity of the telemetry data. Possible values are 'week', 'day'. Default is 'day'"
+              },
+              {
+                "name": "start_date",
+                "value": "20240116",
+                "type": "query",
+                "description": "Requested start date of the time series data. If the start_date and start_at is not provided, then the response data begins with the previous date as start_date. Pass as String date format YYYYMMDD."
+              },
+              {
+                "name": "start_at",
+                "value": "1705425848",
+                "type": "query",
+                "description": "Start time for fetching the telemetry data in Epoch time format. Alternatively one can use start_date in place of start_at for passing the start date as String in YYYYMMDD format. By default start_at will appear in response. If start_date parameter is passed in the url, then start_date field will appear in response."
+              }
+            ]
+          },
+          "docs": "Retrieves telemetry for single EV Charger.\nIf no start_at is specified, defaults to previous days date, in the timezone of the system.\nThe end_at is calculated as the minimum of the time of the request and (start time + granularity).\nThe meaning of granularity is as follow:\n\nIf granularity is day, maximum 392 intervals will appear in response where each interval is of 15 mins duration. By default start_at will appear in response. If start_date parameter is passed in the url, then start_date fiel"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

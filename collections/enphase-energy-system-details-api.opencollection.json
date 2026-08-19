@@ -1,0 +1,286 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "The Enlighten Systems Device Level Production Monitoring System Details API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "key",
+      "value": "{{key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "System Details",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Fetch systems",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page to be returned. Default=1, Min=1. For example, if page is set to 2, 2nd page is returned"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of records shown per page. Default=10, Min=1, Max=100.  For example, if max is set to 5, 5 records are shown per page"
+              },
+              {
+                "name": "sort_by",
+                "value": "",
+                "type": "query",
+                "description": "Returns list of systems sorted by <sort_by> field. To get the ASC order sorted list, user sort_by = id. To get the DESC order sorted list, use sort_by = -id. By default, the list is sorted by ascending order of system ID."
+              }
+            ]
+          },
+          "docs": "Returns a list of systems for which the user can make API requests. By default, systems are returned in batches of 10. The maximum size is 100."
+        },
+        {
+          "info": {
+            "name": "Search and filter systems",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/search",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page to be returned. Default=1, Min=1, e.g=2"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of records shown per page. Default=10, Min=1, Max=1000, e.g=5"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Search and filter systems. Provide only valid values in request parameters. Empty values will be ignored. Invalid keys will be rejected."
+        },
+        {
+          "info": {
+            "name": "Retrieves a System by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/:system_id",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system. If an empty value is passed in the ID, this endpoint behaves as Fetch systems endpoint."
+              }
+            ]
+          },
+          "docs": "Retrieves a System by ID"
+        },
+        {
+          "info": {
+            "name": "Retrieves a system summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/:system_id/summary",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              }
+            ]
+          },
+          "docs": "Returns system summary based on the specified system ID."
+        },
+        {
+          "info": {
+            "name": "Retrieves devices for a given system",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/:system_id/devices",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              }
+            ]
+          },
+          "docs": "Retrieves devices for a given system. Only devices that are active will be returned in the response."
+        },
+        {
+          "info": {
+            "name": "Retrieve system for a given envoy serial number",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/retrieve_system_id",
+            "params": [
+              {
+                "name": "serial_num",
+                "value": "",
+                "type": "query",
+                "description": "Envoy Serial Number"
+              }
+            ]
+          },
+          "docs": "Get system ID by passing envoy serial number. If the serial number of a retired envoy is passed in the request param, a 404 Not Found response will be returned."
+        },
+        {
+          "info": {
+            "name": "To retrieve the list of events for a site",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/:system_id/events",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system."
+              },
+              {
+                "name": "start_time",
+                "value": "",
+                "type": "query",
+                "description": "Requested start time of the events data in Epoch time format."
+              },
+              {
+                "name": "end_time",
+                "value": "",
+                "type": "query",
+                "description": "Requested end time of the events data in Epoch time format. Defaults to minimum (start time + 1 day, current time)"
+              }
+            ]
+          },
+          "docs": "This endpoint is used to retrieve the events for a site. start_time is mandatory and cannot be older than 9 months from the current time.  Maximum 1 week of data can be retrieved in a single call.\n\nAn Event is triggered when a site/device meets a pre-defined set of conditions. Each of these pre-defined set of conditions is called an “Event type”. These conditions are defined at both site and device level, therefore events can be triggered at both site and device level. Each event is associated w"
+        },
+        {
+          "info": {
+            "name": "To retrieve the list of alarms for a site",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/:system_id/alarms",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system."
+              },
+              {
+                "name": "start_time",
+                "value": "",
+                "type": "query",
+                "description": "Requested start time of the alarms data in Epoch time format."
+              },
+              {
+                "name": "end_time",
+                "value": "",
+                "type": "query",
+                "description": "Requested end time of the alarms data in Epoch time format. Defaults to minimum (start time + 1 day, current time)"
+              },
+              {
+                "name": "cleared",
+                "value": "",
+                "type": "query",
+                "description": "Filters alarms based on their status. Set to true to return cleared alarms; defaults to false to return active alarms."
+              }
+            ]
+          },
+          "docs": "This endpoint is used to retrieve the alarms for a site. start_time is mandatory and cannot be older than 9 months from the current time.  Maximum 1 week of data can be retrieved in a single call.\n\nMany event types (though not all) come with predefined escalation criteria for alarms. When an event meets these configurations, it can trigger an alarm. For example, a common configuration might specify that an event should trigger an alarm if its status remains “Open” beyond a certain time threshold"
+        },
+        {
+          "info": {
+            "name": "To retrieve the list of event_type_id along with event_description and recommended_action",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/event_types",
+            "params": [
+              {
+                "name": "event_type_id",
+                "value": "",
+                "type": "query",
+                "description": "The unique numeric ID of the event type."
+              }
+            ]
+          },
+          "docs": "This endpoint is used to retrieve the list of all available event_types. The endpoint will return list of event_type_id along with the event_description and recommended_action. If an event_type_id is passed, this endpoint will return the detail of specific event_type"
+        },
+        {
+          "info": {
+            "name": "inverters_summary_by_envoy_or_site",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/inverters_summary_by_envoy_or_site",
+            "params": [
+              {
+                "name": "site_id",
+                "value": "",
+                "type": "query",
+                "description": "Site id. The response will contain only those microinverters reporting to one of the active envoys of the given site."
+              },
+              {
+                "name": "envoy_serial_number",
+                "value": "",
+                "type": "query",
+                "description": "Envoy Serial Number. Only microinverters reporting to the given envoy will be present in the response."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page to be returned. Default=1, Min=1. For example, if page is set to 2, 2nd page is returned"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of records shown per page. Default=10, Min=1, Max=100.  For example, if max is set to 5, 5 records are shown per page"
+              }
+            ]
+          },
+          "docs": "Returns the microinverters summary based on the specified active envoy serial number or system."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

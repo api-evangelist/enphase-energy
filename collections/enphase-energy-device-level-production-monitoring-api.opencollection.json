@@ -1,0 +1,137 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "The Enlighten Systems Device Level Production Monitoring API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "key",
+      "value": "{{key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Device Level Production Monitoring",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieves telemetry for single micro/pcu.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/:system_id/devices/micros/:serial_no/telemetry",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "System id"
+              },
+              {
+                "name": "serial_no",
+                "value": "",
+                "type": "path",
+                "description": "Serial Number of the individual solar Microinverter"
+              },
+              {
+                "name": "start_at",
+                "value": "",
+                "type": "query",
+                "description": "Start time for fetching the telemetry data in Epoch time format. Alternatively one can use start_date in place of start_at for passing the start date as String in YYYY-MM-DD format. By default start_at will appear in response. If start_date parameter is passed in the url, then start_date field will appear in response."
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "query",
+                "description": "The granularity of the telemetry data. Possible values are 'week', 'day', '15mins', '5mins'. Default is 'day'"
+              }
+            ]
+          },
+          "docs": "Retrieves telemetry for single micro/pcu. \nIf no start_at is specified, defaults to midnight today, in the timezone of the system. If the start_at specified is earlier than the system’s first reported date, then midnight of the system’s first reported date is considered as start_at.\nThe end_at is calculated as the minimum of the time of the request and (start time + granularity). \nThe meaning of granularity is as follow:\n\nIf granularity is 15mins, maximum 3 intervals will appear in response. If "
+        },
+        {
+          "info": {
+            "name": "Retrieves telemetry for single ACB",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/:system_id/devices/acbs/:serial_no/telemetry",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "System id"
+              },
+              {
+                "name": "serial_no",
+                "value": "",
+                "type": "path",
+                "description": "Serial Number of the acb"
+              },
+              {
+                "name": "start_at",
+                "value": "",
+                "type": "query",
+                "description": "Start time for fetching the telemetry data in Epoch time format. Alternatively one can use start_date in place of start_at for passing the start date as String in YYYY-MM-DD format. By default start_at will appear in response. If start_date parameter is passed in the url, then start_date field will appear in response."
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "query",
+                "description": "The granularity of the telemetry data. Possible values are 'week', 'day', '15mins', '5mins'. Default is 'day'"
+              }
+            ]
+          },
+          "docs": "Retrieves telemetry for single ACB. \nIf no start_at is specified, defaults to midnight today, in the timezone of the system. If the start_at specified is earlier than the system’s first reported date, then midnight of the system’s first reported date is considered as start_at.\nThe end_at is calculated as the minimum of the time of the request and (start time + granularity). \nThe meaning of granularity is as follow:\n\nIf granularity is 15mins, maximum 1 interval will appear in response. If granula"
+        },
+        {
+          "info": {
+            "name": "Retrieves telemetry for single Encharge",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/:system_id/devices/encharges/:serial_no/telemetry",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "System id"
+              },
+              {
+                "name": "serial_no",
+                "value": "",
+                "type": "path",
+                "description": "Serial Number of the encharge"
+              },
+              {
+                "name": "start_at",
+                "value": "",
+                "type": "query",
+                "description": "Start time for fetching the telemetry data in Epoch time format. Alternatively one can use start_date in place of start_at for passing the start date as String in YYYY-MM-DD format. By default start_at will appear in response. If start_date parameter is passed in the url, then start_date field will appear in response."
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "query",
+                "description": "The granularity of the telemetry data. Possible values are 'week', 'day', '15mins', '5mins'. Default is 'day'"
+              }
+            ]
+          },
+          "docs": "Retrieves telemetry for single Encharge. \nIf no start_at is specified, defaults to midnight today, in the timezone of the system. If the start_at specified is earlier than the system’s first reported date, then midnight of the system’s first reported date is considered as start_at.\nThe end_at is calculated as the minimum of the time of the request and (start time + granularity). \nThe meaning of granularity is as follow:\n\nIf granularity is 15mins, maximum 1 interval will appear in response. If gr"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

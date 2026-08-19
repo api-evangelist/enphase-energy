@@ -1,0 +1,51 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "The Enlighten Systems Device Level Production Monitoring Streaming APIs API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "key",
+      "value": "{{key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Streaming APIs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Site Level Live Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/:system_id/live_data",
+            "headers": [
+              {
+                "name": "duration",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric ID of the system"
+              }
+            ]
+          },
+          "docs": "API users can get real time live status data on demand for a given system. User can retrieve real time power for PV Production, Grid Import/Export, Consumption, Battery Charge/Discharge, and Generator. Users can also retrieve Grid Status, Battery Mode, and Battery State of Charge. User will receive the stream for a duration of 30 seconds by default and can configure the time in seconds by passing ‘duration’ as a parameter with a minimum value of 30 and maximum value of 300"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

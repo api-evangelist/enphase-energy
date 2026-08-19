@@ -1,0 +1,171 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "The Enlighten Systems Device Level Production Monitoring System Configurations API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "key",
+      "value": "{{key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "System Configurations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Returns the current battery settings of a system",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/config/:system_id/battery_settings",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric id of the system"
+              }
+            ]
+          },
+          "docs": "Returns the current battery settings of a system"
+        },
+        {
+          "info": {
+            "name": "Updates the current battery settings of a system",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/config/:system_id/battery_settings",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric id of the system"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the current battery settings of a system."
+        },
+        {
+          "info": {
+            "name": "Returns the current storm guard settings of a system",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/config/:system_id/storm_guard",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric id of the system"
+              }
+            ]
+          },
+          "docs": "Returns the current storm guard settings of a system"
+        },
+        {
+          "info": {
+            "name": "Updates the current storm guard settings of a system",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/config/:system_id/storm_guard",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric id of the system"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the current storm guard status of a system."
+        },
+        {
+          "info": {
+            "name": "Returns the current grid status of a system",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/config/:system_id/grid_status",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric id of the system"
+              }
+            ]
+          },
+          "docs": "Returns the current grid status of a system"
+        },
+        {
+          "info": {
+            "name": "Returns the current load control settings of a system",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/config/:system_id/load_control",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric id of the system"
+              }
+            ]
+          },
+          "docs": "Returns the current load control settings of a system"
+        },
+        {
+          "info": {
+            "name": "Updates the current load control settings of a system",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.enphaseenergy.com/api/v2/api/v4/systems/config/:system_id/load_control",
+            "params": [
+              {
+                "name": "system_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric id of the system"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the current load control settings of a system."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
