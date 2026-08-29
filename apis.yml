@@ -11,6 +11,18 @@ description: >
   The Enlighten API v4 launched in February 2022, replacing legacy v2 with microinverter-level
   telemetry, battery-level data, and fine-grained access controls for installers and partners.
 type: Index
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: self-serve
