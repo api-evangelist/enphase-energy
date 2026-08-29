@@ -1,17 +1,11 @@
 {
   "provider": "enphase-energy",
   "sources": [
-    "enphase-energy-device-level-production-monitoring-api-openapi.yml",
-    "enphase-energy-ev-charger-control-api-openapi.yml",
-    "enphase-energy-ev-charger-monitoring-api-openapi.yml",
-    "enphase-energy-site-level-consumption-monitoring-api-openapi.yml",
-    "enphase-energy-site-level-production-monitoring-api-openapi.yml",
-    "enphase-energy-streaming-apis-api-openapi.yml",
-    "enphase-energy-system-configurations-api-openapi.yml",
-    "enphase-energy-system-details-api-openapi.yml",
-    "enphase-energy-systems-api-openapi.yml"
+    "_original/enphase-enlighten-v2-openapi.yml",
+    "_original/enphase-enlighten-v4-monitoring-openapi.yml"
   ],
   "outputs": [
+    "enphase-energy-systems-api-openapi.yml",
     "enphase-energy-device-level-production-monitoring-api-openapi.yml",
     "enphase-energy-ev-charger-control-api-openapi.yml",
     "enphase-energy-ev-charger-monitoring-api-openapi.yml",
@@ -19,12 +13,47 @@
     "enphase-energy-site-level-production-monitoring-api-openapi.yml",
     "enphase-energy-streaming-apis-api-openapi.yml",
     "enphase-energy-system-configurations-api-openapi.yml",
-    "enphase-energy-system-details-api-openapi.yml",
-    "enphase-energy-systems-api-openapi.yml"
+    "enphase-energy-system-details-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "enphase-enlighten-v2-openapi.yml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "enphase-enlighten-v2-openapi.yml: tagged paths GET /systems/{system_id}/energy_lifetime -> Systems",
+    "enphase-enlighten-v2-openapi.yml: tagged paths GET /systems/{system_id}/envoys -> Systems",
+    "enphase-enlighten-v2-openapi.yml: tagged paths GET /systems -> Systems",
+    "enphase-enlighten-v2-openapi.yml: tagged paths GET /systems/{system_id}/inventory -> Systems",
+    "enphase-enlighten-v2-openapi.yml: tagged paths GET /systems/inverters_summary_by_envoy_or_site -> Systems",
+    "enphase-enlighten-v2-openapi.yml: tagged paths GET /systems/{system_id}/monthly_production -> Systems",
+    "enphase-enlighten-v2-openapi.yml: tagged paths GET /systems/{system_id}/production_meter_readings -> Systems",
+    "enphase-enlighten-v2-openapi.yml: tagged paths GET /systems/{system_id}/rgm_stats -> Systems",
+    "enphase-enlighten-v2-openapi.yml: tagged paths GET /systems/{system_id}/stats -> Systems",
+    "enphase-enlighten-v2-openapi.yml: tagged paths GET /systems/{system_id}/consumption_lifetime -> Systems",
+    "enphase-enlighten-v2-openapi.yml: tagged paths GET /systems/{system_id}/consumption_stats -> Systems",
+    "enphase-enlighten-v2-openapi.yml: tagged paths GET /systems/{system_id}/summary -> Systems",
+    "enphase-enlighten-v2-openapi.yml: tagged paths GET /systems/search_system_id -> Systems",
+    "enphase-enlighten-v2-openapi.yml: declared missing tag: Systems",
+    "enphase-enlighten-v4-monitoring-openapi.yml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "enphase-enlighten-v4-monitoring-openapi.yml: declared missing tag: Device Level Production Monitoring",
+    "enphase-enlighten-v4-monitoring-openapi.yml: declared missing tag: EV Charger Control",
+    "enphase-enlighten-v4-monitoring-openapi.yml: declared missing tag: EV Charger Monitoring",
+    "enphase-enlighten-v4-monitoring-openapi.yml: declared missing tag: Site Level Consumption Monitoring",
+    "enphase-enlighten-v4-monitoring-openapi.yml: declared missing tag: Site Level Production Monitoring",
+    "enphase-enlighten-v4-monitoring-openapi.yml: declared missing tag: Streaming APIs",
+    "enphase-enlighten-v4-monitoring-openapi.yml: declared missing tag: System Configurations",
+    "enphase-enlighten-v4-monitoring-openapi.yml: declared missing tag: System Details"
+  ],
+  "skipped": [
+    "enphase-energy-device-level-production-monitoring-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "enphase-energy-ev-charger-control-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "enphase-energy-ev-charger-monitoring-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "enphase-energy-site-level-consumption-monitoring-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "enphase-energy-site-level-production-monitoring-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "enphase-energy-streaming-apis-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "enphase-energy-system-configurations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "enphase-energy-system-details-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "enphase-energy-systems-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

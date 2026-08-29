@@ -1,19 +1,15 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: The Enlighten Systems Device Level Production Monitoring Site Level Production Monitoring API
-  description: 'The Enlighten Systems API is a JSON-based API that provides access to performance data for a PV system. By using the Enlighten Systems API, you agree to the Enphase Energy API License Agreement.
-
-
-    Please note that the Enlighten Systems API does not provide performance data at a panel or microinverter level.'
-  version: '2.0'
-  termsOfService: https://developer.enphase.com/docs#Display-Requirements
+  title: Site Level Production Monitoring API
+  version: v4
   license:
-    name: Enphase API License Agreement
-    url: https://www.enphase.com/en-us/legal/api-license-agreement
+    name: Custom
+    url: https://github.com/andrewdmontgomery/Enphase-OpenAPI
 servers:
-- url: https://api.enphaseenergy.com/api/v2
+- url: https://api-qa2.enphaseenergy.com
 security:
-- ApiKey: []
+- oauth2: []
+  apiKey: []
 tags:
 - name: Site Level Production Monitoring
 paths:
@@ -661,17 +657,19 @@ paths:
                     items:
                       type: integer
                   micro_production:
-                    type: array
+                    type:
+                    - array
+                    - 'null'
                     description: Array of production measurements reported by the microinverters.
                     items:
                       type: integer
-                    nullable: true
                   meter_production:
-                    type: array
+                    type:
+                    - array
+                    - 'null'
                     description: Array of production measurements reported by the meter.
                     items:
                       type: integer
-                    nullable: true
                   meta:
                     type: object
                     properties:
@@ -1410,7 +1408,13 @@ components:
       - day
       - week
   securitySchemes:
-    ApiKey:
+    oauth2:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth 2.0 bearer token obtained from Enphase authorization server.
+    apiKey:
       type: apiKey
+      in: header
       name: key
-      in: query
+      description: API key associated with your Enphase developer application.

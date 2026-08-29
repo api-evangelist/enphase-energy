@@ -1,19 +1,15 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: The Enlighten Systems Device Level Production Monitoring EV Charger Monitoring API
-  description: 'The Enlighten Systems API is a JSON-based API that provides access to performance data for a PV system. By using the Enlighten Systems API, you agree to the Enphase Energy API License Agreement.
-
-
-    Please note that the Enlighten Systems API does not provide performance data at a panel or microinverter level.'
-  version: '2.0'
-  termsOfService: https://developer.enphase.com/docs#Display-Requirements
+  title: EV Charger Monitoring API
+  version: v4
   license:
-    name: Enphase API License Agreement
-    url: https://www.enphase.com/en-us/legal/api-license-agreement
+    name: Custom
+    url: https://github.com/andrewdmontgomery/Enphase-OpenAPI
 servers:
-- url: https://api.enphaseenergy.com/api/v2
+- url: https://api-qa2.enphaseenergy.com
 security:
-- ApiKey: []
+- oauth2: []
+  apiKey: []
 tags:
 - name: EV Charger Monitoring
 paths:
@@ -601,6 +597,37 @@ paths:
                     details: Internal Server Error
 components:
   schemas:
+    Schedule:
+      type: object
+      properties:
+        days:
+          type: array
+          items:
+            type: integer
+            format: int32
+        start_time:
+          type: string
+        end_time:
+          type: string
+        charging_level:
+          type: integer
+          format: int32
+      example:
+      - days:
+        - 1
+        - 2
+        start_time: 60
+        end_time: 120
+        charging_level: 70
+      - days:
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        start_time: 120
+        end_time: 180
+        charging_level: 80
     ErrorResponseDetailArray:
       type: object
       properties:
@@ -613,37 +640,326 @@ components:
           description: Additional error detail(s).
           items:
             type: string
-    EVEnergyResponse:
+    ErrorResponse:
       type: object
       properties:
+        message:
+          type: string
+        code:
+          type: string
+        details:
+          type: string
+          description: Additional error detail.
+    EVEventsResponse:
+      type: object
+      properties:
+        count:
+          type: integer
+          format: int32
+          example: 1
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventDetail'
         system_id:
           type: integer
-          format: int64
-          example: 698989834
-        start_date:
-          type: string
-          example: 2024-01-01
-        consumption:
-          type: object
-          description: All these values are in Wh
-          example:
-          - 3494
-          - 21929
-          - 0
-          - 0
-          - 0
-          - 0
-    SchedulesBodyResponse:
+          format: int32
+          example: 701052773
+    ErrorResponseArray:
+      required:
+      - message
+      - reason
       type: object
       properties:
+        message:
+          type: array
+          description: message
+          example:
+          - Method not allowed
+          items:
+            type: string
+            description: message
+            example: '["Method not allowed"]'
+        reason:
+          type: string
+          description: statusCode
+          example: '405'
+    EnergyConsumption:
+      type: object
+      properties:
+        consumption:
+          type: integer
+          format: int32
+        end_at:
+          type: integer
+          format: int64
+      example:
+      - consumption: 0
+        end_at: 1705385700
+      - consumption: 0
+        end_at: 1705386600
+      - consumption: 0
+        end_at: 1705387500
+      - consumption: 0
+        end_at: 1705388400
+      - consumption: 0
+        end_at: 1705389300
+      - consumption: 0
+        end_at: 1705390200
+      - consumption: 0
+        end_at: 1705391100
+      - consumption: 0
+        end_at: 1705392000
+      - consumption: 0
+        end_at: 1705392900
+      - consumption: 0
+        end_at: 1705393800
+      - consumption: 0
+        end_at: 1705394700
+      - consumption: 0
+        end_at: 1705395600
+      - consumption: 0
+        end_at: 1705396500
+      - consumption: 0
+        end_at: 1705397400
+      - consumption: 0
+        end_at: 1705398300
+      - consumption: 0
+        end_at: 1705399200
+      - consumption: 38
+        end_at: 1705400100
+      - consumption: 201
+        end_at: 1705401000
+      - consumption: 202
+        end_at: 1705401900
+      - consumption: 202
+        end_at: 1705402800
+      - consumption: 202
+        end_at: 1705403700
+      - consumption: 202
+        end_at: 1705404600
+      - consumption: 202
+        end_at: 1705405500
+      - consumption: 202
+        end_at: 1705406400
+      - consumption: 202
+        end_at: 1705407300
+      - consumption: 202
+        end_at: 1705408200
+      - consumption: 202
+        end_at: 1705409100
+      - consumption: 202
+        end_at: 1705410000
+      - consumption: 202
+        end_at: 1705410900
+      - consumption: 202
+        end_at: 1705411800
+      - consumption: 202
+        end_at: 1705412700
+      - consumption: 202
+        end_at: 1705413600
+      - consumption: 202
+        end_at: 1705414500
+      - consumption: 202
+        end_at: 1705415400
+      - consumption: 202
+        end_at: 1705416300
+      - consumption: 202
+        end_at: 1705417200
+      - consumption: 202
+        end_at: 1705418100
+      - consumption: 202
+        end_at: 1705419000
+      - consumption: 202
+        end_at: 1705419900
+      - consumption: 202
+        end_at: 1705420800
+      - consumption: 202
+        end_at: 1705421700
+      - consumption: 202
+        end_at: 1705422600
+      - consumption: 202
+        end_at: 1705423500
+      - consumption: 202
+        end_at: 1705424400
+      - consumption: 202
+        end_at: 1705425300
+      - consumption: 202
+        end_at: 1705426200
+      - consumption: 202
+        end_at: 1705427100
+      - consumption: 202
+        end_at: 1705428000
+      - consumption: 202
+        end_at: 1705428900
+      - consumption: 202
+        end_at: 1705429800
+      - consumption: 202
+        end_at: 1705430700
+      - consumption: 202
+        end_at: 1705431600
+      - consumption: 202
+        end_at: 1705432500
+      - consumption: 202
+        end_at: 1705433400
+      - consumption: 202
+        end_at: 1705434300
+      - consumption: 202
+        end_at: 1705435200
+      - consumption: 203
+        end_at: 1705436100
+      - consumption: 202
+        end_at: 1705437000
+      - consumption: 202
+        end_at: 1705437900
+      - consumption: 202
+        end_at: 1705438800
+      - consumption: 202
+        end_at: 1705439700
+      - consumption: 202
+        end_at: 1705440600
+      - consumption: 202
+        end_at: 1705441500
+      - consumption: 202
+        end_at: 1705442400
+      - consumption: 202
+        end_at: 1705443300
+      - consumption: 202
+        end_at: 1705444200
+      - consumption: 202
+        end_at: 1705445100
+      - consumption: 202
+        end_at: 1705446000
+      - consumption: 202
+        end_at: 1705446900
+      - consumption: 202
+        end_at: 1705447800
+      - consumption: 202
+        end_at: 1705448700
+      - consumption: 202
+        end_at: 1705449600
+      - consumption: 202
+        end_at: 1705450500
+      - consumption: 202
+        end_at: 1705451400
+      - consumption: 202
+        end_at: 1705452300
+      - consumption: 202
+        end_at: 1705453200
+      - consumption: 202
+        end_at: 1705454100
+      - consumption: 202
+        end_at: 1705455000
+      - consumption: 202
+        end_at: 1705455900
+      - consumption: 202
+        end_at: 1705456800
+      - consumption: 202
+        end_at: 1705457700
+      - consumption: 202
+        end_at: 1705458600
+      - consumption: 202
+        end_at: 1705459500
+      - consumption: 202
+        end_at: 1705460400
+      - consumption: 202
+        end_at: 1705461300
+      - consumption: 202
+        end_at: 1705462200
+      - consumption: 202
+        end_at: 1705463100
+      - consumption: 202
+        end_at: 1705464000
+      - consumption: 202
+        end_at: 1705464900
+      - consumption: 202
+        end_at: 1705465800
+      - consumption: 202
+        end_at: 1705466700
+      - consumption: 202
+        end_at: 1705467600
+      - consumption: 104
+        end_at: 1705468500
+      - consumption: 0
+        end_at: 1705469400
+      - consumption: 0
+        end_at: 1705470300
+      - consumption: 0
+        end_at: 1705471200
+    TelemetryGranularity:
+      type: string
+      description: Interval size used when returning telemetry time series.
+      enum:
+      - 5mins
+      - 15mins
+      - day
+      - week
+    ChargerSummaryResponse:
+      type: object
+      properties:
+        items:
+          type: string
+          example: devices
+        total_devices:
+          type: integer
+          format: int32
+          example: 1
         system_id:
           type: integer
           format: int32
           example: 698989834
-        charger_schedules:
+        devices:
+          type: object
+          additionalProperties:
+            type: array
+            example:
+              ev_chargers:
+              - id: 202320010308:698989834
+                sku: IQ-EVSE-NA-1040-0110-0100
+                status: normal
+                serial_number: '202320010308'
+                name: IQ EV Charger NACS
+                model: IQ-EVSE-40R
+                part_number: 800-00555 0303
+                last_report_at: 1700074065
+                firmware: v0.04.22
+                active: true
+            items:
+              $ref: '#/components/schemas/ChargerSummary'
+          example:
+            ev_chargers:
+            - id: 202320010308:698989834
+              sku: IQ-EVSE-NA-1040-0110-0100
+              status: normal
+              serial_number: '202320010308'
+              name: IQ EV Charger NACS
+              model: IQ-EVSE-40R
+              part_number: 800-00555 0303
+              last_report_at: 1700074065
+              firmware: v0.04.22
+              active: true
+    ChargeSessionDetailsResponse:
+      required:
+      - count
+      - sessions
+      - system_id
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Count of sessions
+          format: int32
+          example: 1
+        system_id:
+          type: integer
+          description: system_id
+          format: int32
+          example: 698989834
+        sessions:
           type: array
+          description: List of sessions
           items:
-            $ref: '#/components/schemas/ScheduleList'
+            $ref: '#/components/schemas/ChargeSessionDetail'
     EVIntervalEnergyResponse:
       type: object
       properties:
@@ -864,403 +1180,6 @@ components:
         end_at:
           type: integer
           format: int64
-    ScheduleList:
-      type: object
-      properties:
-        schedules:
-          type: array
-          example:
-          - days:
-            - 1
-            - 2
-            start_time: 60
-            end_time: 120
-            charging_level: 70
-          - days:
-            - 3
-            - 4
-            - 5
-            - 6
-            - 7
-            start_time: 120
-            end_time: 180
-            charging_level: 80
-          items:
-            $ref: '#/components/schemas/Schedule'
-        type:
-          type: string
-          example: Custom
-        is_active:
-          type: boolean
-          example: false
-        reminder_flag:
-          type: boolean
-          example: true
-        reminder_timer:
-          type: integer
-          format: int32
-          example: 10
-    TelemetryGranularity:
-      type: string
-      description: Interval size used when returning telemetry time series.
-      enum:
-      - 5mins
-      - 15mins
-      - day
-      - week
-    EventDetail:
-      type: object
-      properties:
-        status:
-          allOf:
-          - $ref: '#/components/schemas/EventStatus'
-          example: Info
-        triggered_date:
-          type: integer
-          format: int64
-          example: 1705399759
-        cleared_date:
-          type: integer
-          format: int64
-          example: 1705399759
-        details:
-          type: string
-          example: Charging started on IQ EV Charger (SNo. 202312100006).
-    EventStatus:
-      type: string
-      description: Lifecycle state reported for events.
-      enum:
-      - Info
-      - Open
-      - Closed
-    EnergyConsumption:
-      type: object
-      properties:
-        consumption:
-          type: integer
-          format: int32
-        end_at:
-          type: integer
-          format: int64
-      example:
-      - consumption: 0
-        end_at: 1705385700
-      - consumption: 0
-        end_at: 1705386600
-      - consumption: 0
-        end_at: 1705387500
-      - consumption: 0
-        end_at: 1705388400
-      - consumption: 0
-        end_at: 1705389300
-      - consumption: 0
-        end_at: 1705390200
-      - consumption: 0
-        end_at: 1705391100
-      - consumption: 0
-        end_at: 1705392000
-      - consumption: 0
-        end_at: 1705392900
-      - consumption: 0
-        end_at: 1705393800
-      - consumption: 0
-        end_at: 1705394700
-      - consumption: 0
-        end_at: 1705395600
-      - consumption: 0
-        end_at: 1705396500
-      - consumption: 0
-        end_at: 1705397400
-      - consumption: 0
-        end_at: 1705398300
-      - consumption: 0
-        end_at: 1705399200
-      - consumption: 38
-        end_at: 1705400100
-      - consumption: 201
-        end_at: 1705401000
-      - consumption: 202
-        end_at: 1705401900
-      - consumption: 202
-        end_at: 1705402800
-      - consumption: 202
-        end_at: 1705403700
-      - consumption: 202
-        end_at: 1705404600
-      - consumption: 202
-        end_at: 1705405500
-      - consumption: 202
-        end_at: 1705406400
-      - consumption: 202
-        end_at: 1705407300
-      - consumption: 202
-        end_at: 1705408200
-      - consumption: 202
-        end_at: 1705409100
-      - consumption: 202
-        end_at: 1705410000
-      - consumption: 202
-        end_at: 1705410900
-      - consumption: 202
-        end_at: 1705411800
-      - consumption: 202
-        end_at: 1705412700
-      - consumption: 202
-        end_at: 1705413600
-      - consumption: 202
-        end_at: 1705414500
-      - consumption: 202
-        end_at: 1705415400
-      - consumption: 202
-        end_at: 1705416300
-      - consumption: 202
-        end_at: 1705417200
-      - consumption: 202
-        end_at: 1705418100
-      - consumption: 202
-        end_at: 1705419000
-      - consumption: 202
-        end_at: 1705419900
-      - consumption: 202
-        end_at: 1705420800
-      - consumption: 202
-        end_at: 1705421700
-      - consumption: 202
-        end_at: 1705422600
-      - consumption: 202
-        end_at: 1705423500
-      - consumption: 202
-        end_at: 1705424400
-      - consumption: 202
-        end_at: 1705425300
-      - consumption: 202
-        end_at: 1705426200
-      - consumption: 202
-        end_at: 1705427100
-      - consumption: 202
-        end_at: 1705428000
-      - consumption: 202
-        end_at: 1705428900
-      - consumption: 202
-        end_at: 1705429800
-      - consumption: 202
-        end_at: 1705430700
-      - consumption: 202
-        end_at: 1705431600
-      - consumption: 202
-        end_at: 1705432500
-      - consumption: 202
-        end_at: 1705433400
-      - consumption: 202
-        end_at: 1705434300
-      - consumption: 202
-        end_at: 1705435200
-      - consumption: 203
-        end_at: 1705436100
-      - consumption: 202
-        end_at: 1705437000
-      - consumption: 202
-        end_at: 1705437900
-      - consumption: 202
-        end_at: 1705438800
-      - consumption: 202
-        end_at: 1705439700
-      - consumption: 202
-        end_at: 1705440600
-      - consumption: 202
-        end_at: 1705441500
-      - consumption: 202
-        end_at: 1705442400
-      - consumption: 202
-        end_at: 1705443300
-      - consumption: 202
-        end_at: 1705444200
-      - consumption: 202
-        end_at: 1705445100
-      - consumption: 202
-        end_at: 1705446000
-      - consumption: 202
-        end_at: 1705446900
-      - consumption: 202
-        end_at: 1705447800
-      - consumption: 202
-        end_at: 1705448700
-      - consumption: 202
-        end_at: 1705449600
-      - consumption: 202
-        end_at: 1705450500
-      - consumption: 202
-        end_at: 1705451400
-      - consumption: 202
-        end_at: 1705452300
-      - consumption: 202
-        end_at: 1705453200
-      - consumption: 202
-        end_at: 1705454100
-      - consumption: 202
-        end_at: 1705455000
-      - consumption: 202
-        end_at: 1705455900
-      - consumption: 202
-        end_at: 1705456800
-      - consumption: 202
-        end_at: 1705457700
-      - consumption: 202
-        end_at: 1705458600
-      - consumption: 202
-        end_at: 1705459500
-      - consumption: 202
-        end_at: 1705460400
-      - consumption: 202
-        end_at: 1705461300
-      - consumption: 202
-        end_at: 1705462200
-      - consumption: 202
-        end_at: 1705463100
-      - consumption: 202
-        end_at: 1705464000
-      - consumption: 202
-        end_at: 1705464900
-      - consumption: 202
-        end_at: 1705465800
-      - consumption: 202
-        end_at: 1705466700
-      - consumption: 202
-        end_at: 1705467600
-      - consumption: 104
-        end_at: 1705468500
-      - consumption: 0
-        end_at: 1705469400
-      - consumption: 0
-        end_at: 1705470300
-      - consumption: 0
-        end_at: 1705471200
-    ChargeSessionDetailsResponse:
-      required:
-      - count
-      - sessions
-      - system_id
-      type: object
-      properties:
-        count:
-          type: integer
-          description: Count of sessions
-          format: int32
-          example: 1
-        system_id:
-          type: integer
-          description: system_id
-          format: int32
-          example: 698989834
-        sessions:
-          type: array
-          description: List of sessions
-          items:
-            $ref: '#/components/schemas/ChargeSessionDetail'
-    ErrorResponseArray:
-      required:
-      - message
-      - reason
-      type: object
-      properties:
-        message:
-          type: array
-          description: message
-          example:
-          - Method not allowed
-          items:
-            type: string
-            description: message
-            example: '["Method not allowed"]'
-        reason:
-          type: string
-          description: statusCode
-          example: '405'
-    Schedule:
-      type: object
-      properties:
-        days:
-          type: array
-          items:
-            type: integer
-            format: int32
-        start_time:
-          type: string
-        end_time:
-          type: string
-        charging_level:
-          type: integer
-          format: int32
-      example:
-      - days:
-        - 1
-        - 2
-        start_time: 60
-        end_time: 120
-        charging_level: 70
-      - days:
-        - 3
-        - 4
-        - 5
-        - 6
-        - 7
-        start_time: 120
-        end_time: 180
-        charging_level: 80
-    ErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-        code:
-          type: string
-        details:
-          type: string
-          description: Additional error detail.
-    ChargerSummaryResponse:
-      type: object
-      properties:
-        items:
-          type: string
-          example: devices
-        total_devices:
-          type: integer
-          format: int32
-          example: 1
-        system_id:
-          type: integer
-          format: int32
-          example: 698989834
-        devices:
-          type: object
-          additionalProperties:
-            type: array
-            example:
-              ev_chargers:
-              - id: 202320010308:698989834
-                sku: IQ-EVSE-NA-1040-0110-0100
-                status: normal
-                serial_number: '202320010308'
-                name: IQ EV Charger NACS
-                model: IQ-EVSE-40R
-                part_number: 800-00555 0303
-                last_report_at: 1700074065
-                firmware: v0.04.22
-                active: true
-            items:
-              $ref: '#/components/schemas/ChargerSummary'
-          example:
-            ev_chargers:
-            - id: 202320010308:698989834
-              sku: IQ-EVSE-NA-1040-0110-0100
-              status: normal
-              serial_number: '202320010308'
-              name: IQ EV Charger NACS
-              model: IQ-EVSE-40R
-              part_number: 800-00555 0303
-              last_report_at: 1700074065
-              firmware: v0.04.22
-              active: true
     ChargeSessionDetail:
       required:
       - charge_time
@@ -1307,6 +1226,26 @@ components:
           description: session cost
           example: 0.5
       description: List of sessions
+    EVEnergyResponse:
+      type: object
+      properties:
+        system_id:
+          type: integer
+          format: int64
+          example: 698989834
+        start_date:
+          type: string
+          example: 2024-01-01
+        consumption:
+          type: object
+          description: All these values are in Wh
+          example:
+          - 3494
+          - 21929
+          - 0
+          - 0
+          - 0
+          - 0
     ChargerSummary:
       type: object
       properties:
@@ -1349,23 +1288,86 @@ components:
           last_report_at: 1700074065
           firmware: v0.04.22
           active: true
-    EVEventsResponse:
+    EventDetail:
       type: object
       properties:
-        count:
+        status:
+          allOf:
+          - $ref: '#/components/schemas/EventStatus'
+          example: Info
+        triggered_date:
           type: integer
-          format: int32
-          example: 1
-        events:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventDetail'
+          format: int64
+          example: 1705399759
+        cleared_date:
+          type: integer
+          format: int64
+          example: 1705399759
+        details:
+          type: string
+          example: Charging started on IQ EV Charger (SNo. 202312100006).
+    SchedulesBodyResponse:
+      type: object
+      properties:
         system_id:
           type: integer
           format: int32
-          example: 701052773
+          example: 698989834
+        charger_schedules:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScheduleList'
+    ScheduleList:
+      type: object
+      properties:
+        schedules:
+          type: array
+          example:
+          - days:
+            - 1
+            - 2
+            start_time: 60
+            end_time: 120
+            charging_level: 70
+          - days:
+            - 3
+            - 4
+            - 5
+            - 6
+            - 7
+            start_time: 120
+            end_time: 180
+            charging_level: 80
+          items:
+            $ref: '#/components/schemas/Schedule'
+        type:
+          type: string
+          example: Custom
+        is_active:
+          type: boolean
+          example: false
+        reminder_flag:
+          type: boolean
+          example: true
+        reminder_timer:
+          type: integer
+          format: int32
+          example: 10
+    EventStatus:
+      type: string
+      description: Lifecycle state reported for events.
+      enum:
+      - Info
+      - Open
+      - Closed
   securitySchemes:
-    ApiKey:
+    oauth2:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth 2.0 bearer token obtained from Enphase authorization server.
+    apiKey:
       type: apiKey
+      in: header
       name: key
-      in: query
+      description: API key associated with your Enphase developer application.
