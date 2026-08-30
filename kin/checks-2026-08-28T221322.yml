@@ -2,15 +2,15 @@
 kin_checks:
   slug: enphase-energy
   schema_version: 0.15.1
-  scored_at: '2026-08-27'
-  run_ts: 2026-08-27T140727
+  scored_at: '2026-08-28'
+  run_ts: 2026-08-28T221322
   note: Actionable checks only (missed + partial). earned/na are every other check
     in rubric/scoring-0.15.1.yml; counts below let you verify that.
   counts:
     total: 130
     earned: 46
-    partial: 9
-    missed: 55
+    partial: 10
+    missed: 54
     na: 20
   checks:
   - id: well_known_published
@@ -26,9 +26,6 @@ kin_checks:
     status: missed
     detail: 0 of 9 openapi documents pass
   - id: info_complete
-    status: missed
-    detail: 0 of 9 openapi documents pass
-  - id: credentials_not_in_query
     status: missed
     detail: 0 of 9 openapi documents pass
   - id: webhooks_or_callbacks
@@ -139,6 +136,10 @@ kin_checks:
     status: partial
     earned: 1.0
     detail: 3 of 9 openapi documents pass
+  - id: credentials_not_in_query
+    status: partial
+    earned: 2.67
+    detail: 8 of 9 openapi documents pass
   - id: rules_present
     status: partial
     earned: 2.5
